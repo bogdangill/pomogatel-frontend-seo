@@ -1,0 +1,57 @@
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: inherit;
+  text-decoration: none;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-weight: 500;
+  letter-spacing: .02em;
+
+  &--sm,
+  &--md {
+    font-size: 1em;
+    line-height: 1.5;
+    padding: .75rem 1.5rem;
+
+    @media (min-width: $screen-md) {
+      line-height: 1.4;
+    }
+  }
+
+  &--sm {
+    @media (min-width: $screen-md) {
+      min-width: 9.18em;
+    }
+  }
+  &--md {
+    min-width: 12.5em;
+  }
+  &--lg {
+    min-width: 11em;
+    font-size: 1em;
+    line-height: 1.4;
+    padding: .75rem 1.5rem;
+
+    @media (min-width: $screen-md) {
+      min-width: 13em;
+      font-size: 1.25em;
+      line-height: 1.6;
+      padding: 1rem;
+    }
+  }
+
+  &--primary {
+    background-color: $primary;
+
+    &:hover {
+      background-color: $primary-dark;
+    }
+    &:active {
+      opacity: .8;
+    }
+  }
+}
