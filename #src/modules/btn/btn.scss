@@ -54,4 +54,18 @@
       opacity: .8;
     }
   }
+
+  &--outline {
+    color: $primary;
+    background-color: transparent;
+    font-weight: 400;
+    border: 1px solid $primary;
+
+    &:hover {
+      background-color: $primary-lighter;
+    }
+    &:active {
+      opacity: .6;
+    }
+  }
 }
