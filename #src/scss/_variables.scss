@@ -1,0 +1,20 @@
+//breakpoints
+$screen-sm:                   576px;
+$screen-md:                   768px;
+$screen-lg:                   992px;
+$screen-xl:                   1200px;
+$screen-xxl:                  1500px;
+
+$grid-columns:                12;
+$grid-gutter-width:           30px;
+
+$primary-dark: var(--primary-dark);
+$primary: var(--primary);
+$primary-light: var(--primary-light);
+$primary-lighter: var(--primary-lighter);
+$primary-lightest: var(--primary-lightest);
+
+//defaults
+$color-text: #333;
+$time: .2s;
+$border-radius: 3px;

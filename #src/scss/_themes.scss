@@ -1,0 +1,15 @@
+html[data-theme='default'] {
+    --primary-dark: #1A6E54;
+    --primary: #3AA484;
+    --primary-light: #6FD6B7;
+    --primary-lighter: #DBF5ED;
+    --primary-lightest: #EDFAF6;
+}
+
+html[data-theme='bright'] {
+    --primary-dark: #4C25AA;
+    --primary: #6F40F5;
+    --primary-light: #7D6FD6;
+    --primary-lighter: #E5E1FE;
+    --primary-lightest: #EEEFFF;
+}
