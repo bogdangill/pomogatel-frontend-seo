@@ -6,7 +6,6 @@
                                                          
  
 */
-
 @import 'themes';
 @import 'variables';
 @import 'normalize';
@@ -23,10 +22,20 @@
                                                                  
  
 */
-
 @import '../modules/container/container.scss';
 @import '../modules/ui-kit-fab/ui-kit-fab.scss';
 @import '../modules/btn/btn.scss';
+
+
+/*
+ 
+ _ _  _ ___  ____ ____ ___    ___  ____ ____ ____ ____ 
+ | |\/| |__] |  | |__/  |     |__] |__| | __ |___ [__  
+ | |  | |    |__| |  \  |     |    |  | |__] |___ ___] 
+                                                       
+ 
+*/
+@import '../pages/index.scss';
 
 
 /*
