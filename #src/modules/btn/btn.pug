@@ -1,37 +1,69 @@
 //- Все примеси в этом файле должны начинаться c имени блока (btn)
 
-mixin btn(text, mods, isInput)
+mixin btn(data)
 
   //- Принимает:
   //-   text    {string} - текст кнопки
   //-   mods    {string} - список модификаторов
-  //-   isInput {bool}   - флаг «это тег input»
+  //-   iconMods  {string} - список модификаторов для иконки
+  //-   iconId    {string} - id иконки
+  //-   hasLeftIcon {boolean} - есть ли левая иконка
+  //-   hasRightIcon {boolean} - есть ли правая иконка
+
   //- Вызов:
-        +btn('Кнопка-ссылка')(href='/')  - есть href, это точно ссылка
-        +btn('Кнопка-input', '', true)   - есть флаг isInput, это input
-        +btn('Кнопка-button', 'success') - нет href, нет isInput — это button
+        +btn({
+          'data.text': 'Кнопка-ссылка'
+        })(href='/')  - есть href, это точно ссылка
+
+        +btn({
+          'data.text': 'Кнопка-button',
+          'data.mods': 'primary'
+        }) — это button
 
   -
     // список модификаторов
     let allMods = '';
 
-    if(typeof(mods) !== 'undefined' && mods) {
-      let modsList = mods.split(',');
+    if(typeof(data.mods) !== 'undefined' && data.mods) {
+      let modsList = data.mods.split(',');
+
       for (let i = 0; i < modsList.length; i++) {
         allMods = allMods + ' btn--' + modsList[i].trim();
       }
     }
 
+    let iconClasses = '';
+
+    if (typeof(data.iconMods) !== 'undefined' && data.iconMods) {
+      let modsList = data.iconMods.split(',');
+      
+      for (let modsItem of modsList) {
+        iconClasses = iconClasses + ' btn__icon--' + modsItem.trim();
+      }
+    }
+
   //- передан href — это ссылка
   if (attributes.href)
-    a.btn(class=allMods)&attributes(attributes)!= text
+    a.btn(class=allMods)&attributes(attributes)
+      if (typeof(data.hasLeftIcon) !== 'undefined' && data.hasLeftIcon)
+        svg.btn__icon.btn__icon--left(class=iconClasses)
+          use(xlink:href="img/icons/sprite.svg#" + data.iconId)
+      if (typeof(data.text) !== 'undefined' && data.text)
+        span.btn__text!=data.text
+      if (typeof(data.hasRightIcon) !== 'undefined' && data.hasRightIcon)
+        svg.btn__icon.btn__icon--right(class=iconClasses)
+          use(xlink:href="img/icons/sprite.svg#" + data.iconId)
       block
-
-  //- иначе, если передан isInput и он true, это input
-  else if (typeof(isInput) !== 'undefined' && isInput)
-    input.btn(class=allMods, value=text, type='button')&attributes(attributes)
 
   //- иначе это button
   else
-    button.btn(class=allMods)&attributes(attributes)!= text
+    button.btn(class=allMods)&attributes(attributes)
+      if (typeof(data.hasLeftIcon) !== 'undefined' && data.hasLeftIcon)
+        svg.btn__icon(class=iconClasses)
+          use(xlink:href="img/icons/sprite.svg#" + data.iconId)
+      if (typeof(data.text) !== 'undefined' && data.text)
+        span.btn__text!=data.text
+      if (typeof(data.hasRightIcon) !== 'undefined' && data.hasRightIcon)
+        svg.btn__icon.btn__icon--right(class=iconClasses)
+          use(xlink:href="img/icons/sprite.svg#" + data.iconId)
       block

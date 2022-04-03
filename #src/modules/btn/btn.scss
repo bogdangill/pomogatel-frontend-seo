@@ -11,6 +11,17 @@
   font-weight: 500;
   letter-spacing: .02em;
 
+  &__icon {
+    @include sqr(24px);
+
+    &--left {
+      margin-right: .25em;
+    }
+    &--right {
+      margin-left: .25em;
+    }
+  }
+
   &--sm,
   &--md {
     font-size: 1em;
@@ -63,6 +74,19 @@
 
     &:hover {
       background-color: $primary-lighter;
+    }
+    &:active {
+      opacity: .6;
+    }
+  }
+
+  &--link {
+    color: $primary;
+    font-weight: 400;
+    letter-spacing: normal;
+
+    &:hover {
+      text-decoration: underline;
     }
     &:active {
       opacity: .6;

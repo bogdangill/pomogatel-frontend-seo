@@ -3,6 +3,11 @@
   align-items: center;
 }
 
+@mixin sqr($a) {
+  width: $a;
+  height: $a;
+}
+
 @mixin setFullScale {
   width: 100%;
   height: 100%;
