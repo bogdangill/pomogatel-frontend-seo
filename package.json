@@ -5,9 +5,9 @@
   "description": "gulp bundle with necessary & extra plugins",
   "main": "index.html",
   "browserslist": [
-    "last 1 version",
     "last 2 years",
-    "> 1%"
+    "> 1%",
+    "not dead"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

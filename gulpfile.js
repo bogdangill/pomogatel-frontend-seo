@@ -139,11 +139,6 @@ function pug2html() {
 
 function css() {
   return src(path.src.css)
-    .pipe(postcss([
-      autoprefixer({
-        cascade: 'true'
-      })
-    ]))
     .pipe(
       scss({
         outputStyle: 'expanded'
@@ -155,6 +150,9 @@ function css() {
     // .pipe(webp_css())
     .pipe(dest(path.build.css))//выхлоп несжатого css без чистки и оптимизации медиазапросов
     .pipe(postcss([
+      autoprefixer({
+        cascade: 'true'
+      }),
       cssnano({
         preset: ['advanced', {
           discardComments: { removeAll: true }
