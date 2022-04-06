@@ -81,9 +81,12 @@
   }
 
   &--link {
-    color: $primary;
     font-weight: 400;
     letter-spacing: normal;
+
+    &--primary {
+      color: $primary;
+    }
 
     .btn__text {
       position: relative;
