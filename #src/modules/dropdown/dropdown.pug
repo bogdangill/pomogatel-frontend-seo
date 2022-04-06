@@ -1,0 +1,54 @@
+mixin dropdown(data)
+    //- Принимает:
+    //-   dropdownMods    {string} - список модификаторов(если нужны)
+
+    //- Вызов:
+        +dropdown({
+            'dropdownMods': '...someMods',
+
+            'item1': {
+                'href': '...someHref',
+                'text': 'sometext'
+            },
+            'item2': {
+                'href': '...someHref',
+                'text': 'sometext'
+            },
+            'item3': {
+                'href': '...someHref',
+                'text': 'sometext'
+            }
+            ...
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.selectMods) !== 'undefined' && data.selectMods) {
+            let modsList = data.selectMods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + ' custom-select--' + modsList[i].trim();
+            }
+        }
+
+        //регулярка для поиска dropdown items
+        let urgentKeyName = /(item)\d+/;
+
+    .dropdown(class=allMods data-dropdownid=data.id)
+        .dropdown__value(data-value="") Москва
+        svg.dropdown__icon
+            use(xlink:href="img/icons/sprite.svg#arrow-bottom")
+        ul.dropdown-body.visually-hidden
+            each key in Object.keys(data)
+                if (urgentKeyName.test(key))
+                    -
+                        let val = "";
+                        if (typeof(data[key].value) !== 'undefined' && data[key].value) {
+                            val = data[key].value;
+                        }
+                    li.dropdown-body__item(data-value=val)
+                        if (typeof(data[key].href) !== 'undefined' && data[key].href)
+                            -
+                                let href = data[key].href;
+                            a(href=href)!=data[key].text
