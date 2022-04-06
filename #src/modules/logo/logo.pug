@@ -1,0 +1,11 @@
+mixin logo(text, iconId, mods)
+    //- Принимает:
+    //-   text    {string} - название компании в логотипе (e.g. Помогатель|Giupchame|Bakicibuldum)
+    //-   mods    {string} - список модификаторов
+    //-   iconId  {string} - id иконки
+
+    a.logo(class=mods)
+        if (typeof(iconId !== 'undefined') && iconId)
+            svg.logo__icon
+                use(xlink:href="img/icons/sprite.svg#" + iconId)
+        .logo__text!=text
