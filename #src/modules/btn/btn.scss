@@ -7,7 +7,6 @@
   text-decoration: none;
   border: none;
   border-radius: 50px;
-  color: white;
   font-weight: 500;
   letter-spacing: .02em;
 
@@ -56,6 +55,7 @@
   }
 
   &--primary {
+    color: #fff;
     background-color: $primary;
 
     &:hover {
@@ -85,8 +85,23 @@
     font-weight: 400;
     letter-spacing: normal;
 
-    &:hover {
-      text-decoration: underline;
+    .btn__text {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background-color: $primary;
+        transition: .25s ease-out;
+      }
+    }
+
+    &:hover .btn__text::after {
+      width: 100%;
     }
     &:active {
       opacity: .6;
