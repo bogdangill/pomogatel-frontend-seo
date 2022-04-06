@@ -65,7 +65,6 @@ body {
 
 a {
     cursor: pointer;
-    transition: $time;
     background-color: transparent; // Remove the gray background on active links in IE 10.
     -webkit-text-decoration-skip: objects; // Remove gaps in links underline in iOS 8+ and Safari 8+.
 
@@ -75,7 +74,6 @@ a {
 }
 
 button {
-    transition: $time;
     border-radius: 0;
     background: transparent;
 }
