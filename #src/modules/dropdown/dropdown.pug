@@ -1,10 +1,10 @@
 mixin dropdown(data)
     //- Принимает:
-    //-   dropdownMods    {string} - список модификаторов(если нужны)
+    //-   mods    {string} - список модификаторов(если нужны)
 
     //- Вызов:
         +dropdown({
-            'dropdownMods': '...someMods',
+            'mods': '...someMods',
 
             'item1': {
                 'href': '...someHref',
@@ -24,11 +24,11 @@ mixin dropdown(data)
         // список модификаторов
         let allMods = '';
 
-        if(typeof(data.selectMods) !== 'undefined' && data.selectMods) {
-            let modsList = data.selectMods.split(',');
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
 
             for (let i = 0; i < modsList.length; i++) {
-                allMods = allMods + ' custom-select--' + modsList[i].trim();
+                allMods = allMods + 'dropdown--' + modsList[i].trim();
             }
         }
 

@@ -4,6 +4,21 @@
     display: flex;
     align-items: center;
 
+    &--regions {
+        @media (max-width: $screen-sm) {
+            position: static;
+        }
+
+        .dropdown-body {
+            width: 18.75em;
+
+            @media (max-width: $screen-sm) {
+                left: .5em;
+                width: 95vw;
+            }
+        }
+    }
+
     &__value {
         position: relative;
         transition: color .2s ease-out;
@@ -32,6 +47,10 @@
         color: $primary;
         @include sqr(24px);
         margin-left: 2px;
+
+        @media (max-width: $screen-sm) {
+            display: none;
+        }
     }
 }
 
@@ -40,7 +59,6 @@
     top: calc(100% + .5em);
     left: -1em;
     list-style: none;
-    width: 18.75em;
     max-height: 25em;
     background-color: #fff;
     border-radius: .62em;
