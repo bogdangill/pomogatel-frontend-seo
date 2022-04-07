@@ -1,0 +1,40 @@
+.header {
+    @include container(
+        $xs-grid-gutter:  16px,
+        $sm-grid-gutter:  32px,
+        $md-grid-gutter:  32px,
+        $lg-grid-gutter:  32px,
+        $xl-grid-gutter:  0,
+        $xxl-grid-gutter: 0
+    );
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__logo {
+        padding-top: 1em;
+        margin-bottom: 1em;
+
+        .logo__text {
+            @media (max-width: $screen-sm) {
+                visibility: hidden;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+            }
+        }
+    }
+
+    .list__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-left: 1.5em;
+
+        @media (max-width: $screen-sm) {
+            margin-left: .85em;
+        }
+    }
+}

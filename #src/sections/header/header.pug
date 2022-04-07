@@ -1,0 +1,53 @@
+mixin header()
+    header.header
+        +logo('Помогатель', 'logo-pmgt', 'header__logo')
+        nav
+            ul.list.list--horizontal
+                li.list__item
+                    +btn({
+                        'text': 'Задайте вопрос',
+                        'mods': 'link, link--feedback',
+                        'hasLeftIcon': true,
+                        'iconId': 'letter'
+                    })(href='#')
+                li.list__item
+                    +dropdown({
+                        'mods': 'regions',
+                        'id': '11',
+                        'item1': {
+                            'href': '#',
+                            'text': 'Москва и Московская область'
+                        },
+                        'item2': {
+                            'href': '#spb',
+                            'text': 'Санкт-Петербург и Ленинградская область'
+                        },
+                        'item3': {
+                            'href': '#bash',
+                            'text': 'Уфа и Республика Башкортостан'
+                        },
+                        'item4': {
+                            'href': '#',
+                            'text': 'Новосибирск и Новосибирская область',
+                        },
+                        'item5': {
+                            'href': '#',
+                            'text': 'Казань и Республика Татарстан',
+                        },
+                        'item5': {
+                            'href': '#',
+                            'text': 'Екатеринбург и Свердловская область',
+                        }
+                    })
+                li.list__item
+                    +btn({
+                        'text': 'Войти',
+                        'mods': 'link, link--primary, login',
+                        'hasLeftIcon': true,
+                        'iconId': 'login'
+                    })(href='#')
+                li.list__item
+                    +btn({
+                        'text': 'Регистрация',
+                        'mods': 'link, link--primary'
+                    })(href='#')
