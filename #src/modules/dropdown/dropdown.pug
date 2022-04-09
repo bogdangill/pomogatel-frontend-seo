@@ -35,11 +35,13 @@ mixin dropdown(data)
         //регулярка для поиска dropdown items
         let urgentKeyName = /(item)\d+/;
 
+        let defaultValue = data['item1']['text'].split(' и ')[0];
+
     .dropdown(class=allMods data-dropdownid=data.id)
-        .dropdown__value(data-value="") Москва
+        button.dropdown__value(aria-haspopup="true" aria-expanded="false" id="ddRegions")!=defaultValue
         svg.dropdown__icon
             use(xlink:href="img/icons/sprite.svg#arrow-bottom")
-        ul.dropdown-body.visually-hidden
+        ul.dropdown-body.visually-hidden(aria-labelledby="ddRegions")
             each key in Object.keys(data)
                 if (urgentKeyName.test(key))
                     -

@@ -21,6 +21,9 @@
 
     &__value {
         position: relative;
+        background-color: transparent;
+        border: 0;
+        padding: 0;
         transition: color .2s ease-out;
 
         &::after {
@@ -44,6 +47,7 @@
     }
 
     &__icon {
+        cursor: auto;
         color: $primary;
         @include sqr(24px);
         margin-left: 2px;
