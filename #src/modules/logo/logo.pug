@@ -4,7 +4,7 @@ mixin logo(text, iconId, mods)
     //-   mods    {string} - список модификаторов
     //-   iconId  {string} - id иконки
 
-    a.logo(class=mods)
+    a.logo(class=mods href="/")
         if (typeof(iconId !== 'undefined') && iconId)
             svg.logo__icon
                 use(xlink:href="img/icons/sprite.svg#" + iconId)

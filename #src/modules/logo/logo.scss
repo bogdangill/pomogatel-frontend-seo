@@ -1,6 +1,7 @@
 .logo {
     display: flex;
     align-items: center;
+    text-decoration: none;
 
     &__icon {
         width: 39px;
@@ -14,5 +15,6 @@
         font-size: 1.5em;
         line-height: 1.33;
         font-weight: 500;
+        color: $color-text;
     }
 }
