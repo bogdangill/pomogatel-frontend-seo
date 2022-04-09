@@ -9,6 +9,7 @@
     border-radius: 50px;
     font-weight: 500;
     letter-spacing: .02em;
+    transition: background .2s ease-out;
 
     &__icon {
         @include sqr(24px);
@@ -34,7 +35,7 @@
     }
 
     &--sm {
-        @media (min-width: $screen-md) {
+        @media (min-width: $screen-lg) {
             min-width: 9.18em;
         }
     }
@@ -49,7 +50,7 @@
         line-height: 1.4;
         padding: .75rem 1.5rem;
 
-        @media (min-width: $screen-md) {
+        @media (min-width: $screen-lg) {
             min-width: 13em;
             font-size: 1.25em;
             line-height: 1.6;
