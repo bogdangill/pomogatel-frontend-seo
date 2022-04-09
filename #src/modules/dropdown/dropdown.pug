@@ -44,12 +44,7 @@ mixin dropdown(data)
         ul.dropdown-body.visually-hidden(aria-labelledby="ddRegions")
             each key in Object.keys(data)
                 if (urgentKeyName.test(key))
-                    -
-                        let val = "";
-                        if (typeof(data[key].value) !== 'undefined' && data[key].value) {
-                            val = data[key].value;
-                        }
-                    li.dropdown-body__item(data-value=val)
+                    li.dropdown-body__item
                         if (typeof(data[key].href) !== 'undefined' && data[key].href)
                             -
                                 let href = data[key].href;

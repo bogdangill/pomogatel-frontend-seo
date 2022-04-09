@@ -254,7 +254,7 @@ function fonts(params) {
 */
 
 function makeSprite() {
-  return gulp.src([source_folder + '/icons/*.svg'])
+  return gulp.src([source_folder + '/icons/**/*.svg'])
     .pipe(svg_sprite({
       mode: {
         stack: {
