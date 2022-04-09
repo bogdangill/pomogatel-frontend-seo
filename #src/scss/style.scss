@@ -14,6 +14,7 @@
 @import 'utils';
 @import 'grid-mixins';
 
+
 /*
  
  _ _  _ ___  ____ ____ ___    ___  ____ _  _    ___  _    ____ ____ _  _ ____ 
@@ -22,6 +23,7 @@
                                                                               
  
 */
+@import '../bem-blocks/title.scss';
 @import '../bem-blocks/list.scss';
 
 
@@ -48,7 +50,7 @@
  
 */
 @import '../sections/header/header.scss';
-
+@import '../sections/promo/promo.scss';
 
 /*
  

@@ -1,0 +1,9 @@
+mixin promo(data)
+    section.promo(class=data.parent + '__promo')
+        h1.title.promo__title.title--lg!=data.title
+        p.promo__text!=data.text
+
+        +btn({
+            'text': data.btnText,
+            'mods': 'primary, lg'
+        })(class="promo__btn" data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")

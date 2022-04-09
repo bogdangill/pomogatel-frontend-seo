@@ -3,4 +3,8 @@
     font-size: calcFluidFontSize(14, 16, 320, 1440);
     line-height: 1.5;
     color: $color-text;
+
+    &__promo {
+        margin-top: 9.3vw;
+    }
 }
