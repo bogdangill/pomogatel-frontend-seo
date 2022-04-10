@@ -1,0 +1,50 @@
+mixin list-visual(data)
+    //- Принимает:
+    //-   mods    {string} - список модификаторов(если нужны)
+
+    //- Вызов:
+        +list-visual({
+            'mods': '...someMods',
+
+            'item1': {
+                'iconId': 'ид иконки из спрайта',
+                'text': 'sometext'
+            },
+            'item2': {
+                'iconId': 'ид иконки из спрайта',
+                'text': 'sometext'
+            },
+            ...
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+        let listType = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let item of modsList) {
+                if (item === 'kinds') listType = 'kinds';
+            }
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + 'list-visual--' + modsList[i].trim();
+            }
+        }
+
+        //регулярка для поиска list-visual items
+        let urgentKeyName = /(item)\d+/;
+
+    ul.list-visual(class=allMods)
+        each key in Object.keys(data)
+            if (urgentKeyName.test(key))
+                li.list-visual__item
+                    .list-visual__icon
+                        svg
+                            use(xlink:href="img/icons/sprite.svg#"+data[key].iconId)
+                    if (listType == 'kinds')
+                        a.list-visual__text(href=data[key].href)!=data[key].text
+                    else
+                        span.list-visual__text!=data[key].text
+                
