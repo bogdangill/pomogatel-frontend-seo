@@ -1,16 +1,16 @@
 .title {
-    font-family: 'Open Sans', sans-serif;
+    font-family: $ff-secondary;
     font-weight: 700;
 
     &--xs {
-        font-family: 'Roboto', sans-serif;
+        font-family: $ff-primary;
         font-size: 1.125em;
         line-height: 1.4;
         font-weight: 500;
     }
 
     &--sm {
-        font-family: 'Roboto', sans-serif;
+        font-family: $ff-primary;
         font-size: 1.28em;
         line-height: 1.33;
         letter-spacing: $letter-spacing;

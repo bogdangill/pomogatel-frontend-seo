@@ -1,5 +1,5 @@
 .index {
-    font-family: 'Roboto', sans-serif;
+    font-family: $ff-primary;
     font-size: calcFluidFontSize(14, 16, 320, 1440);
     line-height: 1.5;
     color: $color-text;
