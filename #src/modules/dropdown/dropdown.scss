@@ -89,22 +89,25 @@
     }
 
     &__item {
-        border-radius: .25em;
-        transition: background .2s ease-out;
-        
-        padding: .5em;
-
-        &:hover {
-            background-color: $primary-lighter;
-        }
 
         a {
+            display: block;
             opacity: 0;
             text-decoration: none;
             color: inherit;
+            transition: background .1s ease-out;
+            border-radius: .25em;
 
-            padding-top: .25em;
-            padding-bottom: .25em;
+            padding: .5em;
+
+            &:hover {
+                background-color: $primary-lighter;
+            }
+            &:focus {
+                color: white;
+                outline: none;
+                background-color: $primary;
+            }
         }
     }
 }
