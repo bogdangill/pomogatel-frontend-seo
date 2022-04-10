@@ -114,10 +114,7 @@
                 }
 
                 .btn__text {
-                    visibility: hidden;
-                    width: 1px;
-                    height: 1px;
-                    margin: -1px;
+                    @include sr-only();
                 }
             }
 

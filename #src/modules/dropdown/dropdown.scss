@@ -75,6 +75,10 @@
     margin: 0;
     padding: .5em;
 
+    &--hidden {
+        @include sr-only();
+    }
+
     &--visible {
         transition: transform .15s ease-out;
         transform: scaleY(1);

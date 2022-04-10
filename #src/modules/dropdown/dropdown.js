@@ -4,7 +4,7 @@ for (let dropdown of dropdowns) {
     let ddBody = dropdown.querySelector('.dropdown-body');
 
     dropdown.addEventListener('click', () => {
-        ddBody.classList.remove('visually-hidden');
+        ddBody.classList.remove('dropdown-body--hidden');
         ddBody.classList.add('dropdown-body--visible');
     });
 
@@ -21,7 +21,7 @@ for (let dropdown of dropdowns) {
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.dropdown__value')) {
             ddBody.classList.remove('dropdown-body--visible');
-            ddBody.classList.add('visually-hidden');
+            ddBody.classList.add('dropdown-body--hidden');
         } 
     });
 }

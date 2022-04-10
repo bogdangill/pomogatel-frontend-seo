@@ -41,7 +41,7 @@ mixin dropdown(data)
         button.dropdown__value(aria-haspopup="true" aria-expanded="false" id="ddRegions")!=defaultValue
         svg.dropdown__icon
             use(xlink:href="img/icons/sprite.svg#arrow-bottom")
-        ul.dropdown-body.visually-hidden(aria-labelledby="ddRegions")
+        ul.dropdown-body.dropdown-body--hidden(aria-labelledby="ddRegions")
             each key in Object.keys(data)
                 if (urgentKeyName.test(key))
                     li.dropdown-body__item

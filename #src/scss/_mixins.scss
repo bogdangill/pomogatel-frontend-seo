@@ -1,3 +1,5 @@
+@import '../plugins/bootstrap-grid/mixins/_screen-reader.scss';
+
 @mixin flexCenter {
   justify-content: center;
   align-items: center;
