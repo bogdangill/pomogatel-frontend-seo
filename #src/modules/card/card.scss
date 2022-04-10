@@ -1,0 +1,116 @@
+.card {
+    background-color: #fff;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.03), 0px 7px 25px rgba(0, 0, 0, 0.05);
+
+    &--worker-preview {
+        display: grid;
+        grid-template-columns: 1fr minmax(12em, 19.875em);
+        align-items: center;
+        gap: 2.25em;
+        border-radius: 20px;
+
+        padding: 1.5em 2em;
+
+        @media (max-width: $screen-md) {
+            gap: 1.14em;
+
+            padding: .857em 1.14em;
+        }
+    }
+
+    &--review {
+        position: relative;
+        min-height: 21.5em;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.03), 0px 7px 25px rgba(0, 0, 0, 0.05);
+
+        padding: 2.25em;
+
+        .card__name {
+            display: block;
+            line-height: 1.56;
+
+            margin-bottom: .5em;
+        }
+        .card__rating {
+            margin-bottom: 1.5em;
+        }
+    }
+
+    &__photo {
+        position: relative;
+        @include sqr(7.875em);
+
+        @media (max-width: $screen-md) {
+            @include sqr(5.14em);
+        }
+
+        img {
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+    &__icon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        display: grid;
+        place-items: center;
+        color: $primary;
+        background-color: #fff;
+        @include sqr(2.5em);
+        border-radius: 50%;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05), 0px 7px 55px rgba(0, 0, 0, 0.05);
+
+        svg {
+            @include sqr(1.5em);
+        }
+
+        @media (max-width: $screen-md) {
+            display: none;
+        }
+    }
+
+    &__info {
+        margin: 0;
+    }
+    &__city {
+        font-family: $ff-secondary;
+        line-height: 1.4;
+        color: $color-gray;
+
+        @media (max-width: $screen-md) {
+            @include sr-only();
+        }
+    }
+    &__name {
+        font-size: 1.125em;
+        font-weight: 500;
+        line-height: 1.4;
+        font-style: normal;
+
+        margin-bottom: 0;
+
+        @media (max-width: $screen-md) {
+            font-size: 1em;
+        }
+    }
+    &__rating {
+        display: flex;
+        align-items: center;
+        color: $primary;
+
+        margin-bottom: .5em;
+
+        svg {
+            @include sqr(1.25em);
+        }
+    }
+    &__date {
+        position: absolute;
+        left: 2.25em;
+        bottom: 2.25em;
+        font-size: .875em;
+        color: $primary;
+    }
+}

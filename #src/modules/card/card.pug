@@ -1,0 +1,72 @@
+mixin card(data)
+    //- Принимает:
+    //-     mods    {string} - список модификаторов
+
+    //- Вызов:
+    //-     +card({
+    //-         'mods': модификаторы,
+    //-         =пример вызова для карточки лучшего работника=
+    //-         'photo': url фотки работника (без формата и @2x)
+    //-         'iconId': ид иконки работника(kinds),
+    //-         'city': город работника,
+    //-         'name': фио работника,
+    //-         'workerData': {
+    //-             '1': ['Возраст', возраст работника],
+    //-             '2': ['Опыт работы', опыт работы],
+    //-             '3': ['Цена услуги', цена за час работы]
+    //-         }
+    //-     })
+    -
+        // список модификаторов
+        let allMods = '';
+        // тип карточки
+        let cardType = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let item of modsList) {
+                if (item === 'worker-preview') cardType = 'worker-preview';
+                if (item === 'review') cardType = 'review';
+            }
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + 'card--' + modsList[i].trim();
+            }
+        }
+    
+    .card(class=allMods)
+        if (cardType == 'worker-preview')
+            .card__photo
+                picture
+                    source(srcset=data.photo+'.webp 1x, '+data.photo+'@2x.webp 2x' type="image/webp")
+                    img(src=data.photo+'.png' srcset=data.photo+'@2x.png 2x' alt=data.alt loading="lazy" data-action="photo" data-url=data.dataUrl)
+                .card__icon
+                    svg
+                        use(xlink:href="img/icons/sprite.svg#kinds--"+data.iconId)
+            .card__info
+                small.card__city!=data.city
+                p.card__name!=data.name
+                .card__rating
+                    - let i = 5
+                    while i > 0
+                        svg
+                            use(xlink:href="img/icons/sprite.svg#star")
+                        - i--
+                .card__data
+                    each key in data.workerData
+                        dl.data
+                            dt.data__key!=key[0]+':'
+                            dd.data__value!=key[1]
+
+        if (cardType == 'review')
+            blockquote.card__info
+                cite.card__name!=data.name
+                .card__rating
+                    - let i = 5
+                    while i > 0
+                        svg
+                            use(xlink:href="img/icons/sprite.svg#star")
+                        - i--
+                p.card__review!=data.text
+                time.card__date(datetime=data.datetime)!=data.time
