@@ -1,0 +1,20 @@
+.data {
+    display: flex;
+    line-height: 1.4;
+    
+    margin-bottom: 0;
+
+    &__key {
+        color: $color-gray-dark;
+        font-weight: 400;
+        line-height: inherit;
+
+        margin-right: .5em;
+    }
+    &__value {
+        font-weight: 500;
+        line-height: inherit;
+
+        margin-bottom: 0;
+    }
+}
