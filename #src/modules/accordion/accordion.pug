@@ -1,0 +1,47 @@
+mixin accordion(data)
+    //- Принимает:
+    //-   mods    {string} - список модификаторов через запятую(если нужны)
+    //-   title   {string} - заголовок аккордеона
+    //-   text    {string} - текст аккордеона
+
+    //- Вызов:
+        +accordion({
+            'mods': '...someMods',
+            'title': 'заголовок аккордеона',
+            'text': 'текст'
+            ...
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + 'accordion--' + modsList[i].trim();
+            }
+        }
+        
+    mixin headerContent()
+        button.accordion__trigger(aria-expanded="false" aria-controls=data.id)!=data.title
+        svg.accordion__icon
+            use(xlink:href="img/icons/sprite.svg#chevron-bottom")
+
+    article.accordion(class=allMods)
+        if (data.headinglvl === '2')
+            h2.accordion__header
+                +headerContent()
+        if (data.headinglvl === '3')
+            h3.accordion__header
+                +headerContent()
+        if (data.headinglvl === '4')
+            h4.accordion__header
+                +headerContent()
+        if (data.headinglvl === '5')
+            h5.accordion__header
+                +headerContent()
+        .accordion__body(id=data.id)
+            p.accordion__text!=data.text
+
+
