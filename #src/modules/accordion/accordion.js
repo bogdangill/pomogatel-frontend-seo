@@ -6,6 +6,7 @@ accordions.forEach(acc => acc.classList.add('accordion--hidden'));
 function closeAcc(acc) {
     acc.classList.remove('accordion--visible');
     acc.classList.add('accordion--hidden');
+    acc.querySelector('.accordion__trigger').setAttribute('aria-expanded', 'false');
 }
 
 if (accordions.length > 0) {
@@ -20,6 +21,7 @@ if (accordions.length > 0) {
 
             accordion.classList.remove('accordion--hidden');
             accordion.classList.add('accordion--visible');
+            accordion.querySelector('.accordion__trigger').setAttribute('aria-expanded', 'true');
         })
     })
 }
