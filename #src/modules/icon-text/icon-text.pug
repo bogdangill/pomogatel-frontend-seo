@@ -1,0 +1,31 @@
+mixin icon-text(data)
+    //- Принимает:
+    //-   mods    {string} - список модификаторов(если нужны)
+
+    //- Вызов:
+        +icontext({
+            'mods': '...someMods',
+            'iconId': 'ид иконки из спрайта',
+            'text': 'sometext'
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + 'icon-text--' + modsList[i].trim();
+            }
+        }
+
+    .icon-text(class=allMods)
+        .icon-text__icon
+            svg
+                use(xlink:href="img/icons/sprite.svg#"+data.iconId)
+        if (typeof(data.href) !== 'undefined' && data.href)
+            a.icon-text__link(href=data.href)!=data.text
+        else
+            span.icon-text__text!=data.text
+                

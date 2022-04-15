@@ -1,0 +1,71 @@
+.icon-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    &--kinds {
+        &:hover::after {
+            width: 100%;
+        }
+    }
+
+    &--hints {
+        &::after,
+        .icon-text__icon {
+            @include sqr(3.5em);
+        }
+        .icon-text__icon svg {
+            @include sqr(2.25em);
+        }
+        .icon-text__text {
+            font-size: 1.125em;
+            line-height: 1.56;
+
+            padding: 0;
+            margin-left: .875em;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        @include sqr(2.75em);
+        background-color: #fff;
+        border-radius: 50px;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05), 0px 7px 55px rgba(0, 0, 0, 0.05);
+        transition: .2s ease-out;
+    }
+
+    &__icon {
+        position: relative;
+        display: grid;
+        place-items: center;
+        color: $primary;
+        @include sqr(2.75em);
+        z-index: 1;
+
+        svg {
+            @include sqr(24px);
+        }
+    }
+
+    &__link {
+        position: static;
+        font-size: .875em;
+        line-height: 1.4;
+        text-decoration: none;
+        color: $color-text;
+        z-index: 1;
+
+        padding: .57em;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    }
+}
