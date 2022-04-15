@@ -16,5 +16,10 @@
         line-height: 1.33;
         font-weight: 500;
         color: $color-text;
+        transition: color .2s ease-out;
+
+        &:hover {
+            color: $primary;
+        }
     }
 }
