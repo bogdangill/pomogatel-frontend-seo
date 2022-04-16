@@ -1,0 +1,25 @@
+.slogan {
+    position: absolute;
+    top: 1.37em;
+    left: 1.37em;
+    color: #A88DD8;
+
+    &__rope {
+        fill: none;
+        margin-bottom: -1.6em;
+    }
+
+    &__text {
+        display: block;
+        font-family: $ff-secondary;
+        font-size: .875em;
+        line-height: 1.3;
+        font-weight: 700;
+        color: white;
+        background-image: linear-gradient(98.92deg, #E82877 15.32%, #4F18D7 93.56%);
+        border-radius: .25em;
+        transform: rotate(-4deg);
+    
+        padding: .5em .75em;
+    }
+}
