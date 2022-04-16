@@ -12,10 +12,10 @@
     align-items: center;
     justify-content: space-between;
 
-    &__logo {
-        padding-top: 1em;
-        margin-bottom: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 
+    &__logo {
         .logo__text {
             @media (max-width: $screen-sm) {
                 visibility: hidden;

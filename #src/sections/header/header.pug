@@ -1,6 +1,10 @@
 mixin header()
     header.header
-        +logo('Помогатель', 'logo-pmgt', 'header__logo')
+        +logo({
+            'text': 'Помогатель',
+            'iconId': 'logo-pmgt',
+            'slogan': 'Hoàn toàn miễn phí'
+        })(class="header__logo" href="/")
         nav
             ul.list.list--horizontal
                 li.list__item

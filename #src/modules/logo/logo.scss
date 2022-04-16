@@ -4,6 +4,10 @@
     align-items: center;
     text-decoration: none;
 
+    @media (max-width: $screen-sm) {
+        position: static;
+    }
+
     &__icon {
         width: 39px;
         height: 24px;

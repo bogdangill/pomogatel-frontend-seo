@@ -4,6 +4,19 @@
     left: 1.37em;
     color: #A88DD8;
 
+    @media (max-width: $screen-sm) {
+        top: calc(100% + .25em);
+        left: 50%;
+        transform: translateX(-50%);
+
+        &__rope {
+            display: none;
+        }
+        &__text {
+            transform: none;
+        }
+    }
+
     &__rope {
         fill: none;
         margin-bottom: -1.6em;
