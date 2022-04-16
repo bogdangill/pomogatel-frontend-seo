@@ -1,4 +1,5 @@
 .logo {
+    position: relative;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -12,11 +13,21 @@
     }
 
     &__text {
+        position: static;
         font-size: 1.5em;
         line-height: 1.33;
         font-weight: 500;
         color: $color-text;
         transition: color .2s ease-out;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
 
         &:hover {
             color: $primary;

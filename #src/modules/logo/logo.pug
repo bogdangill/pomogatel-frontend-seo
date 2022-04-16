@@ -1,11 +1,36 @@
-mixin logo(text, iconId, mods)
+mixin logo(data)
     //- Принимает:
-    //-   text    {string} - название компании в логотипе (e.g. Помогатель|Giupchame|Bakicibuldum)
-    //-   mods    {string} - список модификаторов
-    //-   iconId  {string} - id иконки
+    //- mods    {string} - список модификаторов(если нужны)
+    //- модификаторы модуля(разновидности в ui-kit'е): 
+    //- kind(специальности), hint(подсказки), check(проверки)
 
-    a.logo(class=mods href="/")
-        if (typeof(iconId !== 'undefined') && iconId)
+    //- Вызов:
+        +logo({
+            'mods': '...someMods',
+            'iconId': 'ид иконки логотипа',
+            'text': 'название компании',
+            'slogan': 'текст баннера/слогана(если есть)'
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + 'icon-text--' + modsList[i].trim();
+            }
+        }
+
+    .logo(class=data.mods)&attributes(attributes)
+        if (typeof(data.iconId !== 'undefined') && data.iconId)
             svg.logo__icon
-                use(xlink:href="img/icons/sprite.svg#" + iconId)
-        .logo__text!=text
+                use(xlink:href="img/icons/sprite.svg#" + data.iconId)
+        a.logo__text!=data.text
+
+        if (typeof(data.slogan !== 'undefined') && data.slogan)
+            .slogan
+                svg.slogan__rope(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 125 36")
+                    path(stroke="currentColor" d="M1 35S58.5 1 62.5 1 124 26.5 124 26.5")
+                span.slogan__text!=data.slogan
