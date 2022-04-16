@@ -20,10 +20,48 @@
     }
 
     @media (max-width: $screen-sm) {
-        background-image: url('../img/promo-mobile.svg');
         background-position: center 57%;
         background-repeat: no-repeat;
         background-size: 20em;
+    }
+
+    &--default {
+        &::before {
+            background-image: url('../img/promo-left.svg');
+        }
+        &::after {
+            background-image: url('../img/promo-right.svg');
+        }
+
+        @media (max-width: $screen-sm) {
+            background-image: url('../img/promo-mobile.svg');
+        }
+    }
+
+    &--vn {
+        &::before {
+            background-image: url('../img/promo-left-vn.svg');
+        }
+        &::after {
+            background-image: url('../img/promo-right-vn.svg');
+        }
+
+        @media (max-width: $screen-sm) {
+            background-image: url('../img/promo-mobile-vn.svg');
+        }
+    }
+
+    &--tr {
+        &::before {
+            background-image: url('../img/promo-left-tr.svg');
+        }
+        &::after {
+            background-image: url('../img/promo-right-tr.svg');
+        }
+
+        @media (max-width: $screen-sm) {
+            background-image: url('../img/promo-mobile-tr.svg');
+        }
     }
 
     &__title {
@@ -78,7 +116,6 @@
         top: 0;
         left: -19.3vw;
         height: 11.31em;
-        background-image: url('../img/promo-left.svg');
 
         @media (max-width: $screen-lg) {
             left: -17vw;
@@ -90,11 +127,18 @@
         top: 0;
         right: -19.3vw;
         height: 12em;
-        background-image: url('../img/promo-right.svg');
 
         @media (max-width: $screen-lg) {
             right: -17vw;
             height: 13.2vw;
+        }
+    }
+
+    &--tr::after {
+        height: 12.1em;
+
+        @media (max-width: $screen-lg) {
+            height: 13.5vw;
         }
     }
 }

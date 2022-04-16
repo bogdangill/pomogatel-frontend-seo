@@ -1,5 +1,11 @@
 mixin promo(data)
-    section.promo(class=data.parent + '__promo')
+    -
+        let modifier = 'promo--default ';
+
+        if (data.country === 'vn') modifier = 'promo--vn ';
+        if (data.country === 'tr') modifier = 'promo--tr ';
+
+    section.promo(class=modifier + data.parent + '__promo')
         h1.title.promo__title.title--lg!=data.title
         p.promo__text!=data.text
 
