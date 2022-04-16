@@ -25,10 +25,8 @@
         border: 0;
         padding: 0;
         transition: color .2s ease-out;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
         max-width: 21vw;
+        @include textOverflow();
 
         &::after {
             content: '';
