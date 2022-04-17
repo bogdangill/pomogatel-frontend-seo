@@ -1,0 +1,27 @@
+//модификаторы размеров иконок модуля icon-text
+
+.icon-text__icon {
+    &--sm {
+        @include sqr(2.75em);
+
+        svg {
+            @include sqr(1.5em);
+        }
+    }
+
+    &--md {
+        @include sqr(3.5em);
+
+        svg {
+            @include sqr(2.25em);
+        }
+    }
+
+    &--lg {
+        @include sqr(6.5em);
+
+        svg {
+            @include sqr(3em);
+        }
+    }
+}

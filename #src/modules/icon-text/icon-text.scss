@@ -3,48 +3,6 @@
     display: flex;
     align-items: center;
 
-    &--kind {
-        &::after {
-            content: '';
-            position: absolute;
-            @include sqr(2.75em);
-            background-color: #fff;
-            border-radius: 50px;
-            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05), 0px 7px 55px rgba(0, 0, 0, 0.05);
-            transition: .2s ease-out;
-        }
-        
-        &:hover::after {
-            width: 100%;
-        }
-
-        .icon-text__icon {
-            border-radius: 50px;
-        }
-    }
-
-    &--hint {
-        .icon-text__text {
-            margin-left: .875em;
-        }
-    }
-
-    &--check {
-        flex-direction: column;
-
-        .icon-text__icon {
-            color: $primary-light;
-        }
-
-        .icon-text__text {
-            text-align: center;
-            font-size: 1em;
-            max-width: min-content;
-
-            margin-top: 1.5em;
-        }
-    }
-
     &:not(.icon-text--kind) {
         .icon-text__icon {
             border-radius: 50%;
@@ -60,30 +18,6 @@
         flex-shrink: 0;
         color: $primary;
         z-index: 1;
-
-        &--sm {
-            @include sqr(2.75em);
-
-            svg {
-                @include sqr(1.5em);
-            }
-        }
-
-        &--md {
-            @include sqr(3.5em);
-
-            svg {
-                @include sqr(2.25em);
-            }
-        }
-
-        &--lg {
-            @include sqr(6.5em);
-
-            svg {
-                @include sqr(3em);
-            }
-        }
     }
 
     &__link {
@@ -111,3 +45,6 @@
         line-height: 1.56;
     }
 }
+
+@import 'mods/sizes';
+@import 'mods/types';
