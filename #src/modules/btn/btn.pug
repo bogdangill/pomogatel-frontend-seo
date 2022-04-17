@@ -43,7 +43,7 @@ mixin btn(data)
 
     mixin btnContent()
         if (typeof(data.hasLeftIcon) !== 'undefined' && data.hasLeftIcon)
-            svg.btn__icon(class=iconClasses)
+            svg.btn__icon.btn__icon--left(class=iconClasses)
                 use(xlink:href="img/icons/sprite.svg#" + data.iconId)
 
         if (typeof(data.text) !== 'undefined' && data.text)
