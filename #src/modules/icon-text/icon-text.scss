@@ -57,6 +57,7 @@
         position: relative;
         display: grid;
         place-items: center;
+        flex-shrink: 0;
         color: $primary;
         z-index: 1;
 
@@ -93,7 +94,7 @@
         color: $color-text;
         z-index: 1;
 
-        padding: .57em;
+        margin-left: .57em;
 
         &::before {
             content: '';
