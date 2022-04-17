@@ -7,9 +7,7 @@
         $xl-grid-gutter:  0,
         $xxl-grid-gutter: 0
     );
-    position: relative;
     max-width: 35.8em;
-    text-align: center;
 
     @media (max-width: $screen-lg) {
         max-width: 28.8em;
@@ -26,10 +24,10 @@
     }
 
     &--default {
-        &::before {
+        .promo__inner::before {
             background-image: url('../img/promo-left.svg');
         }
-        &::after {
+        .promo__inner::after {
             background-image: url('../img/promo-right.svg');
         }
 
@@ -39,10 +37,10 @@
     }
 
     &--vn {
-        &::before {
+        .promo__inner::before {
             background-image: url('../img/promo-left-vn.svg');
         }
-        &::after {
+        .promo__inner::after {
             background-image: url('../img/promo-right-vn.svg');
         }
 
@@ -52,16 +50,21 @@
     }
 
     &--tr {
-        &::before {
+        .promo__inner::before {
             background-image: url('../img/promo-left-tr.svg');
         }
-        &::after {
+        .promo__inner::after {
             background-image: url('../img/promo-right-tr.svg');
         }
 
         @media (max-width: $screen-sm) {
             background-image: url('../img/promo-mobile-tr.svg');
         }
+    }
+
+    &__inner {
+        position: relative;
+        text-align: center;
     }
 
     &__title {
@@ -93,11 +96,13 @@
     }
 
     &__btn {
+        text-align: center;
+        
         margin-bottom: 3.89vw;
     }
 
-    &::before,
-    &::after {
+    &__inner::before,
+    &__inner::after {
         content: '';
         position: absolute;
         width: 14em;
@@ -112,7 +117,7 @@
         }
     }
 
-    &::before {
+    &__inner::before {
         top: 0;
         left: -19.3vw;
         height: 11.31em;
@@ -123,7 +128,7 @@
         }
     }
 
-    &::after {
+    &__inner::after {
         top: 0;
         right: -19.3vw;
         height: 12em;
@@ -134,7 +139,7 @@
         }
     }
 
-    &--tr::after {
+    &--tr .promo__inner::after {
         height: 12.1em;
 
         @media (max-width: $screen-lg) {

@@ -1,4 +1,8 @@
 mixin promo(data)
+    //-
+        такая неуклюжая разметка с обертками - костыль для дебага риппл-эффекта кнопки.
+        если бы кнопка была дочерним узлом promo, у которого было бы относительное позиционирование
+        и margin-left|right: auto, то риппл-элемент при возникновении получал бы координаты top и left с сильным смещением учитывая лишние отступы по бокам у родителя. пришлось изолировать кнопку
     -
         let modifier = 'promo--default ';
 
@@ -6,10 +10,11 @@ mixin promo(data)
         if (data.country === 'tr') modifier = 'promo--tr ';
 
     section.promo(class=modifier + data.parent + '__promo')
-        h1.title.promo__title.title--lg!=data.title
-        p.promo__text!=data.text
-
-        +btn({
-            'text': data.btnText,
-            'mods': 'primary, lg'
-        })(class="promo__btn" data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")
+        .promo__inner
+            h1.title.promo__title.title--lg!=data.title
+            p.promo__text!=data.text
+        div.promo__btn
+            +btn({
+                'text': data.btnText,
+                'mods': 'secondary, ripple, blink, lg'
+            })(data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")
