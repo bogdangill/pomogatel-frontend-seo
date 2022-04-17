@@ -1,20 +1,22 @@
-mixin promo(data)
+mixin promo(parent)
     //-
         такая неуклюжая разметка с обертками - костыль для дебага риппл-эффекта кнопки.
         если бы кнопка была дочерним узлом promo, у которого было бы относительное позиционирование
         и margin-left|right: auto, то риппл-элемент при возникновении получал бы координаты top и left с сильным смещением учитывая лишние отступы по бокам у родителя. пришлось изолировать кнопку
     -
         let modifier = 'promo--default ';
+        let btnMods = 'primary';
 
-        if (data.country === 'vn') modifier = 'promo--vn ';
-        if (data.country === 'tr') modifier = 'promo--tr ';
+        if (country === 'vn') modifier = 'promo--vn ';
+        if (country === 'tr') modifier = 'promo--tr ';
+        if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
 
-    section.promo(class=modifier + data.parent + '__promo')
+    section.promo(class=modifier + parent + '__promo')
         .promo__inner
-            h1.title.promo__title.title--lg!=data.title
-            p.promo__text!=data.text
+            h1.title.promo__title.title--lg!=promo.title
+            p.promo__text!=promo.text
         div.promo__btn
             +btn({
-                'text': data.btnText,
-                'mods': 'secondary, ripple, blink, lg'
+                'text': promo.btnText,
+                'mods': 'ripple, lg, '+btnMods
             })(data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")
