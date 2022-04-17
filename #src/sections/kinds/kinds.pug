@@ -1,0 +1,26 @@
+mixin kinds(parent)
+    .kinds(class=parent+'__kinds')
+        .kinds__col
+            p.kinds__title!= kinds.workers.title
+            ul.kinds__list
+                each key in Object.keys(kinds.workers.list)
+                    li
+                        +icon-text({
+                            'mods': 'kind',
+                            'iconId': 'kinds--'+kinds.workers.list[key].icon,
+                            'iconSize': 'sm',
+                            'text': kinds.workers.list[key].text,
+                            'href': '#'
+                        })
+        .kinds__col
+            p.kinds__title!= kinds.vacancies.title
+            ul.kinds__list
+                each key in Object.keys(kinds.vacancies.list)
+                    li
+                        +icon-text({
+                            'mods': 'kind',
+                            'iconId': 'kinds--'+kinds.vacancies.list[key].icon,
+                            'iconSize': 'sm',
+                            'text': kinds.vacancies.list[key].text,
+                            'href': '#'
+                        })
