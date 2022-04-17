@@ -5,18 +5,19 @@ mixin dropdown(data)
     //- Вызов:
         +dropdown({
             'mods': '...someMods',
-
-            'item1': {
-                'href': '...someHref',
-                'text': 'sometext'
-            },
-            'item2': {
-                'href': '...someHref',
-                'text': 'sometext'
-            },
-            'item3': {
-                'href': '...someHref',
-                'text': 'sometext'
+            'items': {
+                'item1': {
+                    'href': '...someHref',
+                    'text': 'sometext'
+                },
+                'item2': {
+                    'href': '...someHref',
+                    'text': 'sometext'
+                },
+                'item3': {
+                    'href': '...someHref',
+                    'text': 'sometext'
+                }
             }
             ...
         })
@@ -35,17 +36,17 @@ mixin dropdown(data)
         //регулярка для поиска dropdown items
         let urgentKeyName = /(item)\d+/;
 
-        let defaultValue = data['item1']['text'].split(' и ')[0];
+        let defaultValue = data.items['item1']['text'].split(' и ')[0];
 
     .dropdown(class=allMods data-dropdownid=data.id)
         button.dropdown__value(aria-haspopup="true" aria-expanded="false" id="ddRegions")!=defaultValue
         svg.dropdown__icon
             use(xlink:href="img/icons/sprite.svg#arrow-bottom")
         ul.dropdown-body.dropdown-body--hidden(aria-labelledby="ddRegions")
-            each key in Object.keys(data)
+            each key in Object.keys(data.items)
                 if (urgentKeyName.test(key))
                     li.dropdown-body__item
-                        if (typeof(data[key].href) !== 'undefined' && data[key].href)
+                        if (typeof(data.items[key].href) !== 'undefined' && data.items[key].href)
                             -
-                                let href = data[key].href;
-                            a(href=href)!=data[key].text
+                                let href = data.items[key].href;
+                            a(href=href)!=data.items[key].text

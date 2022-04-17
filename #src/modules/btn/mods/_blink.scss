@@ -3,7 +3,7 @@
     transition: text-shadow .5s ease-out;
 
     &:hover {
-        text-shadow: 1px 0px 4px rgba(0,0,0,.5);
+        text-shadow: 1px 0px 4px rgba(0,0,0,.6);
     }
 
     @media (min-width: $screen-lg) {
