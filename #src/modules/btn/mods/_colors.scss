@@ -1,0 +1,38 @@
+// цвета кнопки: 
+//     -primary
+//     -secondary(для яркой темы(вьетнам, турция))
+//     -outline
+
+.btn {
+    &--primary,
+    &--secondary {
+        color: white;
+    }
+
+    &--primary {
+        background-color: $primary;
+    
+        &:hover {
+            background-color: $primary-dark;
+        }
+    }
+    
+    &--secondary {
+        background-image: linear-gradient(134.56deg, #FD5E9F 11.24%, #E01266 87.02%);
+    }
+    
+    &--outline {
+        color: $primary;
+        background-color: transparent;
+        font-weight: 400;
+        border: 1px solid $primary;
+    
+        &:hover {
+            background-color: $primary-lighter;
+        }
+    
+        &:active {
+            opacity: .6;
+        }
+    }
+}

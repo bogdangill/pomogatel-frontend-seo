@@ -1,0 +1,11 @@
+.btn--login {
+    @media (max-width: $screen-sm) {
+        .btn__icon {
+            display: none;
+        }
+
+        .btn__text {
+            margin-left: 0;
+        }
+    }
+}
