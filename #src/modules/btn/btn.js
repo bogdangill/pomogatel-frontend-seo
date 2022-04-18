@@ -6,13 +6,15 @@ function createRipple(event) {
     const circle = document.createElement("span");
     const diameter = Math.max(button.clientWidth, button.clientHeight);
     const radius = diameter / 2;
-    console.log(button.offsetLeft + ' ' + button.offsetTop);
+    
+    //рассчитываем координаты кнопки относительно вьюпорта(lose ripple when scrolling fix)
+    let vpOffset = button.getBoundingClientRect();
 
     circle.style.cssText = `
         width: ${diameter}px;
         height: ${diameter}px;
-        left: ${event.clientX - button.offsetLeft - radius}px;
-        top: ${event.clientY - button.offsetTop - radius}px;
+        left: ${event.pageX - scrollX - (vpOffset.left + radius)}px;
+        top: ${event.pageY - scrollY - (vpOffset.top + radius)}px;
     `;
 
     circle.classList.add("ripple");
