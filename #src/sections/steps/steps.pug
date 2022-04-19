@@ -1,0 +1,44 @@
+mixin steps(parent)
+    -
+        let modifier = '';
+        let btnMods = 'primary';
+
+        if (country === 'ru') modifier = 'default';
+        if (country === 'vn' || country === 'tr') modifier = 'bright';
+        if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
+
+    section.steps(class=parent+'__steps'+' steps--'+modifier)
+        h2.title.steps__title.title--md!= steps.title
+
+        .steps__row
+            section.steps__col
+                h3.title.steps__subtitle.title--xs!= steps.customers.title
+                ul.steps__list
+                    each key in Object.keys(steps.customers.list)
+                        li
+                            +icon-text({
+                                'mods': 'hint',
+                                'iconId': steps.customers.list[key].icon,
+                                'iconSize': 'md',
+                                'text': steps.customers.list[key].text
+                            })
+                +btn({
+                    'text': steps.customers.btnText,
+                    'mods': 'ripple, md, '+btnMods
+                })(class="steps__btn")
+
+            section.steps__col
+                h3.title.steps__subtitle.title--xs!= steps.workers.title
+                ul.steps__list
+                    each key in Object.keys(steps.workers.list)
+                        li
+                            +icon-text({
+                                'mods': 'hint',
+                                'iconId': steps.workers.list[key].icon,
+                                'iconSize': 'md',
+                                'text': steps.workers.list[key].text
+                            })
+                +btn({
+                    'text': steps.workers.btnText,
+                    'mods': 'ripple, md, '+btnMods
+                })(class="steps__btn")
