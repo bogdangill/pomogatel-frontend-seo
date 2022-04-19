@@ -18,4 +18,12 @@
     &__kinds {
         margin-top: 3.89vw;
     }
+
+    &__steps {
+        margin-top: 8.33vw;
+
+        @media (max-width: $screen-md) {
+            margin-top: 15vw;
+        }
+    }
 }

@@ -7,6 +7,10 @@
         svg {
             @include sqr(1.5em);
         }
+
+        @media (max-width: $screen-md) {
+            @include sqr(auto);
+        }
     }
 
     &--md {
@@ -14,6 +18,14 @@
 
         svg {
             @include sqr(2.25em);
+        }
+
+        @media (max-width: $screen-md) {
+            @include sqr(2.857em);
+
+            svg {
+                @include sqr(1.7em);
+            }
         }
     }
 

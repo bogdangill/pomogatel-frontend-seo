@@ -22,7 +22,7 @@
 
     &__link {
         position: static;
-        font-size: .875em;
+        font-size: 14px;
         line-height: 1.4;
         text-decoration: none;
         color: $color-text;
@@ -43,6 +43,11 @@
     &__text {
         font-size: 1.125em;
         line-height: 1.56;
+
+        @media (max-width: $screen-md) {
+            font-size: 1em;
+            line-height: 1.4;
+        }
     }
 }
 
