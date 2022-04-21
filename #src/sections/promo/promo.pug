@@ -6,14 +6,16 @@ mixin promo(parent)
     -
         let modifier = 'promo--default ';
         let btnMods = 'primary';
+        let titleMod = '';
 
         if (country === 'vn') modifier = 'promo--vn ';
         if (country === 'tr') modifier = 'promo--tr ';
         if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
+        if (country === 'vn' || country === 'tr') titleMod = 'title--primary-dark';
 
     section.promo(class=modifier + parent + '__promo')
         .promo__inner
-            h1.title.promo__title.title--lg!=promo.title
+            h1.title.promo__title.title--lg(class=titleMod)!=promo.title
             p.promo__text!=promo.text
         div.promo__btn
             +btn({

@@ -1,26 +1,33 @@
 mixin kinds(parent)
+    -
+        let listMod = '';
+        let iconSize = 'sm';
+
+        if (country === 'vn' || country === 'tr') listMod = 'kinds__list--wide';
+        if (country === 'vn' || country === 'tr') iconSize = 'lg';
+
     .kinds(class=parent+'__kinds')
         .kinds__col
             p.kinds__title!= kinds.workers.title
-            ul.kinds__list
+            ul.kinds__list(class=listMod)
                 each key in Object.keys(kinds.workers.list)
                     li
                         +icon-text({
-                            'mods': 'kind',
-                            'iconId': 'kinds--'+kinds.workers.list[key].icon,
-                            'iconSize': 'sm',
+                            'mods': 'kind, no-halo',
+                            'iconId': kinds.workers.list[key].icon,
+                            'iconSize': iconSize,
                             'text': kinds.workers.list[key].text,
                             'href': '#'
                         })
         .kinds__col
             p.kinds__title!= kinds.vacancies.title
-            ul.kinds__list
+            ul.kinds__list(class=listMod)
                 each key in Object.keys(kinds.vacancies.list)
                     li
                         +icon-text({
-                            'mods': 'kind',
-                            'iconId': 'kinds--'+kinds.vacancies.list[key].icon,
-                            'iconSize': 'sm',
+                            'mods': 'kind, no-halo',
+                            'iconId': kinds.vacancies.list[key].icon,
+                            'iconSize': iconSize,
                             'text': kinds.vacancies.list[key].text,
                             'href': '#'
                         })
