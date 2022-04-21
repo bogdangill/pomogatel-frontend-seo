@@ -1,0 +1,28 @@
+mixin best-workers(parent)
+    section.best-workers(class=parent+"__best-workers")
+        h2.title.best-workers__title.title--md!= bestWorkers.title
+        p.best-workers__text!= bestWorkers.text
+        ul.best-workers__list
+            each key in Object.keys(bestWorkers.list)
+                li
+                    +card({
+                        'mods': 'worker-preview',
+                        'photo': bestWorkers.list[key].img,
+                        'iconId': bestWorkers.list[key].iconId,
+                        'city': bestWorkers.list[key].city,
+                        'name': bestWorkers.list[key].name,
+                        'workerData': {
+                            '1': [
+                                bestWorkers.list[key].workerData[0][0],
+                                bestWorkers.list[key].workerData[0][1],
+                            ],
+                            '2': [
+                                bestWorkers.list[key].workerData[1][0],
+                                bestWorkers.list[key].workerData[1][1],
+                            ],
+                            '3': [
+                                bestWorkers.list[key].workerData[2][0],
+                                bestWorkers.list[key].workerData[2][1],
+                            ]
+                        }
+                    })
