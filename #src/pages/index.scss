@@ -22,12 +22,24 @@
     &__steps {
         margin-top: 8.33vw;
 
-        @media (max-width: $screen-md) {
-            margin-top: 15vw;
+        @include mediaMax($screen-md) {
+            margin-top: $space-y-mobile-index-section;
         }
     }
 
     &__best-workers {
-        margin-top: 6.94vw;
+        margin-top: $space-y-desktop-index-section;
+
+        @include mediaMax($screen-md) {
+            margin-top: $space-y-mobile-index-section;
+        }
+    }
+
+    &__reviews {
+        margin-top: $space-y-desktop-index-section;
+
+        @include mediaMax($screen-md) {
+            margin-top: $space-y-mobile-index-section;
+        }
     }
 }

@@ -1,0 +1,32 @@
+.reviews {
+    background-color: $primary-lightest;
+
+    padding-top: $space-y-desktop-index-section;
+    padding-bottom: $space-y-desktop-index-section;
+
+    @include mediaMax($screen-md) {
+        padding-top: $space-y-mobile-index-section;
+        padding-bottom: $space-y-mobile-index-section;
+    }
+
+    &__wrapper {
+        @include container(
+            $xs-grid-gutter:  32px,
+            $sm-grid-gutter:  32px,
+            $md-grid-gutter:  32px,
+            $lg-grid-gutter:  32px,
+            $xl-grid-gutter:  0,
+            $xxl-grid-gutter: 0
+        );
+    }
+
+    &__title {
+        text-align: center;
+
+        margin-bottom: $base-d * 32;
+
+        @include mediaMax($screen-md) {
+            margin-bottom: $base-m * 16;
+        }
+    }
+}
