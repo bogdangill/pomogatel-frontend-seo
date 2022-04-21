@@ -2,10 +2,16 @@ mixin steps(parent)
     -
         let modifier = '';
         let btnMods = 'primary';
+        let iconTextMods = '';
+        let iconSize = 'md';
 
         if (country === 'ru') modifier = 'default';
         if (country === 'vn' || country === 'tr') modifier = 'bright';
         if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
+        if (country === 'vn' || country === 'tr') {
+            iconTextMods = ' icon-text--no-halo'; //выключаю статичный белый ореол-нимб вокруг иконки
+            iconSize = 'lg';
+        }
 
     section.steps(class=parent+'__steps'+' steps--'+modifier)
         h2.title.steps__title.title--md!= steps.title
@@ -17,9 +23,9 @@ mixin steps(parent)
                     each key in Object.keys(steps.customers.list)
                         li
                             +icon-text({
-                                'mods': 'hint',
+                                'mods': 'hint'+iconTextMods,
                                 'iconId': steps.customers.list[key].icon,
-                                'iconSize': 'md',
+                                'iconSize': iconSize,
                                 'text': steps.customers.list[key].text
                             })
                 +btn({
@@ -33,9 +39,9 @@ mixin steps(parent)
                     each key in Object.keys(steps.workers.list)
                         li
                             +icon-text({
-                                'mods': 'hint',
+                                'mods': 'hint'+iconTextMods,
                                 'iconId': steps.workers.list[key].icon,
-                                'iconSize': 'md',
+                                'iconSize': iconSize,
                                 'text': steps.workers.list[key].text
                             })
                 +btn({

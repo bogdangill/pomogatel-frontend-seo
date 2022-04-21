@@ -24,7 +24,8 @@
         background-color: $primary-lightest;
     }
     &--bright {
-        background-color: #fff;
+        background-color: $primary-dark;
+        color: white;
     }
 
     &__title {
