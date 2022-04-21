@@ -1,5 +1,17 @@
 @import '../plugins/bootstrap-grid/mixins/_screen-reader.scss';
 
+@mixin mediaMin($screen) {
+  @media screen and (min-width: $screen) {
+    @content;
+  }
+}
+
+@mixin mediaMax($screen) {
+  @media screen and (max-width: $screen) {
+    @content;
+  }
+}
+
 @mixin textOverflow {
   text-overflow: ellipsis;
   white-space: nowrap;
