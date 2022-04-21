@@ -1,5 +1,4 @@
 import '../modules/accordion/accordion.js';
-import '../js/bgSwap.js';
 import '../modules/dropdown/dropdown.js';
 import '../modules/btn/btn.js';
 

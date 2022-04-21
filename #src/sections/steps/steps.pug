@@ -3,14 +3,12 @@ mixin steps(parent)
         let modifier = '';
         let btnMods = 'primary';
         let iconTextMods = '';
-        let iconSize = 'md';
 
         if (country === 'ru') modifier = 'default';
         if (country === 'vn' || country === 'tr') modifier = 'bright';
         if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
         if (country === 'vn' || country === 'tr') {
             iconTextMods = ' icon-text--no-halo'; //выключаю статичный белый ореол-нимб вокруг иконки
-            iconSize = 'lg';
         }
 
     section.steps(class=parent+'__steps'+' steps--'+modifier)
@@ -25,7 +23,7 @@ mixin steps(parent)
                             +icon-text({
                                 'mods': 'hint'+iconTextMods,
                                 'iconId': steps.customers.list[key].icon,
-                                'iconSize': iconSize,
+                                'iconSize': 'md',
                                 'text': steps.customers.list[key].text
                             })
                 +btn({
@@ -41,7 +39,7 @@ mixin steps(parent)
                             +icon-text({
                                 'mods': 'hint'+iconTextMods,
                                 'iconId': steps.workers.list[key].icon,
-                                'iconSize': iconSize,
+                                'iconSize': 'md',
                                 'text': steps.workers.list[key].text
                             })
                 +btn({
