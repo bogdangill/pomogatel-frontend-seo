@@ -4,7 +4,7 @@
     &--sm {
         @include sqr(2.75em);
 
-        svg {
+        svg,img {
             @include sqr(1.5em);
         }
 
@@ -16,23 +16,39 @@
     &--md {
         @include sqr(3.5em);
 
-        svg {
+        svg,img {
             @include sqr(2.25em);
         }
 
         @media (max-width: $screen-md) {
             @include sqr(2.857em);
 
-            svg {
+            svg,img {
                 @include sqr(1.7em);
             }
         }
     }
 
     &--lg {
+        @include sqr(4em);
+
+        svg,img {
+            @include sqr(2.5em);
+        }
+
+        @media (max-width: $screen-md) {
+            @include sqr(2.857em);
+
+            svg,img {
+                @include sqr(1.7em);
+            }
+        }
+    }
+
+    &--xl {
         @include sqr(6.5em);
 
-        svg {
+        svg,img {
             @include sqr(3em);
         }
     }

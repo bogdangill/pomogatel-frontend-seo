@@ -7,8 +7,7 @@
 .icon-text {
     &--kind {
         @media (min-width: $screen-lg) {
-            &::after {
-                content: '';
+            .icon-text__circle {
                 position: absolute;
                 @include sqr(2.75em);
                 background-color: #fff;
@@ -16,8 +15,12 @@
                 box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05), 0px 7px 55px rgba(0, 0, 0, 0.05);
                 transition: .2s ease-out;
             }
+
+            .icon-text__icon--lg~.icon-text__circle {
+                @include sqr(4em);
+            }
             
-            &:hover::after {
+            &:hover .icon-text__circle {
                 width: 100%;
             }
     

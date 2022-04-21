@@ -2,6 +2,10 @@
     font-family: $ff-secondary;
     font-weight: 700;
 
+    &--primary-dark {
+        color: $primary-dark;
+    }
+
     &--xs {
         font-family: $ff-primary;
         font-size: 1.125em;

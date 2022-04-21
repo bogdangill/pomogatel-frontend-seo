@@ -20,7 +20,7 @@ mixin icon-text(data)
             let modsList = data.mods.split(',');
 
             for (let i = 0; i < modsList.length; i++) {
-                allMods = allMods + 'icon-text--' + modsList[i].trim();
+                allMods = allMods + ' icon-text--' + modsList[i].trim();
             }
         }
 
@@ -30,10 +30,14 @@ mixin icon-text(data)
 
     .icon-text(class=allMods)
         .icon-text__icon(class=iconMod)
-            svg
-                use(xlink:href="img/icons/sprite.svg#"+data.iconId)
+            if (country === 'vn' || country === 'tr')
+                img(src="img/icons/sprite.svg#"+data.iconId, alt=data.text)
+            else
+                svg
+                    use(xlink:href="img/icons/sprite.svg#"+data.iconId)
         if (typeof(data.href) !== 'undefined' && data.href)
             a.icon-text__link(href=data.href)!=data.text
+            .icon-text__circle
         else
             span.icon-text__text!=data.text
                 
