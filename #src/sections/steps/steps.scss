@@ -8,16 +8,16 @@
         $xxl-grid-gutter: 0
     );
 
-    padding-top: 6.94vw;
-    padding-bottom: 6.94vw;
+    padding-top: $space-y-desktop-index-section;
+    padding-bottom: $space-y-desktop-index-section;
 
     @media (max-width: $screen-md) {
-        padding-top: 15vw;
-        padding-bottom: 15vw;
+        padding-top: $space-y-mobile-index-section;
+        padding-bottom: $space-y-mobile-index-section;
     }
 
     @media (min-width: $screen-lg) {
-        border-radius: 1.56em;
+        border-radius: 25px;
     }
 
     &--default {
@@ -31,16 +31,20 @@
     &__title {
         text-align: center;
 
-        margin-bottom: 2em;
+        margin-bottom: $base-d * 32;
 
         @media (max-width: $screen-md) {
-            margin-bottom: 1.6em;
+            margin-bottom: $base-m * 16;
         }
     }
 
     &__subtitle {
         margin-left: 4em;
         margin-bottom: .875em;
+
+        @include mediaMax($screen-md) {
+            margin-bottom: $base-m * 4;
+        }
     }
 
     &__row {
@@ -59,7 +63,7 @@
             @include col('xs', 12);
 
             &:first-of-type {
-                margin-bottom: 2.285em;
+                margin-bottom: $base-m * 16;
             }
         }
     }
@@ -70,19 +74,23 @@
 
         li {
             list-style: none;
-            margin-bottom: 1em;
+            margin-bottom: $base-d * 8;
 
             @media (max-width: $screen-md) {
-                margin-bottom: .57em;
+                margin-bottom: $base-m * 4;
 
                 &:last-of-type {
-                    margin-bottom: 1.125em;
+                    margin-bottom: $base-m * 8;
                 }
             }
         }
     }
 
     &__btn {
-        margin-left: 4.5em;
+        margin-left: $base-d * 36;
+
+        @include mediaMax($screen-md) {
+            margin-left: $base-m * 28;
+        }
     }
 }
