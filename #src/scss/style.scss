@@ -8,8 +8,8 @@
 */
 @import 'themes';
 @import 'variables';
-@import 'normalize';
 @import 'mixins';
+@import 'normalize';
 @import 'fonts';
 @import 'utils';
 @import 'grid-mixins';
@@ -60,6 +60,7 @@
 @import '../sections/kinds/kinds.scss';
 @import '../sections/steps/steps.scss';
 @import '../sections/best-workers/best-workers.scss';
+@import '../sections/reviews/reviews.scss';
 
 
 /*

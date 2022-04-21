@@ -8,12 +8,12 @@
 
     &--xs {
         font-family: $ff-primary;
-        font-size: 1.125em;
+        font-size: $base-d * 9;
         line-height: 1.4;
         font-weight: 500;
 
         @media (max-width: $screen-md) {
-            font-size: 1em;
+            font-size: $base-m * 7;
             line-height: 1.6;
         }
     }
@@ -26,25 +26,25 @@
     }
 
     &--md {
-        font-size: 2em;
+        font-size: $base-d * 16;
         line-height: 1.3;
 
         @media (max-width: $screen-md) {
-            font-size: 1.42em;
+            font-size: $base-m * 10;
             line-height: 1.4;
         }
     }
 
     &--lg {
-        font-size: 2.75em;
+        font-size: $base-d * 22;
         line-height: 1.3;
 
         @media (max-width: $screen-xl) {
-            font-size: 2em;
+            font-size: $base-m * 16;
         }
 
         @media (max-width: $screen-md) {
-            font-size: 1.42em;
+            font-size: $base-m * 10;
             line-height: 1.2;
         }
     }

@@ -23,6 +23,14 @@ $color-gray-dark: #777777;
 $ff-secondary: 'Open Sans', sans-serif;
 $ff-primary: 'Roboto', sans-serif;
 
+//базовая константа для размеров и отступов. опирается на корневой размер шрифта в html (в файле normalize)
+$base-d: 0.125rem; /* desktop: 2px (если в html font-size:~16px) */
+$base-m: 0.142rem; /* mobile: 2px (если в html font-size:~14px) */
+
+//отступы
+$space-y-desktop-index-section: 6.94vw;
+$space-y-mobile-index-section: 15vw;
+
 //defaults
 $color-text: #333;
 $time: .2s;
