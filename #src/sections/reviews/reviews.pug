@@ -7,16 +7,18 @@ mixin reviews(parent)
     .reviews(class=parent+'__reviews')
         section.reviews__wrapper
             h2.title.reviews__title.title--md!= reviews.title
-            ul.reviews__list
-                each item in reviews.list
-                    li
-                        +card({
-                            'mods': 'review',
-                            'name': item.name,
-                            'text': item.text,
-                            'time': item.date,
-                            'datetime': item.datetime
-                        })
+            .reviews__slides.swiper-container
+                ul.reviews__list.swiper-wrapper
+                    each item in reviews.list
+                        li.swiper-slide
+                            +card({
+                                'mods': 'review',
+                                'name': item.name,
+                                'text': item.text,
+                                'time': item.date,
+                                'datetime': item.datetime
+                            })
+                .reviews__pagination.swiper-pagination
             
             if (typeof(reviews.btnText) !== 'undefined' && reviews.btnText)
                 +btn({

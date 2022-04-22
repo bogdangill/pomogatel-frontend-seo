@@ -18,6 +18,8 @@
             $xl-grid-gutter:  0,
             $xxl-grid-gutter: 0
         );
+        text-align: center;
+        overflow-x: hidden;
     }
 
     &__title {
@@ -27,6 +29,41 @@
 
         @include mediaMax($screen-md) {
             margin-bottom: $base-m * 16;
+        }
+    }
+
+    &__slides {
+        position: relative;
+
+        margin-bottom: $base-d * 32;
+
+        // @include mediaMax($screen-md) {
+        //     margin-bottom: $base-m * 32;
+        // }
+    }
+
+    &__list {
+        text-align: left;
+
+        margin: 0;
+        padding: 0;
+
+        li {
+            list-style: none;
+        }
+    }
+
+    &__pagination {
+        bottom: -$base-m * 20 !important;
+
+        .swiper-pagination-bullet {
+            background-color: transparent;
+            opacity: 1;
+            border: 1px solid $primary;
+
+            &-active {
+                background-color: $primary;
+            }
         }
     }
 }
