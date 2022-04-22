@@ -4,17 +4,20 @@ block meta
     title Домашний персонал в Москве на Помогатель.ру: няни, домработницы, сиделки, репетиторы
 
 block body
-    body.index
+    - var bodyClass = 'index';
+
+    body(class=bodyClass)
         .wrapper
             block header
                 +header()
             block content
                 main
-                    +promo('index')
-                    +kinds('index')
-                    +steps('index')
-                    +best-workers('index')
-                    +reviews('index')
+                    +promo()
+                    +kinds()
+                    +steps()
+                    +best-workers()
+                    +reviews()
+                    +faq()
                     .ui-kit-fab
                         //- +card({
                         //-     'mods': 'worker-preview',
