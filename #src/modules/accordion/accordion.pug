@@ -7,6 +7,7 @@ mixin accordion(data)
     //- Вызов:
         +accordion({
             'mods': '...someMods',
+            'titleLevel': 'уровень заголовка для аккордеона(от 2 до 5)'
             'title': 'заголовок аккордеона',
             'text': 'текст'
             ...
@@ -29,19 +30,22 @@ mixin accordion(data)
             use(xlink:href="img/icons/sprite.svg#chevron-bottom")
 
     article.accordion(class=allMods)
-        if (data.headinglvl === '2')
+        if (data.titleLevel === 2)
             h2.accordion__header
                 +headerContent()
-        if (data.headinglvl === '3')
+        if (data.titleLevel === 3)
             h3.accordion__header
                 +headerContent()
-        if (data.headinglvl === '4')
+        if (data.titleLevel === 4)
             h4.accordion__header
                 +headerContent()
-        if (data.headinglvl === '5')
+        if (data.titleLevel === 5)
             h5.accordion__header
                 +headerContent()
         .accordion__body(id=data.id)
-            p.accordion__text!=data.text
+            if (typeof(data.text) !== 'undefined' && data.text)
+                p.accordion__text!=data.text
+            else
+                block
 
 

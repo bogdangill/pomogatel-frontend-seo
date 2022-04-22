@@ -13,32 +13,18 @@
             transform: translateY(-50%) rotate(0deg);
         }
         .accordion__body {
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-        }
-        .accordion__text {
-            opacity: 0;
+            height: 0;
         }
     }
 
     &--visible {
         background-color: $primary-lightest;
-
+        
+        .accordion__trigger {
+            color: $primary;
+        }
         .accordion__icon {
             transform: translateY(-50%) rotate(180deg);
-        }
-        .accordion__body {
-            width: auto;
-            height: auto;
-            padding-bottom: 1.5em;
-            margin: 0;
-            overflow: auto;
-        }
-        .accordion__text {
-            opacity: 1;
         }
     }
 
@@ -56,6 +42,7 @@
         cursor: inherit;
         font-size: inherit;
         line-height: inherit;
+        text-align: left;
         border: 0;
         transition: color .1s ease-out;
 
@@ -72,11 +59,12 @@
     }
 
     &__body {
+        overflow: hidden;
         transition: .3s ease-out;
     }
 
     &__text {
-        transition: opacity .5s ease-out;
         margin-bottom: 0;
+        padding-bottom: $base-d * 12;
     }
 }
