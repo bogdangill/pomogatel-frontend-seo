@@ -1,4 +1,4 @@
-mixin steps(parent)
+mixin steps()
     -
         let modifier = '';
         let btnMods = 'primary';
@@ -11,7 +11,7 @@ mixin steps(parent)
             iconTextMods = ' icon-text--no-halo'; //выключаю статичный белый ореол-нимб вокруг иконки
         }
 
-    section.steps(class=parent+'__steps'+' steps--'+modifier)
+    section.steps(class=bodyClass+'__steps'+' steps--'+modifier)
         h2.title.steps__title.title--md!= steps.title
 
         .steps__row

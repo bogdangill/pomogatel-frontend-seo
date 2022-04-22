@@ -1,4 +1,4 @@
-mixin kinds(parent)
+mixin kinds()
     -
         let listMod = '';
         let iconSize = 'sm';
@@ -6,7 +6,7 @@ mixin kinds(parent)
         if (country === 'vn' || country === 'tr') listMod = 'kinds__list--wide';
         if (country === 'vn' || country === 'tr') iconSize = 'lg';
 
-    .kinds(class=parent+'__kinds')
+    .kinds(class=bodyClass+'__kinds')
         each kind in kinds
             .kinds__col
                 p.kinds__title!= kind.title

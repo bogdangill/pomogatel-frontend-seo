@@ -1,4 +1,4 @@
-mixin promo(parent)
+mixin promo()
     //-
         такая неуклюжая разметка с обертками - костыль для дебага риппл-эффекта кнопки.
         если бы кнопка была дочерним узлом promo, у которого было бы относительное позиционирование
@@ -13,7 +13,7 @@ mixin promo(parent)
         if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
         if (country === 'vn' || country === 'tr') titleMod = 'title--primary-dark';
 
-    section.promo(class=modifier + parent + '__promo')
+    section.promo(class=modifier + bodyClass + '__promo')
         .promo__inner
             h1.title.promo__title.title--lg(class=titleMod)!=promo.title
             p.promo__text!=promo.text

@@ -1,10 +1,10 @@
-mixin reviews(parent)
+mixin reviews()
     -
         let btnTheme = 'outline';
 
         if (country === 'vn' || country === 'tr') btnTheme = 'secondary';
 
-    .reviews(class=parent+'__reviews')
+    .reviews(class=bodyClass+'__reviews')
         section.reviews__wrapper
             h2.title.reviews__title.title--md!= reviews.title
             .reviews__slides.swiper-container
