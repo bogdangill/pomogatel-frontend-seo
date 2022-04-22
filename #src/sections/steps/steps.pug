@@ -15,11 +15,11 @@ mixin steps(parent)
         h2.title.steps__title.title--md!= steps.title
 
         .steps__row
-            each user in steps.users
+            each role in steps.roles
                 section.steps__col
-                    h3.title.steps__subtitle.title--xs!= user.title
+                    h3.title.steps__subtitle.title--xs!= role.title
                     ul.steps__list
-                        each item in user.list
+                        each item in role.list
                             li
                                 +icon-text({
                                     'mods': 'hint'+iconTextMods,
@@ -28,6 +28,6 @@ mixin steps(parent)
                                     'text': item.text
                                 })
                     +btn({
-                        'text': user.btnText,
+                        'text': role.btnText,
                         'mods': 'ripple, md, '+btnMods
                     })(class="steps__btn")
