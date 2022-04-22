@@ -3,26 +3,26 @@ mixin best-workers(parent)
         h2.title.best-workers__title.title--md!= bestWorkers.title
         p.best-workers__text!= bestWorkers.text
         ul.best-workers__list
-            each key in Object.keys(bestWorkers.list)
+            each worker in bestWorkers.list
                 li
                     +card({
                         'mods': 'worker-preview',
-                        'photo': bestWorkers.list[key].img,
-                        'iconId': bestWorkers.list[key].iconId,
-                        'city': bestWorkers.list[key].city,
-                        'name': bestWorkers.list[key].name,
+                        'photo': worker.img,
+                        'iconId': worker.iconId,
+                        'city': worker.city,
+                        'name': worker.name,
                         'workerData': {
                             '1': [
-                                bestWorkers.list[key].workerData[0][0],
-                                bestWorkers.list[key].workerData[0][1],
+                                worker.workerData[0][0],
+                                worker.workerData[0][1],
                             ],
                             '2': [
-                                bestWorkers.list[key].workerData[1][0],
-                                bestWorkers.list[key].workerData[1][1],
+                                worker.workerData[1][0],
+                                worker.workerData[1][1],
                             ],
                             '3': [
-                                bestWorkers.list[key].workerData[2][0],
-                                bestWorkers.list[key].workerData[2][1],
+                                worker.workerData[2][0],
+                                worker.workerData[2][1],
                             ]
                         }
                     })

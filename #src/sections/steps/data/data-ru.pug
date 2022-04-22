@@ -2,45 +2,47 @@
     const steps = {
         title: '3 простых шага для поиска',
 
-        customers: {
-            title: 'Семьям:',
+        users: {
+            customers: {
+                title: 'Семьям:',
 
-            list: {
-                item1: {
-                    icon: 'mono--document-add',
-                    text: 'Разместите бесплатное объявление'
-                },
-                item2: {
-                    icon: 'mono--chat',
-                    text: 'Изучите отклики кандидатов'
-                },
-                item3: {
-                    icon: 'mono--user',
-                    text: 'Свяжитесь с лучшими работниками'
-                }
+                list: [
+                    {
+                        icon: 'mono--document-add',
+                        text: 'Разместите бесплатное объявление'
+                    },
+                    {
+                        icon: 'mono--chat',
+                        text: 'Изучите отклики кандидатов'
+                    },
+                    {
+                        icon: 'mono--user',
+                        text: 'Свяжитесь с лучшими работниками'
+                    }
+                ],
+
+                btnText: 'Найти помощника'
             },
 
-            btnText: 'Найти помощника'
-        },
+            workers: {
+                title: 'Соискателям:',
 
-        workers: {
-            title: 'Соискателям:',
+                list: [
+                    {
+                        icon: 'mono--document',
+                        text: 'Заполните анкету и загрузите фото'
+                    },
+                    {
+                        icon: 'mono--document-check',
+                        text: 'Откликайтесь на интересные объявления'
+                    },
+                    {
+                        icon: 'mono--phone-call',
+                        text: 'Отвечайте на чаты и на звонки'
+                    }
+                ],
 
-            list: {
-                item1: {
-                    icon: 'mono--document',
-                    text: 'Заполните анкету и загрузите фото'
-                },
-                item2: {
-                    icon: 'mono--document-check',
-                    text: 'Откликайтесь на интересные объявления'
-                },
-                item3: {
-                    icon: 'mono--phone-call',
-                    text: 'Отвечайте на чаты и на звонки'
-                }
-            },
-
-            btnText: 'Найти работу'
+                btnText: 'Найти работу'
+            }
         }
     }
