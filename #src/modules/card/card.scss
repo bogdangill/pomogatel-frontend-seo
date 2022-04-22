@@ -21,20 +21,28 @@
 
     &--review {
         position: relative;
-        min-height: 21.5em;
+        min-height: $base-d * 172;
         border-radius: 10px;
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.03), 0px 7px 25px rgba(0, 0, 0, 0.05);
 
-        padding: 2.25em;
+        padding: $base-d * 18;
+
+        @include mediaMax($screen-lg) {
+            padding: $base-m * 12;
+        }
 
         .card__name {
             display: block;
             line-height: 1.56;
 
-            margin-bottom: .5em;
+            margin-bottom: $base-d * 4;
+
+            @include mediaMax($screen-lg) {
+                margin-bottom: $base-m * 2;
+            }
         }
         .card__rating {
-            margin-bottom: 1.5em;
+            margin-bottom: $base-d * 12;
         }
     }
 
@@ -109,10 +117,15 @@
     }
     &__date {
         position: absolute;
-        left: 2.25em;
-        bottom: 2.25em;
+        left: $base-d * 18;
+        bottom: $base-d * 18;
         font-size: .875em;
         color: $primary;
+
+        @include mediaMax($screen-lg) {
+            left: $base-m * 12;
+            bottom: $base-m * 12;
+        }
     }
 }
 
