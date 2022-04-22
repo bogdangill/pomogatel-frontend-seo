@@ -1,0 +1,20 @@
+mixin faq()
+    section.faq(class=bodyClass+'__faq')
+        h2.title.faq__title.title--md!= faq.title
+
+        .faq__row
+            each role in faq.roles
+                .faq__col
+                    h3.title.faq__subtitle.title--xs!= role.title
+                    ul.faq__list
+                        each item in role.list
+                            li
+                                +accordion({
+                                    'titleLevel': 4,
+                                    'title': item.title,
+                                    'text': item.text
+                                })
+                    +btn({
+                        'mods': 'link, link--primary',
+                        'text': role.linkText
+                    })(class="faq__link" href=role.linkHref)
