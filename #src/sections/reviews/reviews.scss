@@ -67,3 +67,19 @@
         }
     }
 }
+
+[data-theme="bright"] .reviews {
+    background-color: $primary-dark;
+
+    &__title {
+        color: white;
+    }
+
+    .swiper-pagination-bullet {
+        border-color: $secondary;
+
+        &-active {
+            background-color: $secondary;
+        }
+    }
+}
