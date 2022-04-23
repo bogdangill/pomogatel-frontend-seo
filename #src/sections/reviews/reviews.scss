@@ -11,10 +11,6 @@
 
     &__wrapper {
         @include container(
-            $xs-grid-gutter:  32px,
-            $sm-grid-gutter:  32px,
-            $md-grid-gutter:  32px,
-            $lg-grid-gutter:  32px,
             $xl-grid-gutter:  0,
             $xxl-grid-gutter: 0
         );
