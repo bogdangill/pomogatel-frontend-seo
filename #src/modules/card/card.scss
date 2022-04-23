@@ -7,13 +7,13 @@
         grid-template-columns: 1fr minmax(12em, 19.875em);
         align-items: center;
         gap: 2.25em;
-        border-radius: 20px;
+        border-radius: $brad-md;
 
         padding: 1.5em 2em;
 
         @media (max-width: $screen-lg) {
             gap: 1.14em;
-            border-radius: 10px;
+            border-radius: $brad-sm;
 
             padding: .857em 1.14em;
         }
@@ -22,7 +22,7 @@
     &--review {
         position: relative;
         min-height: $base-d * 172;
-        border-radius: 10px;
+        border-radius: $brad-sm;
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.03), 0px 7px 25px rgba(0, 0, 0, 0.05);
 
         padding: $base-d * 18;

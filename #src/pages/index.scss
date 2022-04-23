@@ -27,15 +27,9 @@
         }
     }
 
-    &__best-workers {
-        margin-top: $space-y-desktop-index-section;
-
-        @include mediaMax($screen-md) {
-            margin-top: $space-y-mobile-index-section;
-        }
-    }
-
-    &__reviews {
+    &__best-workers,
+    &__reviews,
+    &__verification {
         margin-top: $space-y-desktop-index-section;
 
         @include mediaMax($screen-md) {

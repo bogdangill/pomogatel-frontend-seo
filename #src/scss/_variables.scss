@@ -31,8 +31,13 @@ $base-m: 0.142rem; /* mobile: 2px (если в html font-size:~14px) */
 $space-y-desktop-index-section: 6.94vw;
 $space-y-mobile-index-section: 15vw;
 
+//border-radius
+$brad-xs: 4px;
+$brad-sm: 10px;
+$brad-md: 20px;
+$brad-lg: 25px;
+$brad-xl: 50px;
+
 //defaults
 $color-text: #333;
-$time: .2s;
-$border-radius: 3px;
 $letter-spacing: .15px;
