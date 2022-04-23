@@ -1,7 +1,7 @@
-const swipers = document.querySelectorAll('.swiper-container')
+const swipers = document.querySelectorAll('[data-slider]');
 
 if (swipers.length) {
-    const swiper = new Swiper('.swiper-container', {
+    const sliderReviews = new Swiper('[data-slider="reviews"]', {
         spaceBetween: 32,
         slidesPerView: 'auto',
         initialSlide: 1,
@@ -24,5 +24,5 @@ if (swipers.length) {
         }
     });
 
-    swiper.init();
+    sliderReviews.init();
 }

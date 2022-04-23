@@ -7,7 +7,7 @@ mixin reviews()
     .reviews(class=bodyClass+'__reviews')
         section.reviews__wrapper
             h2.title.reviews__title.title--md!= reviews.title
-            .reviews__slides.swiper-container
+            .reviews__slides(data-slider="reviews")
                 ul.reviews__list.swiper-wrapper
                     each item in reviews.list
                         li.swiper-slide
