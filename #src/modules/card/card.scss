@@ -65,7 +65,7 @@
         right: 0;
         display: grid;
         place-items: center;
-        color: $primary;
+        color: $color-primary;
         background-color: #fff;
         @include sqr(2.5em);
         border-radius: 50%;
@@ -107,7 +107,7 @@
     &__rating {
         display: flex;
         align-items: center;
-        color: $primary;
+        color: $color-primary;
 
         margin-bottom: .5em;
 
@@ -120,7 +120,7 @@
         left: $base-d * 18;
         bottom: $base-d * 18;
         font-size: .875em;
-        color: $primary;
+        color: $color-primary;
 
         @include mediaMax($screen-lg) {
             left: $base-m * 12;

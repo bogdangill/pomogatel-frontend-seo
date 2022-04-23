@@ -35,12 +35,12 @@
             left: 0;
             width: 0;
             height: 1px;
-            background-color: $primary;
+            background-color: $color-primary;
             transition: .25s ease-out;
         }
 
         &:hover {
-            color: $primary;
+            color: $color-primary;
 
             &::after {
                 width: 100%;
@@ -50,7 +50,7 @@
 
     &__icon {
         cursor: auto;
-        color: $primary;
+        color: $color-primary;
         @include sqr(24px);
         margin-left: 2px;
 
@@ -103,12 +103,12 @@
             padding: .5em;
 
             &:hover {
-                background-color: $primary-lighter;
+                background-color: $color-primary-lighter;
             }
             &:focus {
                 color: white;
                 outline: none;
-                background-color: $primary;
+                background-color: $color-primary;
             }
         }
     }

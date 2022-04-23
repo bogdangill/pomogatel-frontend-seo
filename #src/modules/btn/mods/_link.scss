@@ -4,14 +4,14 @@
         letter-spacing: normal;
 
         &--primary {
-            color: $primary;
+            color: $color-primary;
         }
 
         &--feedback {
             @media (max-width: $screen-md) {
                 .btn__icon {
                     display: block;
-                    color: $primary;
+                    color: $color-primary;
                 }
 
                 .btn__text {
@@ -34,7 +34,7 @@
                 left: 0;
                 width: 0;
                 height: 1px;
-                background-color: $primary;
+                background-color: $color-primary;
                 transition: .25s ease-out;
             }
         }

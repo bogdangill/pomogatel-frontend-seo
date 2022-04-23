@@ -1,5 +1,5 @@
 .reviews {
-    background-color: $primary-lightest;
+    background-color: $color-primary-lightest;
 
     padding-top: $space-y-desktop-index-section;
     padding-bottom: $space-y-desktop-index-section;
@@ -55,17 +55,17 @@
         .swiper-pagination-bullet {
             background-color: transparent;
             opacity: 1;
-            border: 1px solid $primary;
+            border: 1px solid $color-primary;
 
             &-active {
-                background-color: $primary;
+                background-color: $color-primary;
             }
         }
     }
 }
 
 [data-theme="bright"] .reviews {
-    background-color: $primary-dark;
+    background-color: $color-primary-dark;
 
     &__title {
         color: white;

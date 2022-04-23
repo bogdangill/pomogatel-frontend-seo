@@ -11,7 +11,7 @@
     &__icon {
         width: 39px;
         height: 24px;
-        color: $primary;
+        color: $color-primary;
 
         margin-right: .33em;
     }
@@ -34,7 +34,7 @@
         }
 
         &:hover {
-            color: $primary;
+            color: $color-primary;
         }
     }
 }
