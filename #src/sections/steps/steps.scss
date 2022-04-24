@@ -7,7 +7,7 @@
     padding-top: $space-y-desktop-index-section;
     padding-bottom: $space-y-desktop-index-section;
 
-    @media (max-width: $screen-md) {
+    @media (max-width: $screen-sm) {
         padding-top: $space-y-mobile-index-section;
         padding-bottom: $space-y-mobile-index-section;
     }

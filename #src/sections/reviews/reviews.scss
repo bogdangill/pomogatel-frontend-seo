@@ -4,7 +4,7 @@
     padding-top: $space-y-desktop-index-section;
     padding-bottom: $space-y-desktop-index-section;
 
-    @include mediaMax($screen-md) {
+    @include mediaMax($screen-sm) {
         padding-top: $space-y-mobile-index-section;
         padding-bottom: $space-y-mobile-index-section;
     }

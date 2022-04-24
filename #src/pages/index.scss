@@ -22,7 +22,7 @@
     &__steps {
         margin-top: 8.33vw;
 
-        @include mediaMax($screen-md) {
+        @include mediaMax($screen-sm) {
             margin-top: $space-y-mobile-index-section;
         }
     }
@@ -32,7 +32,7 @@
     &__verification {
         margin-top: $space-y-desktop-index-section;
 
-        @include mediaMax($screen-md) {
+        @include mediaMax($screen-sm) {
             margin-top: $space-y-mobile-index-section;
         }
     }

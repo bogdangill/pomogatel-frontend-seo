@@ -3,7 +3,12 @@
         $xl-grid-gutter:  0,
         $xxl-grid-gutter: 0
     );
-    padding-top: $space-y-desktop-index-section;
+
+    padding-top: $space-y-mobile-index-section;
+
+    @include mediaMin($screen-sm) {
+        padding-top: $space-y-desktop-index-section;
+    }
 
     &__title {
         text-align: center;
