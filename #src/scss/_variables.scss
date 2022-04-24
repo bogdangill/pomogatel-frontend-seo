@@ -1,4 +1,11 @@
-//breakpoints
+/*
+ 
+ ___  ____ ____ ____ _  _ ___  ____ _ _  _ ___ ____ 
+ |__] |__/ |___ |__| |_/  |__] |  | | |\ |  |  [__  
+ |__] |  \ |___ |  | | \_ |    |__| | | \|  |  ___] 
+                                                    
+ 
+*/
 $screen-sm:                   575px;
 $screen-md:                   767px;
 $screen-lg:                   991px;
@@ -8,6 +15,14 @@ $screen-xxl:                  1499px;
 $grid-columns:                12;
 $grid-gutter-width:           30px;
 
+/*
+ 
+ ____ ____ _    ____ ____ ____ 
+ |    |  | |    |  | |__/ [__  
+ |___ |__| |___ |__| |  \ ___] 
+                               
+ 
+*/
 $color-primary-dark: var(--primary-dark);
 $color-primary: var(--primary);
 $color-primary-light: var(--primary-light);
@@ -20,6 +35,14 @@ $color-gray-light: #E9E9E9;
 $color-gray: #999999;
 $color-gray-dark: #777777;
 
+/*
+ 
+ ____ ____ _  _ ___ ____ 
+ |___ |  | |\ |  |  [__  
+ |    |__| | \|  |  ___] 
+                         
+ 
+*/
 $ff-secondary: 'Open Sans', sans-serif;
 $ff-primary: 'Roboto', sans-serif;
 
@@ -27,17 +50,38 @@ $ff-primary: 'Roboto', sans-serif;
 $base-d: 0.125rem; /* desktop: 2px (если в html font-size:~16px) */
 $base-m: 0.142rem; /* mobile: 2px (если в html font-size:~14px) */
 
-//отступы
+/*
+ 
+ ____ ___  ____ ____ ____ ____ 
+ [__  |__] |__| |    |___ [__  
+ ___] |    |  | |___ |___ ___] 
+                               
+ 
+*/
 $space-y-desktop-index-section: 6.94vw;
 $space-y-mobile-index-section: 15vw;
 
-//border-radius
+/*
+ 
+ ___  ____ ____ ___  ____ ____    ____ ____ ___  _ _  _ ____ 
+ |__] |  | |__/ |  \ |___ |__/ __ |__/ |__| |  \ | |  | [__  
+ |__] |__| |  \ |__/ |___ |  \    |  \ |  | |__/ | |__| ___] 
+                                                             
+ 
+*/
 $brad-xs: 4px;
 $brad-sm: 10px;
 $brad-md: 20px;
 $brad-lg: 25px;
 $brad-xl: 50px;
 
-//defaults
+/*
+ 
+ ___  ____ ____ ____ _  _ _    ___ ____ 
+ |  \ |___ |___ |__| |  | |     |  [__  
+ |__/ |___ |    |  | |__| |___  |  ___] 
+                                        
+ 
+*/
 $color-text: #333;
 $letter-spacing: .15px;

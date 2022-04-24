@@ -8,7 +8,7 @@
             @include sqr(1.5em);
         }
 
-        @media (max-width: $screen-md) {
+        @include mediaMax($screen-md) {
             @include sqr(auto);
         }
     }
@@ -20,7 +20,7 @@
             @include sqr(2.25em);
         }
 
-        @media (max-width: $screen-md) {
+        @include mediaMax($screen-md) {
             @include sqr(2.857em);
 
             svg,img {
@@ -36,7 +36,7 @@
             @include sqr(2.5em);
         }
 
-        @media (max-width: $screen-md) {
+        @include mediaMax($screen-md) {
             @include sqr(2.857em);
 
             svg,img {
@@ -50,6 +50,14 @@
 
         svg,img {
             @include sqr(3em);
+        }
+
+        @include mediaMax($screen-md) {
+            @include sqr(2.857em);
+
+            svg,img {
+                @include sqr(1.7em);
+            }
         }
     }
 }

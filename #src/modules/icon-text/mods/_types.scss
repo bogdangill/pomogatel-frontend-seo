@@ -50,9 +50,25 @@
         .icon-text__text {
             text-align: center;
             font-size: 1em;
-            max-width: min-content;
 
-            margin-top: 1.5em;
+            @include mediaMax($screen-md) {
+                margin-left: $base-m * 8;
+            }
+
+            @include mediaMin($screen-md) {
+                max-width: min-content;
+
+                margin-top: 1.5em;
+            }
+        }
+
+        @include mediaMax($screen-md) {
+            flex-direction: row;
+            align-items: center;
         }
     }
+}
+
+[data-theme="bright"] .icon-text--check .icon-text__text {
+    max-width: unset;
 }
