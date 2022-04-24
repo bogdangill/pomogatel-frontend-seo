@@ -39,9 +39,6 @@
         flex-wrap: wrap;
         justify-content: space-around;
 
-        margin: 0;
-        padding: 0;
-
         @include mediaMin($screen-md) {
             justify-content: center;
 
@@ -50,7 +47,6 @@
         }
 
         li {
-            list-style-type: none;
             flex-basis: 100%;
 
             margin-bottom: $base-m * 4;
