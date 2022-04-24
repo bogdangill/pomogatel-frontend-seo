@@ -37,6 +37,13 @@
   @return calc( #{$k} * 100vw + #{$b} );
 }
 
+//функция для расчета отзывчивых размеров (отступы, ширины/высоты etc.) относительно ширины вьюпорта
+//1 аргумент - нужный размер в px с конкретного экрана(e.g. десктопный экран в макете)
+//2 аргумент - ширина конкретного экрана в px
+@function calcResponsiveSpace($space-px, $screen-width) {
+  @return 100vw / ($screen-width / $space-px);
+}
+
 @mixin font($font_name, $file_name, $weight, $style) {
 
   @font-face {
