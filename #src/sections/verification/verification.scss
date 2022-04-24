@@ -1,0 +1,75 @@
+.verification {
+    @include container(
+        $xl-grid-gutter:  0,
+        $xxl-grid-gutter: 0
+    );
+    background-color: $color-primary-lightest;
+
+    @include mediaMax($screen-sm) {
+        padding-top: $space-y-mobile-index-section;
+        padding-bottom: $space-y-mobile-index-section;
+    }
+
+    @include mediaMax($screen-lg) {
+        padding-top: $space-y-desktop-index-section;
+        padding-bottom: $space-y-desktop-index-section;
+    }
+
+    @include mediaMin($screen-lg) {
+        border-radius: $brad-lg;
+
+        padding-top: calcResponsiveSpace(80, 1440);
+        padding-bottom: calcResponsiveSpace(80, 1440);
+    }
+
+    &__title,
+    &__text {
+        text-align: center;
+        
+        padding: 0 $base-m * 8;
+        margin-bottom: $base-m * 18;
+
+        @include mediaMin($screen-md) {
+            margin-bottom: $base-d * 24;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        margin: 0;
+        padding: 0;
+
+        @include mediaMin($screen-md) {
+            justify-content: center;
+
+            margin-top: -$base-d * 8;
+            margin-bottom: -$base-d * 8;
+        }
+
+        li {
+            list-style-type: none;
+            flex-basis: 100%;
+
+            margin-bottom: $base-m * 4;
+
+            @include mediaMin($screen-sm) {
+                flex-basis: 45%;
+
+                margin: $base-m * 8;
+            }
+
+            @include mediaMin($screen-md) {
+                flex-basis: $base-d * 80;
+                flex-shrink: 0;
+            }
+        }
+    }
+}
+
+[data-theme="bright"] .verification {
+    color: white;
+    background-color: $color-primary-dark;
+}

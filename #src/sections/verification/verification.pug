@@ -1,0 +1,13 @@
+mixin verification()
+    section.verification(class=bodyClass+'__verification')
+        h2.title.verification__title.title--md!= verification.title
+        p.verification__text!= verification.text
+        ul.verification__list
+            each item in verification.list
+                li
+                    +icon-text({
+                        'mods': 'check',
+                        'iconId': item.iconId,
+                        'iconSize': 'xl',
+                        'text': item.text
+                    })
