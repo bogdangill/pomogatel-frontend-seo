@@ -1,0 +1,105 @@
+.promo-app {
+    @include container(
+        $xl-grid-gutter:  0,
+        $xxl-grid-gutter: 0
+    );
+    display: grid;
+
+    @include mediaMax($screen-sm) {
+        text-align: center;
+    }
+
+    @include mediaMin($screen-sm) {
+        grid-template-columns: 1fr 1fr;
+        gap: $base-d * 36;
+    }
+
+    &__col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        @include mediaMax($screen-sm) {
+            align-items: center;
+        }
+
+        &--img {
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: $base-d * 70;
+                left: -$base-d * 10;
+                width: 107.33%;
+                height: calcResponsiveSpace(303, 1440);
+                background-color: $color-text;
+                border-top-left-radius: 50%;
+                border-top-right-radius: 50%;
+                opacity: .25;
+                filter: blur($base-d * 37);
+                z-index: -1;
+
+                @include mediaMax($screen-sm) {
+                    top: $base-m * 63;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: calcResponsiveSpace(270, 320);
+                    height: calcResponsiveSpace(125, 320);
+                    filter: blur($base-m * 45);
+                }
+            }
+
+            picture {
+                &:first-of-type {
+                    @include mediaMax($screen-sm) {
+                        display: none;
+                    }
+                }
+                &:last-of-type {
+                    @include mediaMin($screen-sm) {
+                        display: none;
+                    }
+                }
+            }
+
+            img {
+                margin-top: $base-d * 40;
+
+                @include mediaMax($screen-sm) {
+                    margin-top: $base-m * 16;
+                }
+            }
+        }
+    }
+
+    &__title {
+        margin-bottom: $base-d * 6;
+
+        @include mediaMax($screen-sm) {
+            margin-bottom: $base-m * 8;
+        }
+    }
+
+    &__text {
+        font-size: $base-d * 10;
+        line-height: 1.4;
+
+        margin-bottom: 0;
+
+        @include mediaMax($screen-sm) {
+            margin-bottom: $base-m * 8;
+        }
+    }
+
+    &__links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-width: $base-m * 125;
+        gap: $base-m * 8;
+
+        @include mediaMin($screen-sm) {
+            display: none;
+        }
+    }
+}

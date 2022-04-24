@@ -36,4 +36,10 @@
             margin-top: $space-y-mobile-index-section;
         }
     }
+
+    &__promo-app {
+        @include mediaMax($screen-sm) {
+            margin-top: $space-y-mobile-index-section;
+        }
+    }
 }

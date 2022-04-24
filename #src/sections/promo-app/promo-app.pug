@@ -1,0 +1,19 @@
+mixin promo-app()
+    .promo-app(class=bodyClass+'__promo-app')
+        section.promo-app__col
+            h2.title.promo-app__title.title--md!= promoApp.title
+            p.promo-app__text!= promoApp.text
+            ul.promo-app__links
+                a.promo-app__link(href=promoApp.downloadButtons.googlePlay.href)
+                    img(src=promoApp.downloadButtons.googlePlay.img, 
+                        alt=promoApp.downloadButtons.googlePlay.alt)
+                a.promo-app__link(href=promoApp.downloadButtons.appStore.href)
+                    img(src=promoApp.downloadButtons.appStore.img,
+                        alt=promoApp.downloadButtons.appStore.alt)
+        .promo-app__col.promo-app__col--img
+            picture
+                source(srcset=promoApp.img+'.webp 1x, '+promoApp.img+'@2x.webp 2x' type="image/webp")
+                img(src=promoApp.img+'.png' srcset=promoApp.img+'@2x.png 2x' alt=promoApp.imgAlt)
+            picture
+                source(srcset=promoApp.imgMobile+'.webp 1x, '+promoApp.imgMobile+'@2x.webp 2x' type="image/webp")
+                img(src=promoApp.img+'.png' srcset=promoApp.img+'@2x.png 2x' alt=promoApp.imgAlt)
