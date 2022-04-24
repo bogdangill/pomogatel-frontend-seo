@@ -65,11 +65,7 @@
     }
 
     &__list {
-        margin: 0;
-        padding: 0;
-
         li {
-            list-style: none;
             margin-bottom: $base-d * 8;
 
             @media (max-width: $screen-md) {
