@@ -8,6 +8,42 @@
         position: static;
     }
 
+    &--header {
+        .logo__text {
+            position: static;
+            font-size: $base-d * 12;
+            line-height: 1.33;
+            font-weight: 500;
+            color: $color-text;
+
+            &:hover {
+                color: $color-primary;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+        }
+    }
+
+    &--footer {
+        .logo__text {
+            font-family: $ff-secondary;
+            font-size: $base-d * 14;
+            line-height: 1.2;
+            font-weight: 700;
+
+            &:hover {
+                color: $color-primary-light;
+            }
+        }
+    }
+
     &__icon {
         width: 39px;
         height: 24px;
@@ -17,24 +53,6 @@
     }
 
     &__text {
-        position: static;
-        font-size: 1.5em;
-        line-height: 1.33;
-        font-weight: 500;
-        color: $color-text;
         transition: color .2s ease-out;
-
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
-        &:hover {
-            color: $color-primary;
-        }
     }
 }

@@ -19,11 +19,11 @@ mixin logo(data)
             let modsList = data.mods.split(',');
 
             for (let i = 0; i < modsList.length; i++) {
-                allMods = allMods + 'icon-text--' + modsList[i].trim();
+                allMods = allMods + 'logo--' + modsList[i].trim();
             }
         }
 
-    .logo(class=data.mods)&attributes(attributes)
+    .logo(class=allMods)&attributes(attributes)
         if (typeof(data.iconId !== 'undefined') && data.iconId)
             svg.logo__icon
                 use(xlink:href="img/icons/sprite.svg#" + data.iconId)
