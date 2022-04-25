@@ -1,0 +1,39 @@
+mixin footer()
+    -
+        let btnMods = 'primary';
+        if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
+
+    footer.footer
+        .footer__wrapper
+            .footer__top
+                .footer__col
+                    +logo({
+                        'mods': 'footer',
+                        'text': footer.logoText,
+                    })
+                    if (typeof(footer.phoneNumber) !== 'undefined' && footer.phoneNumber)
+                        +btn({
+                            'text': footer.phoneNumber,
+                            'mods': 'link, link--color-inherit'
+                        })(href=footer.phoneHref)
+                .footer__menu
+                    each item in footer.menu
+                        ul.footer__col
+                            each link in item
+                                li.footer__link
+                                    +btn({
+                                        'text': link.text,
+                                        'mods': 'link, link--color-inherit'
+                                    })(href=link.href)
+                    ul.footer__col
+                        li.footer__text!= footer.support.text
+                        li.footer__link
+                            +btn({
+                                'text': footer.support.btnText,
+                                'mods': 'ripple, sm, '+btnMods
+                            })(class="steps__btn")
+            if (typeof(footer.disclaimer) !== 'undefined' && footer.disclaimer)                
+                small.footer__disclaimer!= footer.disclaimer
+            .footer__bottom
+                
+
