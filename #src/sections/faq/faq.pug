@@ -6,9 +6,9 @@ mixin faq()
             each role in faq.roles
                 .faq__col
                     h3.title.faq__subtitle.title--xs!= role.title
-                    ul.faq__list
+                    ul.grid-list.faq__list.grid-list--vertical
                         each item in role.list
-                            li
+                            li.grid-list__item
                                 +accordion({
                                     'titleLevel': 4,
                                     'title': item.title,

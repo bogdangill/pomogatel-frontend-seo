@@ -8,9 +8,9 @@ mixin reviews()
         section.reviews__wrapper
             h2.title.reviews__title.title--md!= reviews.title
             .reviews__slides(data-slider="reviews")
-                ul.reviews__list.swiper-wrapper
+                ul.grid-list.reviews__list.swiper-wrapper
                     each item in reviews.list
-                        li.swiper-slide
+                        li.grid-list__item.swiper-slide
                             +card({
                                 'mods': 'review',
                                 'name': item.name,

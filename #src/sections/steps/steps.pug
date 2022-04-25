@@ -18,9 +18,9 @@ mixin steps()
             each role in steps.roles
                 section.steps__col
                     h3.title.steps__subtitle.title--xs!= role.title
-                    ul.steps__list
+                    ul.grid-list.steps__list.grid-list--vertical
                         each item in role.list
-                            li
+                            li.grid-list__item
                                 +icon-text({
                                     'mods': 'hint'+iconTextMods,
                                     'iconId': item.icon,

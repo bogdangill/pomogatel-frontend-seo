@@ -2,9 +2,9 @@ mixin best-workers()
     section.best-workers(class=bodyClass+"__best-workers")
         h2.title.best-workers__title.title--md!= bestWorkers.title
         p.best-workers__text!= bestWorkers.text
-        ul.best-workers__list
+        ul.grid-list.best-workers__list
             each worker in bestWorkers.list
-                li
+                li.grid-list__item
                     +card({
                         'mods': 'worker-preview',
                         'photo': worker.img,
