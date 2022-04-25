@@ -1,0 +1,67 @@
+.footer {
+    color: $color-gray-light;
+    background-color: #2C2F2E;
+
+    &__wrapper {
+        @include container(
+            $xl-grid-gutter:  0,
+            $xxl-grid-gutter: 0
+        );
+    }
+
+    &__top {
+        display: flex;
+        flex-wrap: wrap;
+
+        padding-top: calcResponsiveSpace(88, 1440);
+        margin-bottom: calcResponsiveSpace(66, 1440);
+    }
+
+    &__logo {
+        margin-bottom: $base-d * 8;
+    }
+
+    &__menu {
+        display: grid;
+        grid-template-columns: repeat(3, minmax($base-d * 73, $base-d * 96));
+
+        @include mediaMin($screen-lg) {
+            gap: calcResponsiveSpace(64, 1440);
+        }
+
+        margin-left: auto;
+    }
+
+    &__text,
+    &__link {
+        margin-bottom: $base-d * 8;
+    }
+
+    &__link:last-of-type {
+        margin-bottom: 0;
+    }
+
+    &__separator {
+        color: $color-gray-lighter;
+        opacity: .25;
+
+        margin: 0;
+    }
+
+    &__bottom {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        padding-top: $base-d * 14;
+        padding-bottom: $base-d * 14;
+    }
+
+    &__social {
+        display: flex;
+    }
+
+    &__download-app {
+        w
+    }
+}

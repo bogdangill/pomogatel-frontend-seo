@@ -10,7 +10,7 @@ mixin footer()
                     +logo({
                         'mods': 'footer',
                         'text': footer.logoText,
-                    })
+                    })(class="footer__logo")
                     if (typeof(footer.phoneNumber) !== 'undefined' && footer.phoneNumber)
                         +btn({
                             'text': footer.phoneNumber,
@@ -18,22 +18,38 @@ mixin footer()
                         })(href=footer.phoneHref)
                 .footer__menu
                     each item in footer.menu
-                        ul.footer__col
+                        ul.grid-list.footer__col.grid-list--vertical
                             each link in item
-                                li.footer__link
+                                li.grid-list__item.footer__link
                                     +btn({
                                         'text': link.text,
                                         'mods': 'link, link--color-inherit'
                                     })(href=link.href)
-                    ul.footer__col
-                        li.footer__text!= footer.support.text
-                        li.footer__link
-                            +btn({
-                                'text': footer.support.btnText,
-                                'mods': 'ripple, sm, '+btnMods
-                            })(class="steps__btn")
+                    if (typeof(footer.support) !== 'undefined' && footer.support)
+                        ul.grid-list.footer__col.grid-list--vertical
+                            li.grid-list__item.footer__text!= footer.support.text
+                            li.grid-list__item.footer__link
+                                +btn({
+                                    'text': footer.support.btnText,
+                                    'mods': 'ripple, sm, '+btnMods
+                                })
             if (typeof(footer.disclaimer) !== 'undefined' && footer.disclaimer)                
                 small.footer__disclaimer!= footer.disclaimer
+            hr.footer__separator
             .footer__bottom
+                .footer__social
+                    span!= footer.social.text
+                    ul.grid-list
+                        each link in footer.social.buttons
+                            li.grid-list__item
+                                +btn({
+                                    'mods': 'link',
+                                    'hasLeftIcon': true,
+                                    'iconId': link.iconId
+                                })(href=link.href)
+                .download-app.footer__download-app
+                    each item in footer.appLinks
+                        a.download-app__link(href=item.href)
+                            img(src=item.img, alt=item.alt width=item.width height=item.height)
                 
 
