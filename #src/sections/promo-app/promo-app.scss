@@ -93,12 +93,9 @@
         }
     }
 
-    &__links {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        min-width: $base-m * 125;
-        gap: $base-m * 8;
-
+    &__download-app {
+        max-width: $base-m * 130;
+        
         @include mediaMin($screen-sm) {
             display: none;
         }
