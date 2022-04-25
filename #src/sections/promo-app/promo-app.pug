@@ -3,13 +3,10 @@ mixin promo-app()
         section.promo-app__col
             h2.title.promo-app__title.title--md!= promoApp.title
             p.promo-app__text!= promoApp.text
-            ul.download-app.promo-app__download-app
-                a.download-app__link(href=promoApp.appLinks.googlePlay.href)
-                    img(src=promoApp.appLinks.googlePlay.img, 
-                        alt=promoApp.appLinks.googlePlay.alt)
-                a.download-app__link(href=promoApp.appLinks.appStore.href)
-                    img(src=promoApp.appLinks.appStore.img,
-                        alt=promoApp.appLinks.appStore.alt)
+            .download-app.promo-app__download-app
+                each item in promoApp.appLinks
+                    a.download-app__link(href=item.href)
+                        img(src=item.img, alt=item.alt)
         .promo-app__col.promo-app__col--img
             picture
                 source(srcset=promoApp.img+'.webp 1x, '+promoApp.img+'@2x.webp 2x' type="image/webp")
