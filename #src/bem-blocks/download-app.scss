@@ -1,15 +1,9 @@
 .download-app {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax($base-m * 50, $base-d * 75));
+    grid-template-columns: 1fr 1fr;
     gap: $base-m * 12;
-    width: 100%;
 
     @include mediaMax($screen-sm) {
-        grid-template-columns: repeat(2, 1fr);
         gap: $base-m * 5;
-    }
-
-    &__link {
-        min-width: 100%;
     }
 }
