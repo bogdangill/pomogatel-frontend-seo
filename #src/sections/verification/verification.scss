@@ -35,7 +35,7 @@
     }
 
     &__list {
-        justify-content: space-around;
+        justify-content: space-between;
 
         @include mediaMin($screen-md) {
             justify-content: center;
@@ -51,13 +51,13 @@
 
             @include mediaMin($screen-sm) {
                 flex-basis: 45%;
-
-                margin: $base-m * 8;
             }
 
             @include mediaMin($screen-md) {
                 flex-basis: $base-d * 80;
                 flex-shrink: 0;
+
+                margin: $base-m * 8;
             }
         }
     }

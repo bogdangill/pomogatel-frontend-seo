@@ -72,7 +72,7 @@ $base-m: 0.142rem; /* mobile: 2px (если в html font-size:~14px) */
  
 */
 $space-y-desktop-index-section: 6.94vw;
-$space-y-mobile-index-section: 15vw;
+$space-y-mobile-index-section: $base-m * 24;
 
 /*
  

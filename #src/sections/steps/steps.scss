@@ -53,9 +53,9 @@
     }
 
     &__col {
-        @include col('md', 6);
+        @include col('sm', 6);
 
-        @media (max-width: $screen-md) {
+        @media (max-width: $screen-sm) {
             @include col('xs', 12);
 
             &:first-of-type {
