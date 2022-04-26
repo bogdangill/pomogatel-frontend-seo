@@ -15,7 +15,7 @@
             flex-wrap: wrap;
     
             padding-top: calcResponsiveSpace(88, 1440);
-            margin-bottom: calcResponsiveSpace(66, 1440);
+            margin-bottom: calcResponsiveSpace(40, 1440);
         }
 
         @include mediaMax($screen-md) {
@@ -91,6 +91,7 @@
         height: 1px;
 
         margin: 0;
+        margin-top: $base-d * 14;
     }
 
     &__bottom {
@@ -114,5 +115,9 @@
         @include mediaMax($screen-md) {
             margin-bottom: $base-m * 7;
         }
+    }
+
+    &__disclaimer {
+        font-size: 90%;
     }
 }
