@@ -23,6 +23,9 @@ $grid-gutter-width:           30px;
                                
  
 */
+$color-primary-darkest-dim: var(--primary-darkest-dim);
+$color-primary-darker-dim: var(--primary-darker-dim);
+
 $color-primary-dark: var(--primary-dark);
 $color-primary: var(--primary);
 $color-primary-light: var(--primary-light);
@@ -31,12 +34,19 @@ $color-primary-lightest: var(--primary-lightest);
 
 $secondary: #FF207B;
 
+//shades of gray
 $color-gray-lightest: #E9E9E9;
 $color-gray-lighter: #E6E6E6;
 $color-gray-light: #C8C8C8;
 $color-gray: #999999;
 $color-gray-dark: #777777;
 $color-gray-darker: #7A7A7A;
+
+//social brand colors
+$color-vk: #4c75a3;
+$color-facebook: #3b5999;
+$color-youtube: #cd201f;
+$color-instagram: #e4405f;
 
 /*
  

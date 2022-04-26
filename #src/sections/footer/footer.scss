@@ -1,6 +1,6 @@
 .footer {
     color: $color-gray-light;
-    background-color: #2C2F2E;
+    background-color: $color-primary-darkest-dim;
 
     &__wrapper {
         @include container(
@@ -10,26 +10,67 @@
     }
 
     &__top {
-        display: flex;
-        flex-wrap: wrap;
+        @include mediaMin($screen-md) {
+            display: flex;
+            flex-wrap: wrap;
+    
+            padding-top: calcResponsiveSpace(88, 1440);
+            margin-bottom: calcResponsiveSpace(66, 1440);
+        }
 
-        padding-top: calcResponsiveSpace(88, 1440);
-        margin-bottom: calcResponsiveSpace(66, 1440);
+        @include mediaMax($screen-md) {
+            text-align: center;
+
+            padding-top: $space-y-mobile-index-section;
+            margin-bottom: 0;
+        }
     }
 
     &__logo {
         margin-bottom: $base-d * 8;
+
+        @include mediaMax($screen-md) {
+            justify-content: center;
+            border-bottom: 1px solid $color-primary-darker-dim;
+
+            margin-bottom: $base-m * 8;
+            padding-bottom: $base-m * 8;
+        }
+    }
+
+    &__phone--desktop {
+        @include mediaMax($screen-md) {
+            display: none;
+        }
+    }
+    &__phone--mobile {
+        @include mediaMin($screen-md) {
+            display: none;
+        }
     }
 
     &__menu {
-        display: grid;
-        grid-template-columns: repeat(3, minmax($base-d * 73, $base-d * 96));
+        @include mediaMax($screen-md) {
+            display: flex;
+            flex-direction: column-reverse;
+
+            .footer__col:nth-of-type(2) {
+                border-bottom: 1px solid $color-primary-darker-dim;
+
+                margin-bottom: $base-m * 8;
+            }
+        }
+
+        @include mediaMin($screen-md) {
+            display: grid;
+            grid-template-columns: repeat(3, minmax($base-d * 73, $base-d * 96));
+
+            margin-left: auto;
+        }
 
         @include mediaMin($screen-lg) {
             gap: calcResponsiveSpace(64, 1440);
         }
-
-        margin-left: auto;
     }
 
     &__text,
@@ -38,7 +79,9 @@
     }
 
     &__link:last-of-type {
-        margin-bottom: 0;
+        @include mediaMin($screen-md) {
+            margin-bottom: 0;
+        }
     }
 
     &__separator {
@@ -55,13 +98,5 @@
 
         padding-top: $base-d * 14;
         padding-bottom: $base-d * 14;
-    }
-
-    &__social {
-        display: flex;
-    }
-
-    &__download-app {
-        w
     }
 }

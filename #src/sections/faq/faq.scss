@@ -21,6 +21,10 @@
         grid-template-columns: 1fr 1fr;
         gap: $base-d * 48;
 
+        @include mediaMax($screen-lg) {
+            gap: $base-d * 24;
+        }
+
         @include mediaMax($screen-md) {
             grid-template-columns: 1fr;
         }

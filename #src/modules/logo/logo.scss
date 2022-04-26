@@ -38,6 +38,10 @@
             line-height: 1;
             font-weight: 700;
 
+            @include mediaMax($screen-md) {
+                font-size: $base-m * 9;
+            }
+
             &:hover {
                 color: $color-primary-light;
             }

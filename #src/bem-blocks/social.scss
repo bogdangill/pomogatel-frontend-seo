@@ -1,0 +1,26 @@
+.social {
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        display: flex;
+        border-radius: $brad-xs;
+        transition: background .2s ease-out;
+
+        padding: $base-d;
+        margin-left: $base-d * 5;
+
+        &--vk:hover {
+            background-color: $color-vk;
+        }
+        &--is:hover {
+            background-color: $color-instagram;
+        }
+        &--yt:hover {
+            background-color: $color-youtube;
+        }
+        &--fb:hover {
+            background-color: $color-facebook;
+        }
+    }
+}

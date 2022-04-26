@@ -14,8 +14,8 @@ mixin footer()
                     if (typeof(footer.phoneNumber) !== 'undefined' && footer.phoneNumber)
                         +btn({
                             'text': footer.phoneNumber,
-                            'mods': 'link, link--color-inherit'
-                        })(href=footer.phoneHref)
+                            'mods': 'link'
+                        })(href=footer.phoneHref class="footer__phone footer__phone--desktop")
                 .footer__menu
                     each item in footer.menu
                         ul.grid-list.footer__col.grid-list--vertical
@@ -23,8 +23,8 @@ mixin footer()
                                 li.grid-list__item.footer__link
                                     +btn({
                                         'text': link.text,
-                                        'mods': 'link, link--color-inherit'
-                                    })(href=link.href)
+                                        'mods': 'link'
+                                    })(href=link.href class=link.class)
                     if (typeof(footer.support) !== 'undefined' && footer.support)
                         ul.grid-list.footer__col.grid-list--vertical
                             li.grid-list__item.footer__text!= footer.support.text
@@ -37,11 +37,11 @@ mixin footer()
                 small.footer__disclaimer!= footer.disclaimer
             hr.footer__separator
             .footer__bottom
-                .footer__social
-                    span!= footer.social.text
-                    ul.grid-list
+                .social.footer__social
+                    span.social__text!= footer.social.text
+                    ul.grid-list.grid-list--horizontal
                         each link in footer.social.buttons
-                            li.grid-list__item
+                            li.grid-list__item.social__icon(class="social__icon"+link.iconMod)
                                 +btn({
                                     'mods': 'link',
                                     'hasLeftIcon': true,
