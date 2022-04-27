@@ -1,7 +1,10 @@
+import Swiper, { Pagination, A11y } from "swiper";
+
 const swipers = document.querySelectorAll('[data-slider]');
 
 if (swipers.length) {
     const sliderReviews = new Swiper('[data-slider="reviews"]', {
+        modules: [Pagination, A11y],
         spaceBetween: 32,
         slidesPerView: 'auto',
         initialSlide: 1,
