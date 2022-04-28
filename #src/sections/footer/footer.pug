@@ -47,9 +47,9 @@ mixin footer()
                                     'hasLeftIcon': true,
                                     'iconId': link.iconId
                                 })(href=link.href)
-                .download-app.footer__download-app
-                    each item in footer.appLinks
-                        a.download-app__link(href=item.href)
-                            img(src=item.img, alt=item.alt width=item.width height=item.height)
+                +download-app({
+                    'parent': 'footer',
+                    'buttons': footer.appLinks
+                })
                 
 

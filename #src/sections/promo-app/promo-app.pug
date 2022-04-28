@@ -3,10 +3,10 @@ mixin promo-app()
         section.promo-app__col
             h2.title.promo-app__title.title--md!= promoApp.title
             p.promo-app__text!= promoApp.text
-            .download-app.promo-app__download-app
-                each item in promoApp.appLinks
-                    a.download-app__link(href=item.href)
-                        img(src=item.img, alt=item.alt width=item.width height=item.height)
+            +download-app({
+                'parent': 'promo-app',
+                'buttons': promoApp.appLinks
+            })
         .promo-app__col.promo-app__col--img
             picture
                 source(srcset=promoApp.img+'.webp 1x, '+promoApp.img+'@2x.webp 2x' type="image/webp")

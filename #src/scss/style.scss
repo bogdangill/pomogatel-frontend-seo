@@ -26,7 +26,6 @@
 */
 @import '../bem-blocks/title.scss';
 @import '../bem-blocks/grid-list.scss';
-@import '../bem-blocks/download-app.scss';
 @import '../bem-blocks/social.scss';
 
 
@@ -46,6 +45,7 @@
 @import '../modules/card/card.scss';
 @import '../modules/accordion/accordion.scss';
 @import '../modules/user-data/user-data.scss';
+@import '../modules/download-app/download-app.scss';
 
 
 /*
@@ -77,13 +77,3 @@
  
 */
 @import '../pages/index.scss';
-
-
-/*
- 
- _ _  _ ___  ____ ____ ___    ___  _    _  _ ____ _ _  _ ____ 
- | |\/| |__] |  | |__/  |     |__] |    |  | | __ | |\ | [__  
- | |  | |    |__| |  \  |     |    |___ |__| |__] | | \| ___] 
-                                                              
- 
-*/

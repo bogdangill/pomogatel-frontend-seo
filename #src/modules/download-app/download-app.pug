@@ -1,0 +1,36 @@
+mixin download-app(data)
+    //- Принимает:
+    //- parent    {string} - класс родительского DOM-узла, в который вложен модуль
+    //- mods    {string} - список модификаторов(если нужны)
+    //- buttons    {array} - массив с объектами, в которых содержатся параметры кнопки
+
+    //- Вызов:
+        +download-app({
+            'parent': 'section-name'
+            'mods': '...someMods',
+            'buttons': [
+                {
+                    img: './img/promo-app/download-buttons/google-play-ru.svg',
+                    alt: 'Доступно в Google Play',
+                    href: '#',
+                    width: 118,
+                    height: 40
+                }
+            ]
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + ' download-app--' + modsList[i].trim();
+            }
+        }
+    
+    .download-app(class=data.parent+'__download-app'+' '+allMods)
+        each item in data.buttons
+            a.download-app__link(href=item.href)
+                img(src=item.img, alt=item.alt width=item.width height=item.height)
