@@ -57,9 +57,10 @@ mixin card(data)
                         - i--
                 .card__data
                     each key in data.workerData
-                        dl.data
-                            dt.data__key!=key[0]+':'
-                            dd.data__value!=key[1]
+                        +user-data({
+                            'key': key[0],
+                            'value': key[1]
+                        })
 
         if (cardType == 'review')
             blockquote.card__info

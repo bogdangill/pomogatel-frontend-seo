@@ -1,0 +1,27 @@
+mixin user-data(data)
+    //- Принимает:
+    //-   mods    {string} - список модификаторов
+    //-   key    {string} - ключ
+    //-   value    {string} - значение
+
+    //- Вызов:
+        +user-data({
+            'mods': 'primary'
+            'key': 'Возраст',
+            'value': '36 лет',
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + ' user-data--' + modsList[i].trim();
+            }
+        }
+
+    dl.user-data(class=allMods)
+        dt.user-data__key!=data.key+':'
+        dd.user-data__value!=data.value
