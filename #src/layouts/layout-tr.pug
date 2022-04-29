@@ -1,10 +1,9 @@
-- var country = 'vn';
+- var country = 'tr';
 
-include dictionaries/dictionary.vn.pug
-include mixins.pug
+include ../dictionaries/dictionary.tr.pug
 
 doctype html
-html(lang='vi', data-theme='bright')
+html(lang=country+'-TR', data-theme='bright')
     head
         meta(charset='utf-8')
         meta(name='viewport', content='width=device-width, initial-scale=1')
@@ -56,4 +55,3 @@ html(lang='vi', data-theme='bright')
                 block footer
                     p «подвал»
     block page-bottom
-        script(src='js/script.min.js')

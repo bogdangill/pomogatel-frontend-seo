@@ -20,14 +20,14 @@ let path = {
   build: {
     html: project_folder + "/pages/",
     css: project_folder + "/css/",
-    js: project_folder + "/js/",
+    js: project_folder + "/pages/",
     img: project_folder + "/img/",
     fonts: project_folder + "/fonts/"
   },
   src: {
     pug: source_folder + "/pages/**/*.pug",
     css: source_folder + "/scss/styles.scss",
-    js: source_folder + "/js/script.js",
+    js: source_folder + "/pages/**/*.js",
     img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
     fonts: source_folder + "/fonts/*.{ttf, TTF}"
   },
@@ -276,12 +276,12 @@ function clean(params) {
 const DAEMON = (cb) => {
   browsersync.init({
     server: {
-      baseDir: "./" + project_folder + "/pages/index/"
+      baseDir: "./" + project_folder + "/"
     },
     notify: false,
     open: true,
     cors: true,
-    startPath: 'index.html'
+    startPath: '/pages/index/index.html'
   });
 
   gulp.watch([path.watch.img], series(images)).on('change', browsersync.reload);

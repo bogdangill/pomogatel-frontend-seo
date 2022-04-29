@@ -1,7 +1,6 @@
 - var country = 'ru';
 
-include dictionaries/dictionary.ru.pug
-include mixins.pug
+include ../dictionaries/dictionary.ru.pug
 
 doctype html
 html(lang=country, data-theme='default')
@@ -56,4 +55,3 @@ html(lang=country, data-theme='default')
                 block footer
                     p «подвал»
     block page-bottom
-        script(src='js/script.min.js')

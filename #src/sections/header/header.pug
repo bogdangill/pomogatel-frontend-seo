@@ -7,29 +7,29 @@ mixin header()
             'slogan': header.logo.slogan
         })(class="header__logo" href="/")
         nav
-            ul.grid-list.grid-list--horizontal
+            ul.header__menu
                 if (header.feedback.hasFeedbackOption)
-                    li.grid-list__item
+                    li
                         +btn({
                             'text': header.feedback.text,
                             'mods': 'link, link--feedback',
                             'hasLeftIcon': true,
                             'iconId': 'letter'
                         })(href='#')
-                li.grid-list__item
+                li
                     +dropdown({
                         'mods': 'regions',
                         'id': '11',
                         'items': header.regions
                     })
-                li.grid-list__item
+                li
                     +btn({
                         'text': header.login.text,
                         'mods': 'link, link--primary, login',
                         'hasLeftIcon': true,
                         'iconId': 'login'
                     })(href='#')
-                li.grid-list__item
+                li
                     +btn({
                         'text': header.signup.text,
                         'mods': 'link, link--primary'

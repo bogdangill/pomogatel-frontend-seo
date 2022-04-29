@@ -13,7 +13,7 @@ mixin promo()
         +title({
             'text': main.title,
             'parent': 'main',
-            'mods': 'lg, primary-dark'
+            'mods': `lg ${titleMod}`
         })
         p.main__text!=main.text
         +btn({
