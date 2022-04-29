@@ -7,9 +7,9 @@ mixin best-workers()
             'parent': 'best-workers'
         })
         p.best-workers__text!= bestWorkers.text
-        ul.grid-list.best-workers__list
+        ul.best-workers__list
             each worker in bestWorkers.list
-                li.grid-list__item
+                li
                     +card({
                         'mods': 'worker-preview',
                         'photo': worker.img,

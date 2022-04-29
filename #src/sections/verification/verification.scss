@@ -35,6 +35,8 @@
     }
 
     &__list {
+        display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
 
         @include mediaMin($screen-md) {

@@ -15,9 +15,9 @@ mixin faq()
                         'text': role.title,
                         'mods': 'xs'
                     })(class="faq__subtitle")
-                    ul.grid-list.faq__list.grid-list--vertical
+                    ul.faq__list
                         each item in role.list
-                            li.grid-list__item
+                            li
                                 +accordion({
                                     'titleLevel': 4,
                                     'title': item.title,

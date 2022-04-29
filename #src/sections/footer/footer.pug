@@ -18,17 +18,17 @@ mixin footer()
                         })(href=footer.phoneHref class="footer__phone footer__phone--desktop")
                 .footer__menu
                     each item in footer.menu
-                        ul.grid-list.footer__col.grid-list--vertical
+                        ul.footer__col
                             each link in item
-                                li.grid-list__item.footer__link
+                                li.footer__link
                                     +btn({
                                         'text': link.text,
                                         'mods': 'link'
                                     })(href=link.href class=link.class)
                     if (typeof(footer.support) !== 'undefined' && footer.support)
-                        ul.grid-list.footer__col.grid-list--vertical
-                            li.grid-list__item.footer__text!= footer.support.text
-                            li.grid-list__item.footer__link
+                        ul.footer__col
+                            li.footer__text!= footer.support.text
+                            li.footer__link
                                 +btn({
                                     'text': footer.support.btnText,
                                     'mods': 'ripple, sm, '+btnMods
@@ -37,16 +37,11 @@ mixin footer()
                 small.footer__disclaimer!= footer.disclaimer
             hr.footer__separator
             .footer__bottom
-                .social.footer__social
-                    span.social__text!= footer.social.text
-                    ul.grid-list.grid-list--horizontal
-                        each link in footer.social.buttons
-                            li.grid-list__item.social__icon(class="social__icon"+link.iconMod)
-                                +btn({
-                                    'mods': 'link',
-                                    'hasLeftIcon': true,
-                                    'iconId': link.iconId
-                                })(href=link.href)
+                +social({
+                    'parent': 'footer',
+                    'text': footer.social.text,
+                    'links': footer.social.buttons
+                })
                 +download-app({
                     'parent': 'footer',
                     'buttons': footer.appLinks

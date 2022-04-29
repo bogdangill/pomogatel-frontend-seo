@@ -7,9 +7,9 @@ mixin verification()
             'parent': 'verification'
         })
         p.verification__text!= verification.text
-        ul.grid-list.verification__list
+        ul.verification__list
             each item in verification.list
-                li.grid-list__item
+                li
                     +icon-text({
                         'mods': 'check',
                         'iconId': item.iconId,

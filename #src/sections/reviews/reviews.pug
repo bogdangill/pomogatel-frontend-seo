@@ -13,9 +13,9 @@ mixin reviews()
                 'parent': 'reviews'
             })
             .reviews__slides(data-slider="reviews")
-                ul.grid-list.reviews__list.swiper-wrapper
+                ul.reviews__list.swiper-wrapper
                     each item in reviews.list
-                        li.grid-list__item.swiper-slide
+                        li.swiper-slide
                             +card({
                                 'mods': 'review',
                                 'name': item.name,

@@ -27,9 +27,9 @@ mixin steps()
                         'text': role.title,
                         'mods': 'xs'
                     })(class="steps__subtitle")
-                    ul.grid-list.steps__list.grid-list--vertical
+                    ul.steps__list
                         each item in role.list
-                            li.grid-list__item
+                            li
                                 +icon-text({
                                     'mods': 'hint'+iconTextMods,
                                     'iconId': item.icon,
