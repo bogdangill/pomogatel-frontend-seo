@@ -10,7 +10,11 @@ mixin promo()
         if (country === 'vn' || country === 'tr') titleMod = 'title--primary-dark';
 
     section.main(class=modifier + bodyClass + '__main')
-        h1.title.main__title.title--lg(class=titleMod)!=main.title
+        +title({
+            'text': main.title,
+            'parent': 'main',
+            'mods': 'lg, primary-dark'
+        })
         p.main__text!=main.text
         +btn({
             'text': main.btnText,

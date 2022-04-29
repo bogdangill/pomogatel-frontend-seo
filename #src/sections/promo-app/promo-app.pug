@@ -1,7 +1,12 @@
 mixin promo-app()
     .promo-app(class=bodyClass+'__promo-app')
         section.promo-app__col
-            h2.title.promo-app__title.title--md!= promoApp.title
+            +title({
+                'level': 2,
+                'text': promoApp.title,
+                'mods': 'md',
+                'parent': 'promo-app'
+            })
             p.promo-app__text!= promoApp.text
             +download-app({
                 'parent': 'promo-app',

@@ -6,7 +6,12 @@ mixin reviews()
 
     .reviews(class=bodyClass+'__reviews')
         section.reviews__wrapper
-            h2.title.reviews__title.title--md!= reviews.title
+            +title({
+                'level': 2,
+                'text': reviews.title,
+                'mods': 'md',
+                'parent': 'reviews'
+            })
             .reviews__slides(data-slider="reviews")
                 ul.grid-list.reviews__list.swiper-wrapper
                     each item in reviews.list

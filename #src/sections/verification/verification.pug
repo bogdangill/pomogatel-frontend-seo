@@ -1,6 +1,11 @@
 mixin verification()
     section.verification(class=bodyClass+'__verification')
-        h2.title.verification__title.title--md!= verification.title
+        +title({
+            'level': 2,
+            'text': verification.title,
+            'mods': 'md',
+            'parent': 'verification'
+        })
         p.verification__text!= verification.text
         ul.grid-list.verification__list
             each item in verification.list

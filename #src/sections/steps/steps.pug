@@ -12,12 +12,21 @@ mixin steps()
         }
 
     section.steps(class=bodyClass+'__steps'+' steps--'+modifier)
-        h2.title.steps__title.title--md!= steps.title
+        +title({
+            'level': 2,
+            'text': steps.title,
+            'parent': 'steps',
+            'mods': 'md'
+        })
 
         .steps__row
             each role in steps.roles
                 section.steps__col
-                    h3.title.steps__subtitle.title--xs!= role.title
+                    +title({
+                        'level': 3,
+                        'text': role.title,
+                        'mods': 'xs'
+                    })(class="steps__subtitle")
                     ul.grid-list.steps__list.grid-list--vertical
                         each item in role.list
                             li.grid-list__item

@@ -1,11 +1,20 @@
 mixin faq()
     section.faq(class=bodyClass+'__faq')
-        h2.title.faq__title.title--md!= faq.title
+        +title({
+            'level': 2,
+            'text': faq.title,
+            'mods': 'md',
+            'parent': 'faq'
+        })
 
         .faq__row
             each role in faq.roles
                 .faq__col
-                    h3.title.faq__subtitle.title--xs!= role.title
+                    +title({
+                        'level': 3,
+                        'text': role.title,
+                        'mods': 'xs'
+                    })(class="faq__subtitle")
                     ul.grid-list.faq__list.grid-list--vertical
                         each item in role.list
                             li.grid-list__item
