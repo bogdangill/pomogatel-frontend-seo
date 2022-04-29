@@ -16,7 +16,11 @@
         }
     }
 
-    &__icon {
+    &__links {
+        display: flex;
+    }
+
+    &__link {
         display: flex;
         border-radius: $brad-xs;
         transition: background .2s ease-out;

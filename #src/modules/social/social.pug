@@ -1,0 +1,34 @@
+mixin social(data)
+    //- Принимает:
+    //-   parent    {string} - название класса родителя в DOM-дереве
+    //-   text    {string} - промо-текст перед ссылками на соцсети
+    //-   links    {array} - массив кнопок-ссылок на соцсети с параметрами: id иконки в спрайте, ссылка, модификатор
+
+    //- Вызов:
+        +social({
+            'parent': 'section',
+            'text': 'Присоединяйтесь к нам:'
+            'links': [
+                {
+                    iconMod: '--vk',
+                    iconId: 'social--vk',
+                    href: '#'
+                },
+                ...
+            ]
+        })
+    -
+        let parent = '';
+
+        if (data.parent !== undefined && data.parent) parent = `${data.parent}__social`;
+
+    .social(class=parent)
+        span.social__text!= data.text
+        ul.social__links
+            each link in data.links
+                li.social__link(class="social__link"+link.iconMod)
+                    +btn({
+                        'mods': 'link',
+                        'hasLeftIcon': true,
+                        'iconId': link.iconId
+                    })(href=link.href)
