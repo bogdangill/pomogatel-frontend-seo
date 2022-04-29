@@ -18,18 +18,6 @@
 
 /*
  
- _ _  _ ___  ____ ____ ___    ___  ____ _  _    ___  _    ____ ____ _  _ ____ 
- | |\/| |__] |  | |__/  |     |__] |___ |\/| __ |__] |    |  | |    |_/  [__  
- | |  | |    |__| |  \  |     |__] |___ |  |    |__] |___ |__| |___ | \_ ___] 
-                                                                              
- 
-*/
-@import '../bem-blocks/grid-list.scss';
-@import '../bem-blocks/social.scss';
-
-
-/*
- 
  _ _  _ ___  ____ ____ ___    _  _ ____ ___  _  _ _    ____ ____ 
  | |\/| |__] |  | |__/  |     |\/| |  | |  \ |  | |    |___ [__  
  | |  | |    |__| |  \  |     |  | |__| |__/ |__| |___ |___ ___] 
@@ -46,6 +34,7 @@
 @import '../modules/accordion/accordion.scss';
 @import '../modules/user-data/user-data.scss';
 @import '../modules/download-app/download-app.scss';
+@import '../modules/social/social.scss';
 
 
 /*
