@@ -1,0 +1,35 @@
+mixin title(data)
+    //- Принимает:
+    //-   level    {number} - уровень заголовка
+    //-   text    {string} - текст заголовка
+    //-   parent    {string} - название класса родителя в DOM-дереве
+    //-   mods    {string} - список модификаторов через запятую(без названия класса модуля)
+
+    //- Вызов:
+        +title({
+            'level': 2,
+            'text': 'Заголовок'
+            'parent': 'section',
+            'mods': 'md'
+        })
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(data.mods) !== 'undefined' && data.mods) {
+            let modsList = data.mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + ' title--' + modsList[i].trim();
+            }
+        }
+
+        let hx = 'h1';
+
+        if (data.level === 2) hx = 'h2';
+        if (data.level === 3) hx = 'h3';
+        if (data.level === 4) hx = 'h4';
+        if (data.level === 5) hx = 'h5';
+        if (data.level === 6) hx = 'h6';
+    
+    #{hx}.title(class=data.parent+"__title"+' '+allMods)!= data.text

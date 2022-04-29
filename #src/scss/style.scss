@@ -24,7 +24,6 @@
                                                                               
  
 */
-@import '../bem-blocks/title.scss';
 @import '../bem-blocks/grid-list.scss';
 @import '../bem-blocks/social.scss';
 
@@ -37,6 +36,7 @@
                                                                  
  
 */
+@import '../modules/title/title.scss';
 @import '../modules/ui-kit-fab/ui-kit-fab.scss';
 @import '../modules/btn/btn.scss';
 @import '../modules/dropdown/dropdown.scss';
