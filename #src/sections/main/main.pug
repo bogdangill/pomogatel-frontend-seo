@@ -1,24 +1,18 @@
 mixin promo()
-    //-
-        такая неуклюжая разметка с обертками - костыль для дебага риппл-эффекта кнопки.
-        если бы кнопка была дочерним узлом promo, у которого было бы относительное позиционирование
-        и margin-left|right: auto, то риппл-элемент при возникновении получал бы координаты top и left с сильным смещением учитывая лишние отступы по бокам у родителя. пришлось изолировать кнопку
     -
-        let modifier = 'promo--default ';
+        let modifier = 'main--default ';
         let btnMods = 'primary';
         let titleMod = '';
 
-        if (country === 'vn') modifier = 'promo--vn ';
-        if (country === 'tr') modifier = 'promo--tr ';
+        if (country === 'vn') modifier = 'main--vn ';
+        if (country === 'tr') modifier = 'main--tr ';
         if (country === 'vn' || country === 'tr') btnMods = 'secondary, blink';
         if (country === 'vn' || country === 'tr') titleMod = 'title--primary-dark';
 
-    section.promo(class=modifier + bodyClass + '__promo')
-        .promo__inner
-            h1.title.promo__title.title--lg(class=titleMod)!=promo.title
-            p.promo__text!=promo.text
-        div.promo__btn
-            +btn({
-                'text': promo.btnText,
-                'mods': 'ripple, lg, '+btnMods
-            })(data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")
+    section.main(class=modifier + bodyClass + '__main')
+        h1.title.main__title.title--lg(class=titleMod)!=main.title
+        p.main__text!=main.text
+        +btn({
+            'text': main.btnText,
+            'mods': 'ripple, lg, '+btnMods
+        })(data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")

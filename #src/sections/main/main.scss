@@ -1,8 +1,10 @@
-.promo {
+.main {
     @include container(
         $xl-grid-gutter:  0,
         $xxl-grid-gutter: 0
     );
+    position: relative;
+    text-align: center;
     max-width: 35.8em;
 
     @media (max-width: $screen-lg) {
@@ -20,10 +22,10 @@
     }
 
     &--default {
-        .promo__inner::before {
+        &::before {
             background-image: url('../img/promo-left.svg');
         }
-        .promo__inner::after {
+        &::after {
             background-image: url('../img/promo-right.svg');
         }
 
@@ -33,10 +35,10 @@
     }
 
     &--vn {
-        .promo__inner::before {
+        &::before {
             background-image: url('../img/promo-left-vn.svg');
         }
-        .promo__inner::after {
+        &::after {
             background-image: url('../img/promo-right-vn.svg');
         }
 
@@ -46,21 +48,21 @@
     }
 
     &--tr {
-        .promo__inner::before {
+        &::before {
             background-image: url('../img/promo-left-tr.svg');
         }
-        .promo__inner::after {
+        &::after {
+            height: 12.1em;
             background-image: url('../img/promo-right-tr.svg');
+        }
+
+        @media (max-width: $screen-lg) {
+            height: 13.5vw;
         }
 
         @media (max-width: $screen-sm) {
             background-image: url('../img/promo-mobile-tr.svg');
         }
-    }
-
-    &__inner {
-        position: relative;
-        text-align: center;
     }
 
     &__title {
@@ -91,12 +93,8 @@
         }
     }
 
-    &__btn {
-        text-align: center;
-    }
-
-    &__inner::before,
-    &__inner::after {
+    &::before,
+    &::after {
         content: '';
         position: absolute;
         width: 14em;
@@ -111,7 +109,7 @@
         }
     }
 
-    &__inner::before {
+    &::before {
         top: 0;
         left: -19.3vw;
         height: 11.31em;
@@ -122,7 +120,7 @@
         }
     }
 
-    &__inner::after {
+    &::after {
         top: 0;
         right: -19.3vw;
         height: 12em;
@@ -130,14 +128,6 @@
         @media (max-width: $screen-lg) {
             right: -17vw;
             height: 13.2vw;
-        }
-    }
-
-    &--tr .promo__inner::after {
-        height: 12.1em;
-
-        @media (max-width: $screen-lg) {
-            height: 13.5vw;
         }
     }
 }

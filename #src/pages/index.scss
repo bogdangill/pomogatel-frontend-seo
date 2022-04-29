@@ -1,14 +1,13 @@
 .index {
     font-family: $ff-primary;
-    // font-size: calcFluidFontSize(14, 16, 320, 1440);
     line-height: 1.5;
     color: $color-text;
 
-    &__promo {
+    &__main {
         margin-top: 9.3vw;
 
-        &.promo--vn,
-        &.promo--tr {
+        &.main--vn,
+        &.main--tr {
             @media (max-width: $screen-sm) {
                 margin-top: 14.3vw;
             }
