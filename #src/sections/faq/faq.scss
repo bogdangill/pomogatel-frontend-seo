@@ -16,6 +16,13 @@
         margin-bottom: $base-d * 24;
     }
 
+    &__subtitle {
+        border-bottom: 1px solid $color-gray-lightest;
+
+        margin: 0;
+        padding-bottom: $base-d * 12;
+    }
+
     &__row {
         display: grid;
         grid-template-columns: 1fr 1fr;

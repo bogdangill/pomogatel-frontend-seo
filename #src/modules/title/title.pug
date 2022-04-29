@@ -24,6 +24,10 @@ mixin title(data)
             }
         }
 
+        let parent = '';
+
+        if (typeof(data.parent) !== undefined && data.parent) parent = `${data.parent}__title`;
+
         let hx = 'h1';
 
         if (data.level === 2) hx = 'h2';
@@ -32,4 +36,4 @@ mixin title(data)
         if (data.level === 5) hx = 'h5';
         if (data.level === 6) hx = 'h6';
     
-    #{hx}.title(class=data.parent+"__title"+' '+allMods)!= data.text
+    #{hx}.title(class=parent+allMods)&attributes(attributes)!= data.text
