@@ -43,3 +43,24 @@
         }
     }
 }
+
+[data-theme="bright"] .header {
+    &::before {
+        content: '';
+        position: absolute;
+        width: 1200px;
+        height: 1200px;
+        background-image: radial-gradient(50% 50% at 50% 50%, #FFF6E9 33.48%, rgba(233, 238, 255, 0) 100%);
+        opacity: .5;
+        left: -414px;
+        top: -651px;
+        z-index: -1;
+        
+        @include mediaMax($screen-sm) {
+            width: 369px;
+            height: 369px;
+            left: -138px;
+            top: -117px;
+        }
+    }
+}

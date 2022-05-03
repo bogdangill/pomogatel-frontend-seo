@@ -59,6 +59,7 @@
 }
 
 [data-theme="bright"] .reviews {
+    position: relative;
     background-color: $color-primary-dark;
 
     &__title {
@@ -70,6 +71,38 @@
 
         &-active {
             background-color: $secondary;
+        }
+    }
+
+    &::before {
+        @include mediaMax($screen-sm) {
+            content: '';
+            position: absolute;
+            width: 833px;
+            height: 833px;
+            left: -152px;
+            top: 1031px;
+            background: radial-gradient(50% 50% at 50% 50%, #FFF6E9 33.48%, rgba(233, 238, 255, 0) 100%);
+            opacity: 0.5;
+        }
+    }
+  
+    &::after {
+        content: '';
+        position: absolute;
+        width: 2241px;
+        height: 2241px;
+        top: -343px;
+        left: -139px;
+        background: radial-gradient(50% 50% at 50% 50%, #FFF6E9 33.48%, rgba(233, 238, 255, 0) 100%);
+        opacity: 0.7;
+        z-index: -1;
+
+        @include mediaMax($screen-sm) {
+            width: 833px;
+            height: 833px;
+            left: -400px;
+            top: 183px;
         }
     }
 }
