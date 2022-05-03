@@ -29,17 +29,17 @@
     &__menu {
         display: flex;
         flex-wrap: wrap;
+    }
 
-        li {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-    
-            margin-left: 1.5em;
-    
-            @media (max-width: $screen-sm) {
-                margin-left: .85em;
-            }
+    &__menu-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-left: 1.5em;
+
+        @media (max-width: $screen-sm) {
+            margin-left: .85em;
         }
     }
 }

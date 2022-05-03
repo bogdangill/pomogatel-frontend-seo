@@ -9,27 +9,27 @@ mixin header()
         nav
             ul.header__menu
                 if (header.feedback.hasFeedbackOption)
-                    li
+                    li.header__menu-item
                         +btn({
                             'text': header.feedback.text,
                             'mods': 'link, link--feedback',
                             'hasLeftIcon': true,
                             'iconId': 'letter'
                         })(href='#')
-                li
+                li.header__menu-item
                     +dropdown({
                         'mods': 'regions',
                         'id': '11',
                         'items': header.regions
                     })
-                li
+                li.header__menu-item
                     +btn({
                         'text': header.login.text,
                         'mods': 'link, link--primary, login',
                         'hasLeftIcon': true,
                         'iconId': 'login'
                     })(href='#')
-                li
+                li.header__menu-item
                     +btn({
                         'text': header.signup.text,
                         'mods': 'link, link--primary'
