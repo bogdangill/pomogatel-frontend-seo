@@ -32,10 +32,10 @@ mixin icon-text(data)
     .icon-text(class=allMods)
         .icon-text__icon(class=iconMod)
             if (country === 'vn' || country === 'tr')
-                img(src="img/icons/sprite.svg#"+data.iconId, alt=data.text)
+                img(src="../../img/icons/sprite.svg#"+data.iconId, alt=data.text)
             else
                 svg
-                    use(xlink:href="img/icons/sprite.svg#"+data.iconId)
+                    use(xlink:href="../../img/icons/sprite.svg#"+data.iconId)
         if (typeof(data.href) !== 'undefined' && data.href)
             a.icon-text__link(href=data.href)!=data.text
             .icon-text__circle

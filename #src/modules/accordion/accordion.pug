@@ -27,7 +27,7 @@ mixin accordion(data)
     mixin headerContent()
         button.accordion__trigger(aria-expanded="false" aria-controls=data.id)!=data.title
         svg.accordion__icon
-            use(xlink:href="img/icons/sprite.svg#chevron-bottom")
+            use(xlink:href="../../img/icons/sprite.svg#chevron-bottom")
 
     article.accordion(class=allMods)
         if (data.titleLevel === 2)

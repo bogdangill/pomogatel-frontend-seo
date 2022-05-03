@@ -44,14 +44,14 @@ mixin btn(data)
     mixin btnContent()
         if (typeof(data.hasLeftIcon) !== 'undefined' && data.hasLeftIcon)
             svg.btn__icon.btn__icon--left(class=iconClasses)
-                use(xlink:href="img/icons/sprite.svg#" + data.iconId)
+                use(xlink:href="../../img/icons/sprite.svg#" + data.iconId)
 
         if (typeof(data.text) !== 'undefined' && data.text)
             span.btn__text!=data.text
             
         if (typeof(data.hasRightIcon) !== 'undefined' && data.hasRightIcon)
             svg.btn__icon.btn__icon--right(class=iconClasses)
-                use(xlink:href="img/icons/sprite.svg#" + data.iconId)
+                use(xlink:href="../../img/icons/sprite.svg#" + data.iconId)
         block
     
 
