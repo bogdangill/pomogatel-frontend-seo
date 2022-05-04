@@ -30,6 +30,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-file-include": "^2.3.0",
     "gulp-group-css-media-queries": "^1.2.2",
+    "gulp-ignore": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
     "gulp-postcss": "^9.0.0",
     "gulp-pretty-html": "^2.0.10",

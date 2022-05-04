@@ -105,7 +105,7 @@ const {src, dest, series, parallel} = require('gulp'),
 */
 
 function pug2html() {
-  return src(path.src.pug)
+  return src([path.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
     .pipe(pug())
     .pipe(prettyHtml(prettyOption))
     .pipe(dest(path.build.html))

@@ -23,7 +23,8 @@ mixin faq()
                                     'title': item.title,
                                     'text': item.text
                                 })
-                    +btn({
-                        'mods': 'link, link--primary',
-                        'text': role.linkText
-                    })(class="faq__link" href=role.linkHref)
+                    if (typeof(role.linkText) !== 'undefined' && role.linkText)
+                        +btn({
+                            'mods': 'link, link--primary',
+                            'text': role.linkText
+                        })(class="faq__link" href=role.linkHref)
