@@ -20,7 +20,7 @@ mixin header(mods)
             })(class="header__logo" href="/")
             nav
                 ul.header__menu
-                    if (bodyClass !== 'index')
+                    if (bodyClass !== 'index' && header.startSearch)
                         li.header__menu-item.header__menu-item--start
                             +btn({
                                 'text': header.startSearch,
@@ -52,3 +52,11 @@ mixin header(mods)
                             'text': header.signup.text,
                             'mods': 'link, link--primary'
                         })(href='#')
+                    if (country !== 'ru')
+                        li.header__menu-item
+                            +dropdown({
+                                'mods': 'languages',
+                                'id': '22',
+                                'items': header.languages
+                            })
+                        
