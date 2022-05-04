@@ -1,36 +1,48 @@
-mixin header()
-    header.header
-        +logo({
-            'mods': 'header',
-            'text': header.logo.text,
-            'iconId': 'logo-pmgt',
-            'slogan': header.logo.slogan
-        })(class="header__logo" href="/")
-        nav
-            ul.header__menu
-                if (header.feedback.hasFeedbackOption)
+mixin header(mods)
+    -
+        // список модификаторов
+        let allMods = '';
+
+        if(typeof(mods) !== 'undefined' && mods) {
+            let modsList = mods.split(',');
+
+            for (let i = 0; i < modsList.length; i++) {
+                allMods = allMods + ' header--' + modsList[i].trim();
+            }
+        }
+    header.header(class=allMods)
+        .header__container
+            +logo({
+                'mods': 'header',
+                'text': header.logo.text,
+                'iconId': 'logo-pmgt',
+                'slogan': header.logo.slogan
+            })(class="header__logo" href="/")
+            nav
+                ul.header__menu
+                    if (header.feedback.hasFeedbackOption)
+                        li.header__menu-item
+                            +btn({
+                                'text': header.feedback.text,
+                                'mods': 'link, link--feedback',
+                                'hasLeftIcon': true,
+                                'iconId': 'letter'
+                            })(href='#')
+                    li.header__menu-item
+                        +dropdown({
+                            'mods': 'regions',
+                            'id': '11',
+                            'items': header.regions
+                        })
                     li.header__menu-item
                         +btn({
-                            'text': header.feedback.text,
-                            'mods': 'link, link--feedback',
+                            'text': header.login.text,
+                            'mods': 'link, link--primary, login',
                             'hasLeftIcon': true,
-                            'iconId': 'letter'
+                            'iconId': 'login'
                         })(href='#')
-                li.header__menu-item
-                    +dropdown({
-                        'mods': 'regions',
-                        'id': '11',
-                        'items': header.regions
-                    })
-                li.header__menu-item
-                    +btn({
-                        'text': header.login.text,
-                        'mods': 'link, link--primary, login',
-                        'hasLeftIcon': true,
-                        'iconId': 'login'
-                    })(href='#')
-                li.header__menu-item
-                    +btn({
-                        'text': header.signup.text,
-                        'mods': 'link, link--primary'
-                    })(href='#')
+                    li.header__menu-item
+                        +btn({
+                            'text': header.signup.text,
+                            'mods': 'link, link--primary'
+                        })(href='#')

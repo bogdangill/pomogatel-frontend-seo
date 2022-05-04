@@ -1,19 +1,25 @@
 .header {
-    @include container(
-        $xs-grid-gutter:  16px,
-        $sm-grid-gutter:  32px,
-        $md-grid-gutter:  32px,
-        $lg-grid-gutter:  32px,
-        $xl-grid-gutter:  0,
-        $xxl-grid-gutter: 0
-    );
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding-top: 1em;
-    padding-bottom: 1em;
+    &--white {
+        background-color: #fff;
+    }
+    
+    &__container {
+        @include container(
+            $xs-grid-gutter:  16px,
+            $sm-grid-gutter:  32px,
+            $md-grid-gutter:  32px,
+            $lg-grid-gutter:  32px,
+            $xl-grid-gutter:  0,
+            $xxl-grid-gutter: 0
+        );
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
 
     &__logo {
         .logo__text {
