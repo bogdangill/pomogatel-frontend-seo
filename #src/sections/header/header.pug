@@ -20,6 +20,12 @@ mixin header(mods)
             })(class="header__logo" href="/")
             nav
                 ul.header__menu
+                    if (bodyClass !== 'index')
+                        li.header__menu-item.header__menu-item--start
+                            +btn({
+                                'text': header.startSearch,
+                                'mods': 'primary, md, ripple',
+                            })
                     if (header.feedback.hasFeedbackOption)
                         li.header__menu-item
                             +btn({

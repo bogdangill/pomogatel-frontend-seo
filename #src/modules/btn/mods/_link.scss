@@ -2,13 +2,14 @@
     &--link {
         font-weight: 400;
         letter-spacing: normal;
+        transition: .2s ease-out;
 
         &--primary {
             color: $color-primary;
         }
 
         &--feedback {
-            @media (max-width: $screen-md) {
+            @media (max-width: $screen-lg) {
                 .btn__icon {
                     display: block;
                     color: $color-primary;

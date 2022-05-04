@@ -54,7 +54,7 @@
         @include sqr(24px);
         margin-left: 2px;
 
-        @media (max-width: $screen-sm) {
+        @media (max-width: $screen-md) {
             display: none;
         }
     }

@@ -23,7 +23,7 @@
 
     &__logo {
         .logo__text {
-            @media (max-width: $screen-sm) {
+            @media (max-width: $screen-md) {
                 visibility: hidden;
                 width: 1px;
                 height: 1px;
@@ -46,6 +46,18 @@
 
         @media (max-width: $screen-sm) {
             margin-left: .85em;
+        }
+
+        &--start {
+            @include mediaMax($screen-sm) {
+                display: none;
+            }
+
+            @include mediaMin($screen-md) {
+                &+.header__menu-item {
+                    margin-left: $base-d * 18;
+                }
+            }
         }
     }
 }
