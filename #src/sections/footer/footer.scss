@@ -124,23 +124,4 @@
 
 .layout--bright .footer {
     position: relative;
-
-    &::before {
-        content: '';
-        position: absolute;
-        width: 1930px;
-        height: 1930px;
-        left: -233px;
-        top: -979px;
-        background: radial-gradient(50% 50% at 50% 50%, #FFF6E9 33.48%, rgba(233, 238, 255, 0) 100%);
-        opacity: 0.75;
-        z-index: -2;
-    
-        @include mediaMax($screen-sm) {
-            width: 446px;
-            height: 446px;
-            left: -62px;
-            top: 475px;
-        }
-    }
 }

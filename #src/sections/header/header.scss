@@ -23,7 +23,7 @@
 
     &__logo {
         .logo__text {
-            @media (max-width: $screen-md) {
+            @media (max-width: $screen-sm) {
                 visibility: hidden;
                 width: 1px;
                 height: 1px;
@@ -44,16 +44,16 @@
 
         margin-left: 1.5em;
 
-        @media (max-width: $screen-sm) {
+        @media (max-width: $screen-md) {
             margin-left: .85em;
         }
 
         &--start {
-            @include mediaMax($screen-sm) {
+            @include mediaMax($screen-md) {
                 display: none;
             }
 
-            @include mediaMin($screen-md) {
+            @include mediaMin($screen-lg) {
                 &+.header__menu-item {
                     margin-left: $base-d * 18;
                 }
@@ -62,7 +62,7 @@
     }
 }
 
-.layout--bright .header {
+.layout--bright .index .header {
     &::before {
         content: '';
         position: absolute;
@@ -79,6 +79,17 @@
             height: 369px;
             left: -138px;
             top: -117px;
+        }
+    }
+}
+
+.layout--default {
+    .header--white {
+        @include mediaMin($screen-md) {
+            .header__container {
+                padding-top: $base-d * 5;
+                padding-bottom: $base-d * 5;
+            }
         }
     }
 }

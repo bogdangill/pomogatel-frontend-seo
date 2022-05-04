@@ -12,6 +12,10 @@
         .dropdown-body {
             width: 18.75em;
 
+            @include mediaMax($screen-lg) {
+                width: $base-m * 130;
+            }
+
             @media (max-width: $screen-sm) {
                 left: .5em;
                 width: 95vw;
@@ -27,6 +31,10 @@
         transition: color .2s ease-out;
         max-width: 21vw;
         @include textOverflow();
+
+        @media (min-width: $screen-sm) and (max-width: $screen-lg) {
+            max-width: $base-m * 50;
+        }
 
         &::after {
             content: '';
@@ -54,7 +62,7 @@
         @include sqr(24px);
         margin-left: 2px;
 
-        @media (max-width: $screen-md) {
+        @media (max-width: $screen-lg) {
             display: none;
         }
     }
@@ -73,9 +81,12 @@
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05), 0px 7px 55px rgba(0, 0, 0, 0.05);
     transform: scaleY(0);
 
-
     margin: 0;
     padding: .5em;
+
+    @include mediaMax($screen-lg) {
+        left: -2em;
+    }
 
     &--hidden {
         @include sr-only();

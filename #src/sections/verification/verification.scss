@@ -1,25 +1,29 @@
 .verification {
-    @include container(
-        $xl-grid-gutter:  0,
-        $xxl-grid-gutter: 0
-    );
-    background-color: $color-primary-lightest;
+    position: relative;
 
-    @include mediaMax($screen-sm) {
-        padding-top: $space-y-mobile-index-section;
-        padding-bottom: $space-y-mobile-index-section;
-    }
-
-    @include mediaMax($screen-lg) {
-        padding-top: $space-y-desktop-index-section;
-        padding-bottom: $space-y-desktop-index-section;
-    }
-
-    @include mediaMin($screen-lg) {
-        border-radius: $brad-lg;
-
-        padding-top: calcResponsiveSpace(80, 1440);
-        padding-bottom: calcResponsiveSpace(80, 1440);
+    &__inner {
+        @include container(
+            $xl-grid-gutter:  0,
+            $xxl-grid-gutter: 0
+        );
+        background-color: $color-primary-lightest;
+    
+        @include mediaMax($screen-sm) {
+            padding-top: $space-y-mobile-index-section;
+            padding-bottom: $space-y-mobile-index-section;
+        }
+    
+        @include mediaMax($screen-lg) {
+            padding-top: $space-y-desktop-index-section;
+            padding-bottom: $space-y-desktop-index-section;
+        }
+    
+        @include mediaMin($screen-lg) {
+            border-radius: $brad-lg;
+    
+            padding-top: calcResponsiveSpace(80, 1440);
+            padding-bottom: calcResponsiveSpace(80, 1440);
+        }
     }
 
     &__title,
@@ -66,6 +70,29 @@
 }
 
 .layout--bright .verification {
-    color: white;
-    background-color: $color-primary-dark;
+    position: relative;
+
+    &__inner {
+        color: white;
+        background-color: $color-primary-dark;
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        width: 1930px;
+        height: 1930px;
+        left: -233px;
+        top: 33px;
+        background: radial-gradient(50% 50% at 50% 50%, #FFF6E9 33.48%, rgba(233, 238, 255, 0) 100%);
+        opacity: 0.75;
+        z-index: -2;
+    
+        @include mediaMax($screen-sm) {
+            width: 446px;
+            height: 446px;
+            left: -62px;
+            top: 475px;
+        }
+    }
 }

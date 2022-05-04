@@ -9,14 +9,16 @@
         }
 
         &--feedback {
-            @media (max-width: $screen-lg) {
+            @include mediaMax($screen-xl) {
+                .btn__text {
+                    @include sr-only();
+                }
+            }
+
+            @include mediaMin($screen-sm) {
                 .btn__icon {
                     display: block;
                     color: $color-primary;
-                }
-
-                .btn__text {
-                    @include sr-only();
                 }
             }
 
