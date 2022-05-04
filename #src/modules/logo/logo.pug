@@ -27,7 +27,7 @@ mixin logo(data)
         if (typeof(data.iconId !== 'undefined') && data.iconId)
             svg.logo__icon
                 use(xlink:href="../../img/icons/sprite.svg#" + data.iconId)
-        a.logo__text!=data.text
+        a.logo__text(href="/")!=data.text
 
         if (typeof(data.slogan !== 'undefined') && data.slogan)
             .slogan
