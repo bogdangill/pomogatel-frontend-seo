@@ -6,7 +6,6 @@
                                                          
  
 */
-@import 'themes';
 @import 'variables';
 @import 'mixins';
 @import 'normalize';
@@ -14,6 +13,16 @@
 @import 'utils';
 @import 'grid-mixins';
 @import 'animations';
+
+/*
+ 
+ _ _  _ ___  ____ ____ ___    _    ____ _   _ ____ _  _ ___ 
+ | |\/| |__] |  | |__/  |     |    |__|  \_/  |  | |  |  |  
+ | |  | |    |__| |  \  |     |___ |  |   |   |__| |__|  |  
+                                                            
+ 
+*/
+@import '../layouts/layout.scss';
 
 
 /*

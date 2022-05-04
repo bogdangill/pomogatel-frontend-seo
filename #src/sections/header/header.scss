@@ -50,7 +50,7 @@
     }
 }
 
-[data-theme="bright"] .header {
+.layout--bright .header {
     &::before {
         content: '';
         position: absolute;

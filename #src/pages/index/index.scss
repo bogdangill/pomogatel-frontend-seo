@@ -1,10 +1,6 @@
 @import 'connectors/index.connector';
 
 .index {
-    font-family: $ff-primary;
-    line-height: 1.5;
-    color: $color-text;
-
     &__main {
         margin-top: 9.3vw;
 
@@ -45,11 +41,11 @@
     }
 }
 
-[data-theme="bright"] .index {
+.layout--bright .index {
     background-color: $color-primary-lightest;
 }
 
-[data-theme="bright"] .index main {
+.layout--bright .index main {
     position: relative;
     overflow: hidden;
 
@@ -92,6 +88,6 @@
     }
 }
 
-[data-theme="bright"] .index .wrapper {
+.layout--bright .index .wrapper {
     overflow: hidden;
 }
