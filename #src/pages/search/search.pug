@@ -1,0 +1,19 @@
+extends ../../layouts/layout-default.pug
+include connectors/_search.connector.pug
+
+block meta
+    title Домашний персонал в Москве на Помогатель.ру: няни, домработницы, сиделки, репетиторы
+
+block body
+    - var bodyClass = 'search';
+
+    body(class=bodyClass)
+        .wrapper
+            block header
+                +header()
+            block content
+                main
+            block footer
+                +footer()
+block page-bottom
+    script(src='search.min.js')
