@@ -34,7 +34,7 @@ mixin dropdown(data)
     .dropdown(class=allMods data-dropdownid=data.id)
         button.dropdown__value(aria-haspopup="true" aria-expanded="false" id="ddRegions")!=defaultValue
         svg.dropdown__icon
-            use(xlink:href="../../img/icons/sprite.svg#arrow-bottom")
+            use(xlink:href="./img/icons/sprite.svg#arrow-bottom")
         ul.dropdown-body.dropdown-body--hidden(aria-labelledby="ddRegions")
             each item in data.items
                 li.dropdown-body__item

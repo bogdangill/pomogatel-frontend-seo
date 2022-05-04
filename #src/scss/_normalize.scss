@@ -57,7 +57,7 @@ html {
 
 body {
     height: 100%; //для прижатия футера к низу
-    line-height: 18px;
+    line-height: inherit;
     margin: 0;
 
     -webkit-font-smoothing: antialiased;
