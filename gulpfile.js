@@ -18,9 +18,9 @@ let fs = require('fs');
 
 let path = {
   build: {
-    html: project_folder + "/pages/",
+    html: project_folder + "/",
     css: project_folder + "/css/",
-    js: project_folder + "/pages/",
+    js: project_folder + "/js/",
     img: project_folder + "/img/",
     fonts: project_folder + "/fonts/"
   },
@@ -108,6 +108,7 @@ function pug2html() {
   return src([path.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
     .pipe(pug())
     .pipe(prettyHtml(prettyOption))
+    .pipe(rename({dirname: ""}))
     .pipe(dest(path.build.html))
     .pipe(browsersync.stream())
 }
@@ -167,6 +168,7 @@ function js() {
     {
       format: "iife"
     }))
+    .pipe(rename({dirname: ""}))
     .pipe(dest(path.build.js))
     .pipe(
       uglify()
@@ -176,6 +178,7 @@ function js() {
         extname: ".min.js",
       })
     )
+    .pipe(rename({dirname: ""}))
     .pipe(dest(path.build.js))
     .pipe(browsersync.stream())
 }
