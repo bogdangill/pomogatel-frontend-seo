@@ -2,7 +2,7 @@
     color: $color-gray-light;
     background-color: $color-primary-darkest-dim;
 
-    &__wrapper {
+    &__container {
         @include container(
             $xl-grid-gutter:  0,
             $xxl-grid-gutter: 0

@@ -64,6 +64,17 @@ body {
     -moz-osx-font-smoothing: grayscale
 }
 
+//для прижатия футера к низу
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__footer {
+        margin-top: auto;
+    }
+}
+
 a {
     cursor: pointer;
     background-color: transparent; // Remove the gray background on active links in IE 10.
