@@ -39,6 +39,15 @@
   height: 100%;
 }
 
+//ui-kit design components
+@mixin ui-section($paddings-x: $base-d * 12, $paddings-y: $base-d * 12) {
+  background-color: #fff;
+  border-radius: $brad-sm;
+  box-shadow: 0px 0px 2px rgba(51, 51, 51, 0.04), 0px 0px 4px rgba(51, 51, 51, 0.04), 0px 2px 8px -2px rgba(51, 51, 51, 0.08);
+
+  padding: $paddings-y $paddings-x;
+}
+
 @function calcFluidFontSize($f-min, $f-max, $v-min, $v-max) {
   $k: ($f-max - $f-min)/($v-max - $v-min);
   $b: $f-min - $k * $v-min;
