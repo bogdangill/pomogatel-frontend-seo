@@ -95,6 +95,10 @@ const {src, dest, series, parallel} = require('gulp'),
  
 */
 
+function parseJSON() {
+
+}
+
 /*
  
  ___  _  _ ____ 
@@ -106,7 +110,7 @@ const {src, dest, series, parallel} = require('gulp'),
 
 function pug2html() {
   return src([path.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
-    .pipe(pug())
+    .pipe(pug({locals: JSON.parse(fs.readFileSync('#src/dictionaries/ru.json'))}))
     .pipe(prettyHtml(prettyOption))
     .pipe(rename({dirname: ""}))
     .pipe(dest(path.build.html))
