@@ -23,10 +23,17 @@
         }
     }
 
+    &--languages {
+        .dropdown__value {
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05), 0px 7px 55px rgba(0, 0, 0, 0.05);;
+        }
+    }
+
     &__value {
         position: relative;
         background-color: transparent;
         border: 0;
+        border-radius: 0;
         padding: 0;
         transition: color .2s ease-out;
         max-width: 21vw;
