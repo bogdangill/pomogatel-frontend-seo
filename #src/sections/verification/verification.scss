@@ -19,7 +19,7 @@
         }
     
         @include mediaMin($screen-lg) {
-            border-radius: $brad-lg;
+            border-radius: $brad-xl;
     
             padding-top: calcResponsiveSpace(80, 1440);
             padding-bottom: calcResponsiveSpace(80, 1440);
