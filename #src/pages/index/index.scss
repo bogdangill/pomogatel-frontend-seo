@@ -16,6 +16,10 @@
 
     &__kinds {
         margin-top: 3.89vw;
+
+        @include mediaMax($screen-sm) {
+            margin-top: $base-m * 12;
+        }
     }
 
     &__steps {

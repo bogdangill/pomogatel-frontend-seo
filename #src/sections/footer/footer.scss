@@ -14,8 +14,8 @@
             display: flex;
             flex-wrap: wrap;
     
-            padding-top: calcResponsiveSpace(88, 1440);
-            margin-bottom: calcResponsiveSpace(40, 1440);
+            padding-top: $base-d * 44;
+            margin-bottom: $base-d * 20;
         }
 
         @include mediaMax($screen-md) {

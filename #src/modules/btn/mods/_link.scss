@@ -15,7 +15,7 @@
                 }
             }
 
-            @include mediaMin($screen-sm) {
+            @media (min-width: $screen-sm) and (max-width: $screen-xl) {
                 .btn__icon {
                     display: block;
                     color: $color-primary;
