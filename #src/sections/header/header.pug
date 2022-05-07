@@ -18,31 +18,44 @@ mixin header(mods)
                 'iconId': 'logo-pmgt',
                 'slogan': header.logo.slogan
             })(class="header__logo" href="/")
-            nav
-                ul.header__menu
-                    if (header.feedback.hasFeedbackOption)
-                        li.header__menu-item
-                            +btn({
-                                'text': header.feedback.text,
-                                'mods': 'link, link--feedback',
-                                'hasLeftIcon': true,
-                                'iconId': 'letter'
-                            })(href='#')
+            ul.header__menu
+                if (bodyClass !== 'index' && header.startSearch)
+                    li.header__menu-item.header__menu-item--start
+                        +btn({
+                            'text': header.startSearch,
+                            'mods': 'primary, md, ripple',
+                        })
+                if (header.feedback.hasFeedbackOption)
+                    li.header__menu-item
+                        +btn({
+                            'text': header.feedback.text,
+                            'mods': 'link, link--feedback',
+                            'hasLeftIcon': true,
+                            'iconId': 'letter'
+                        })(href='#')
+                li.header__menu-item
+                    +dropdown({
+                        'mods': 'regions',
+                        'id': '11',
+                        'items': header.regions
+                    })
+                li.header__menu-item
+                    +btn({
+                        'text': header.login.text,
+                        'mods': 'link, link--primary, login',
+                        'hasLeftIcon': true,
+                        'iconId': 'login'
+                    })(href='#')
+                li.header__menu-item
+                    +btn({
+                        'text': header.signup.text,
+                        'mods': 'link, link--primary'
+                    })(href='#')
+                if (country !== 'ru')
                     li.header__menu-item
                         +dropdown({
-                            'mods': 'regions',
-                            'id': '11',
-                            'items': header.regions
+                            'mods': 'languages',
+                            'id': '22',
+                            'items': header.languages
                         })
-                    li.header__menu-item
-                        +btn({
-                            'text': header.login.text,
-                            'mods': 'link, link--primary, login',
-                            'hasLeftIcon': true,
-                            'iconId': 'login'
-                        })(href='#')
-                    li.header__menu-item
-                        +btn({
-                            'text': header.signup.text,
-                            'mods': 'link, link--primary'
-                        })(href='#')
+                        

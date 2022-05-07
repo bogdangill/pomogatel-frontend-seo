@@ -2,20 +2,23 @@
     &--link {
         font-weight: 400;
         letter-spacing: normal;
+        transition: .2s ease-out;
 
         &--primary {
             color: $color-primary;
         }
 
         &--feedback {
-            @media (max-width: $screen-md) {
+            @include mediaMax($screen-xl) {
+                .btn__text {
+                    @include sr-only();
+                }
+            }
+
+            @media (min-width: $screen-sm) and (max-width: $screen-xl) {
                 .btn__icon {
                     display: block;
                     color: $color-primary;
-                }
-
-                .btn__text {
-                    @include sr-only();
                 }
             }
 

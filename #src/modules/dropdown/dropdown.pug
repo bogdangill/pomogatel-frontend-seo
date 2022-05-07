@@ -19,23 +19,44 @@ mixin dropdown(data)
         })
     -
         // список модификаторов
-        let allMods = '';
+        let allMods = '',
+            isLanguageSwitcher = false,
+            ddType = 'ddRegions',
+            defaultValue = ''
 
         if(typeof(data.mods) !== 'undefined' && data.mods) {
             let modsList = data.mods.split(',');
 
             for (let i = 0; i < modsList.length; i++) {
+                if (modsList[i] === 'languages') {
+                    isLanguageSwitcher = true;
+                    ddType = 'languageSwitcher';
+                    defaultValue = 'flags--' + data.items[0].flag;
+                } else {
+                    defaultValue = data.items[0]['text'].split(' и ')[0];
+                }
+
                 allMods = allMods + 'dropdown--' + modsList[i].trim();
             }
         }
 
-        let defaultValue = data.items[0]['text'].split(' и ')[0];
-
     .dropdown(class=allMods data-dropdownid=data.id)
-        button.dropdown__value(aria-haspopup="true" aria-expanded="false" id="ddRegions")!=defaultValue
-        svg.dropdown__icon
-            use(xlink:href="../../img/icons/sprite.svg#arrow-bottom")
-        ul.dropdown-body.dropdown-body--hidden(aria-labelledby="ddRegions")
+        if (isLanguageSwitcher)
+            +btn({
+                'hasLeftIcon': true,
+                'iconId': defaultValue
+            })(class="dropdown__value" aria-haspopup="true" aria-expanded="false" id=ddType)
+        else 
+            button.dropdown__value(aria-haspopup="true" aria-expanded="false" id=ddType)!=defaultValue
+            svg.dropdown__icon
+                use(xlink:href="./img/icons/sprite.svg#arrow-bottom")
+        ul.dropdown-body.dropdown-body--hidden(aria-labelledby=ddType)
             each item in data.items
                 li.dropdown-body__item
-                    a(href=item.href)!=item.text
+                    if (isLanguageSwitcher)
+                        +btn({
+                            'hasLeftIcon': true,
+                            'iconId': 'flags--' + item.flag
+                        })
+                    else
+                        a(href=item.href)!=item.text

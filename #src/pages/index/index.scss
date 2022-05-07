@@ -1,6 +1,8 @@
 @import 'connectors/index.connector';
 
 .index {
+    height: auto;
+
     &__main {
         margin-top: 9.3vw;
 
@@ -14,6 +16,10 @@
 
     &__kinds {
         margin-top: 3.89vw;
+
+        @include mediaMax($screen-sm) {
+            margin-top: $base-m * 12;
+        }
     }
 
     &__steps {
@@ -86,8 +92,4 @@
             top: -600px;
         }
     }
-}
-
-.layout--bright .index .wrapper {
-    overflow: hidden;
 }

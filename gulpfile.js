@@ -284,7 +284,7 @@ const DAEMON = (cb) => {
     notify: false,
     open: true,
     cors: true,
-    startPath: '/pages/index/index.html'
+    startPath: '/index.html'
   });
 
   gulp.watch([path.watch.img], series(images)).on('change', browsersync.reload);
