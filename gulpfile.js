@@ -39,6 +39,7 @@ let path = {
     css: source_folder + "/**/*.+(scss|sass)",
     js: source_folder + "/**/*.js",
     img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
+    icons: source_folder + "/icons/**/**/*.svg"
   },
   clean: "./" + project_folder + "/" //путь для удаления папки dist, чтобы каждый раз перед прогоном бандла функций галпа удалять ненужные файлы
 }
@@ -304,7 +305,7 @@ const DAEMON = (cb) => {
   });
 
   gulp.watch([path.watch.img], series(images)).on('change', browsersync.reload);
-  gulp.watch([source_folder + '/iconsprite/*.svg'], series(makeSprite)).on('change', browsersync.reload);
+  gulp.watch([path.watch.icons], series(makeSprite)).on('change', browsersync.reload);
   gulp.watch([path.watch.css], series(css)).on('change', browsersync.reload);
   gulp.watch([path.watch.js], series(js)).on('change', browsersync.reload);
   gulp.watch([path.watch.pug], series(pug2html)).on('change', browsersync.reload);
