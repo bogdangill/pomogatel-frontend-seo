@@ -22,14 +22,17 @@ let path = {
     css: project_folder + "/css/",
     js: project_folder + "/js/",
     img: project_folder + "/img/",
-    fonts: project_folder + "/fonts/"
+    fonts: project_folder + "/fonts/",
+    favicons: project_folder + "/favicons/"
   },
   src: {
     pug: source_folder + "/pages/**/*.pug",
     css: source_folder + "/scss/styles.scss",
     js: source_folder + "/pages/**/*.js",
     img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
-    fonts: source_folder + "/fonts/*.{ttf, TTF}"
+    fonts: source_folder + "/fonts/*.{ttf, TTF}",
+    favicons: source_folder + "/favicons/**/*.+(png|svg|ico)",
+    icons: source_folder + "/icons/**/**/*.svg"
   },
   watch: { //какие файлы слушаем для сихронизации с browsersync
     pug: source_folder + "/**/*.pug",
@@ -94,6 +97,19 @@ const {src, dest, series, parallel} = require('gulp'),
                                           
  
 */
+
+function copyFavicons() {
+  return src(path.src.favicons)
+    .pipe(
+      imagemin({
+        progressive: true,
+        svgoPlugins: [{removeViewBox: false}],
+        interlaced: true,
+        optimizationLevel: 2 // от 0 до 7
+      })
+    )
+    .pipe(dest(path.build.favicons))
+}
 
 /*
  
@@ -241,7 +257,7 @@ function fonts(params) {
 */
 
 function makeSprite() {
-  return gulp.src([source_folder + '/icons/**/**/*.svg'])
+  return gulp.src(path.src.icons)
     .pipe(svg_sprite({
       mode: {
         stack: {
@@ -297,7 +313,19 @@ const DAEMON = (cb) => {
 }
 
 /*закрываю в параллель для одновременного выполнения функции обработки ключевых файлов*/
-let dev = gulp.series(clean, gulp.parallel(js, css, pug2html, images, fonts, makeSprite), DAEMON);
+let dev = gulp.series(
+  clean, 
+  gulp.parallel(
+    js, 
+    css, 
+    pug2html, 
+    images, 
+    copyFavicons, 
+    fonts, 
+    makeSprite
+  ), 
+  DAEMON
+);
 
 exports.dev = dev;
 exports.default = dev;
