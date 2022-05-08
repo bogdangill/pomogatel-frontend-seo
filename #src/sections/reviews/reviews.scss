@@ -44,12 +44,25 @@
     }
 
     &__pagination {
-        bottom: -$base-m * 20 !important;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -$base-m * 20;
+
+        &.swiper-pagination-lock {
+            display: none;
+        }
 
         .swiper-pagination-bullet {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
             background-color: transparent;
             opacity: 1;
             border: 1px solid $color-primary;
+
+            margin: 0 3px;
 
             &-active {
                 background-color: $color-primary;
