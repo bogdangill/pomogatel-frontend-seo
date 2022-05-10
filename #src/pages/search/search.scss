@@ -1,5 +1,9 @@
 @import 'connectors/search.connector';
 
+.layout--bright .search {
+    background-color: $color-primary-lightest;
+}
+
 .search {
     background-color: #F4F4F4;
 
