@@ -2,6 +2,7 @@ import '../../modules/accordion/accordion.js';
 import '../../modules/dropdown/dropdown.js';
 import Ripple from '../../modules/ripple/ripple.js';
 import '../../sections/reviews/reviews.js';
+import '../../sections/kinds/kinds.js';
 
 const rippleTargets = document.querySelectorAll("[data-ripple='btn']");
 
