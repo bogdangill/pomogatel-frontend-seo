@@ -32,10 +32,6 @@
         position: relative;
 
         margin-bottom: $base-d * 32;
-
-        // @include mediaMax($screen-md) {
-        //     margin-bottom: $base-m * 32;
-        // }
     }
 
     &__list {
@@ -80,10 +76,10 @@
     }
 
     .swiper-pagination-bullet {
-        border-color: $secondary;
+        border-color: $color-secondary;
 
         &-active {
-            background-color: $secondary;
+            background-color: $color-secondary;
         }
     }
 
