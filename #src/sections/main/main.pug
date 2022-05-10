@@ -18,5 +18,5 @@ mixin promo()
         p.main__text!=main.text
         +btn({
             'text': main.btnText,
-            'mods': 'ripple, lg, '+btnMods
-        })(data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated")
+            'mods': 'lg, '+btnMods
+        })(data-action="registration" data-ga-label="main_button" data-ga-action="main_page" data-registration-state="unregistrated" data-ripple="ripple")

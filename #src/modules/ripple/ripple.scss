@@ -1,0 +1,24 @@
+//ripple эффект при нажатии, как в material design/ionic/android >=12
+
+.ripple {
+    position: relative;
+    overflow: hidden;
+
+    &__circle {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple .6s linear;
+        opacity: .7;
+
+        &--default {
+            background-color: rgb(255, 255, 255);
+        }
+        &--primary {
+            background-color: $color-primary-light;
+        }
+        &--secondary {
+            background-color: $color-secondary;
+        }
+    }
+}
