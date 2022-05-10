@@ -31,8 +31,8 @@ mixin footer()
                             li.footer__link
                                 +btn({
                                     'text': footer.support.btnText,
-                                    'mods': 'ripple, sm, '+btnMods
-                                })
+                                    'mods': 'sm, '+btnMods
+                                })(data-ripple="btn")
             if (typeof(footer.disclaimer) !== 'undefined' && footer.disclaimer)                
                 small.footer__disclaimer!= footer.disclaimer
             hr.footer__separator
