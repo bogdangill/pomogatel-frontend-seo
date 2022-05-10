@@ -2,6 +2,7 @@
 
 .btn--blink {
     position: relative;
+    overflow: hidden;
     transition: text-shadow .5s ease-out;
 
     &:hover {

@@ -54,10 +54,10 @@
         &::after {
             height: 12.1em;
             background-image: url('../img/promo-right-tr.svg');
-        }
 
-        @media (max-width: $screen-lg) {
-            height: 13.5vw;
+            @media (max-width: $screen-lg) {
+                height: 13.5vw !important;
+            }
         }
 
         @media (max-width: $screen-sm) {

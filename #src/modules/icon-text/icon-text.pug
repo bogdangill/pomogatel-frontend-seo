@@ -29,7 +29,7 @@ mixin icon-text(data)
         if (data.iconSize === 'lg') iconMod = 'icon-text__icon--lg';
         if (data.iconSize === 'xl') iconMod = 'icon-text__icon--xl';
 
-    .icon-text(class=allMods)
+    .icon-text(class=allMods)&attributes(attributes)
         .icon-text__icon(class=iconMod)
             if (country === 'vn' || country === 'tr')
                 img(src="./img/icons/sprite.svg#"+data.iconId, alt=data.text)
