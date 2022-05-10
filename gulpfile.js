@@ -35,7 +35,7 @@ let path = {
     icons: source_folder + "/icons/**/**/*.svg"
   },
   watch: { //какие файлы слушаем для сихронизации с browsersync
-    pug: source_folder + "/**/*.pug",
+    pug: source_folder + "/**/**/*.pug",
     css: source_folder + "/**/*.+(scss|sass)",
     js: source_folder + "/**/*.js",
     img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
