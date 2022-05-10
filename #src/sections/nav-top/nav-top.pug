@@ -1,0 +1,32 @@
+mixin nav-top()
+    -
+        let sectionMod = '';
+
+        if (country === 'vn' || country === 'tr') sectionMod = 'nav-top--columns';
+
+    .nav-top(class=sectionMod)
+        nav.nav-top__inner
+            each row in navTop.rows
+                .nav-top__carousel(data-carousel=row.carouselMod)
+                    +btn({
+                        'hasLeftIcon': true,
+                        'iconId': 'chevron-left'
+                    })(class=`
+                            nav-top__btn 
+                            nav-top__btn--left 
+                            nav-top__btn--${row.carouselMod}` 
+                        data-ripple="carouselBtn"
+                    )
+                    +btn({
+                        'hasLeftIcon': true,
+                        'iconId': 'chevron-right'
+                    })(class=`
+                            nav-top__btn 
+                            nav-top__btn--right 
+                            nav-top__btn--${row.carouselMod}`
+                        data-ripple="carouselBtn"
+                    )
+                    ul.nav-top__list.swiper-wrapper
+                        each link in row.links
+                            li.nav-top__item.swiper-slide(data-ripple="navLink")
+                                a.nav-top__link(href=link.href)= link.text
