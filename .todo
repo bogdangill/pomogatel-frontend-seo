@@ -7,3 +7,11 @@
 -отказаться от bootstrap-grid папки, брать нужные модули фреймворка через node_modules, тоже самое и со swiper
 
 -еще раз внимательно посмотреть и подумать над архитектурой сборки. может можно улучшить и сделать более понятно?
+
+-сконвертировать data файлы pug в json: // Compile the template to a function string
+var jsFunctionString = pug.compileFileClient('/path/to/pugFile.pug', {name: "fancyTemplateFun"});
+
+// Maybe you want to compile all of your templates to a templates.js file and serve it to the client
+fs.writeFileSync("templates.js", jsFunctionString); //from: https://pugjs.org/api/reference.html
+
+-написать автоконнекторы для всего, что нужно

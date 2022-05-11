@@ -99,6 +99,61 @@ const { src, dest, series, parallel } = require('gulp'),
  
 */
 
+function test(cb) {
+    const pathMod = require('path');
+    const sectionsDir = '#src/sections/';
+    const dictionariesDir = '#src/dictionaries2/';
+
+    try {
+        // dictionaries.forEach(dic => {
+        //     console.log(dic);
+        // });
+        ///
+
+        const sections = fs.readdirSync(sectionsDir);
+        const dictionaries = fs.readdirSync(dictionariesDir);
+        let dictionaryArr = [];
+
+        dictionaries.forEach(dictionary => {
+            
+            const dictionaryPath = pathMod.join(dictionariesDir, dictionary);
+
+            dictionaryArr.push(dictionaryPath);
+        });
+
+        console.log(dictionaryArr);
+
+        sections.forEach(section => {
+            const sectionData = pathMod.join(sectionsDir, section, '/data/');
+
+            if (!fs.lstatSync(sectionData).isDirectory()) return
+
+            const dataFiles = fs.readdirSync(sectionData).filter(file => pathMod.extname(file) === '.pug');
+
+            // for (let file of dataFiles) {
+            //     if (file.match(/ru/)) {
+                    
+            //     }
+            // }
+            
+            // console.log(section+', '+dataFile);
+
+            // dictionaries.forEach(dictionary => {
+            //     fs.writeFileSync(dictionary, '');
+                
+            //     if (pathMod.extname(dictionary) === '.pug') {
+            //         fs.appendFileSync(dictionary, `include ../sections/${section}/data/${dataFile}\n`);
+            //     }
+            // })
+        })
+    } 
+    catch(err) {
+        console.log(err);
+    }
+
+    return cb();
+}
+
 function copyFavicons() {
     return src(path.src.favicons)
         .pipe(
@@ -319,6 +374,7 @@ let dev = gulp.series(
     gulp.parallel(
         js,
         css,
+        test,
         pug2html,
         images,
         copyFavicons,
