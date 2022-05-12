@@ -6,6 +6,8 @@ let source_folder = "#src";
 
 /*file system*/
 let fs = require('fs');
+// для работы с путями
+const path = require('path');
 
 /*
  
@@ -88,7 +90,8 @@ const { src, dest, series, parallel } = require('gulp'),
     rollup = require('gulp-better-rollup'),
     babel = require('rollup-plugin-babel'),
     resolve = require('rollup-plugin-node-resolve'),
-    commonjs = require('rollup-plugin-commonjs');
+    commonjs = require('rollup-plugin-commonjs'),
+    through2 = require('through2'); //для создания встроенных плагинов
 
 /*
  
@@ -99,52 +102,86 @@ const { src, dest, series, parallel } = require('gulp'),
  
 */
 
-function collectData(cb) {
-    const path = require('path');
+function cleanDictionaries() {
+    return src('#src/dictionaries/')
+        .pipe(through2.obj(function(_, _, cb) {
+            const dictionariesDir = '#src/dictionaries/';
+            const dictionaries = fs.readdirSync(dictionariesDir).filter(dic => path.extname(dic) === '.pug');
+
+            if (dictionaries.length > 0) {
+                dictionaries.forEach(dic => fs.writeFileSync(`${dictionariesDir}/${path.basename(dic)}`, ''))
+            }
+
+            cb();
+        })).on('end', () => console.log('dictionaries has been cleaned'))
+}
+
+function collectData() {
+    // const sectionsDir = '#src/sections/';
+
+    const locales = ['ru', 'en', 'vn', 'tr'];
+
+    return src('#src/sections/**/data/')
+        .pipe(through2.obj(function(dataFile, _, cb) {
+            for (let locale of locales) {
+                let localeRegExp = new RegExp(locale);
+                let fileName = path.basename(`#src/sections/**/data/${dataFile}.pug`);
+
+                console.log(fileName);
+
+                if (fileName.match(localeRegExp)) {
+                    let filePath = `include ../sections/${section}/data/${fileName}.pug\n`;
+
+                    fs.appendFileSync(
+                        `#src/dictionaries/dictionary.${locale}.pug`, 
+                        filePath
+                    )
+                }
+            }
+            cb();
+        })).on('end', () => console.log('data has been included'))
+}
+
+function collectDatas(cb) {
     const sectionsDir = '#src/sections/';
     const dictionariesDir = '#src/dictionaries/';
 
     const locales = ['ru', 'en', 'vn', 'tr'];
 
-    try {
-        const dictionaries = fs.readdirSync(dictionariesDir);
+    const dictionaries = fs.readdirSync(dictionariesDir);
 
-        //чистка содержимого всех словарей чтобы избежать копипасты при каждом новом создании дата-файла в секции.
-        //содержимое словаря будет воссоздаваться заново при каждом новом создании data-(locale).pug включая и этот дата-файл. надо доработать или вообще переделать
-        dictionaries.forEach(dictionary => {
-            if (path.extname(dictionary) === '.pug') {
-                fs.writeFileSync(`${dictionariesDir}/${path.basename(dictionary)}`, '');
-            }
-        })
+    //чистка содержимого всех словарей чтобы избежать копипасты при каждом новом создании дата-файла в секции.
+    //содержимое словаря будет воссоздаваться заново при каждом новом создании data-(locale).pug включая и этот дата-файл. надо доработать или вообще переделать
+    dictionaries.forEach(dictionary => {
+        if (path.extname(dictionary) === '.pug') {
+            fs.writeFileSync(`${dictionariesDir}/${path.basename(dictionary)}`, '');
+        }
+    })
 
-        const sections = fs.readdirSync(sectionsDir);
+    const sections = fs.readdirSync(sectionsDir);
 
-        sections.forEach(section => {
-            const sectionData = path.join(sectionsDir, section, '/data/');
+    sections.forEach(section => {
+        const sectionData = path.join(sectionsDir, section, '/data/');
 
-            if (!fs.lstatSync(sectionData).isDirectory()) return
+        if (!fs.lstatSync(sectionData).isDirectory()) return
 
-            const dataFiles = fs.readdirSync(sectionData).filter(file => path.extname(file) === '.pug');
+        const dataFiles = fs.readdirSync(sectionData).filter(file => path.extname(file) === '.pug');
 
-            for (let file of dataFiles) {
-                for (let locale of locales) {
-                    let localeRegExp = new RegExp(locale);
+        for (let file of dataFiles) {
+            for (let locale of locales) {
+                let localeRegExp = new RegExp(locale);
 
-                    if (file.match(localeRegExp)) {
-                        let filePath = `include ../sections/${section}/data/${file}\n`;
+                if (file.match(localeRegExp)) {
+                    let filePath = `include ../sections/${section}/data/${file}\n`;
 
-                        fs.appendFileSync(
-                            `#src/dictionaries/dictionary.${locale}.pug`, 
-                            filePath
-                        )
-                    }
+                    fs.appendFileSync(
+                        `#src/dictionaries/dictionary.${locale}.pug`, 
+                        filePath
+                    )
                 }
             }
-        })
-    } 
-    catch(err) {
-        console.log(err);
-    }
+        }
+    })
 
     return cb();
 }
@@ -358,7 +395,7 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);  
-    gulp.watch([pathTo.watch.pug], series(pug2html)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.pug], series(collectData, pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
@@ -366,10 +403,11 @@ const DAEMON = (cb) => {
 /*закрываю в параллель для одновременного выполнения функции обработки ключевых файлов*/
 let dev = gulp.series(
     clean,
+    cleanDictionaries,
+    collectData,
     gulp.parallel(
         js,
         css,
-        collectData,
         pug2html,
         images,
         copyFavicons,
