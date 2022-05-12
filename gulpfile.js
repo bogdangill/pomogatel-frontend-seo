@@ -16,7 +16,7 @@ let fs = require('fs');
  
 */
 
-let path = {
+let pathTo = {
     build: {
         html: project_folder + "/",
         css: project_folder + "/css/",
@@ -99,52 +99,47 @@ const { src, dest, series, parallel } = require('gulp'),
  
 */
 
-function test(cb) {
-    const pathMod = require('path');
+function collectData(cb) {
+    const path = require('path');
     const sectionsDir = '#src/sections/';
-    const dictionariesDir = '#src/dictionaries2/';
+    const dictionariesDir = '#src/dictionaries/';
+
+    const locales = ['ru', 'en', 'vn', 'tr'];
 
     try {
-        // dictionaries.forEach(dic => {
-        //     console.log(dic);
-        // });
-        ///
+        const dictionaries = fs.readdirSync(dictionariesDir);
+
+        //чистка содержимого всех словарей чтобы избежать копипасты при каждом новом создании дата-файла в секции.
+        //содержимое словаря будет воссоздаваться заново при каждом новом создании data-(locale).pug включая и этот дата-файл. надо доработать или вообще переделать
+        dictionaries.forEach(dictionary => {
+            if (path.extname(dictionary) === '.pug') {
+                fs.writeFileSync(`${dictionariesDir}/${path.basename(dictionary)}`, '');
+            }
+        })
 
         const sections = fs.readdirSync(sectionsDir);
-        const dictionaries = fs.readdirSync(dictionariesDir);
-        let dictionaryArr = [];
-
-        dictionaries.forEach(dictionary => {
-            
-            const dictionaryPath = pathMod.join(dictionariesDir, dictionary);
-
-            dictionaryArr.push(dictionaryPath);
-        });
-
-        console.log(dictionaryArr);
 
         sections.forEach(section => {
-            const sectionData = pathMod.join(sectionsDir, section, '/data/');
+            const sectionData = path.join(sectionsDir, section, '/data/');
 
             if (!fs.lstatSync(sectionData).isDirectory()) return
 
-            const dataFiles = fs.readdirSync(sectionData).filter(file => pathMod.extname(file) === '.pug');
+            const dataFiles = fs.readdirSync(sectionData).filter(file => path.extname(file) === '.pug');
 
-            // for (let file of dataFiles) {
-            //     if (file.match(/ru/)) {
-                    
-            //     }
-            // }
-            
-            // console.log(section+', '+dataFile);
+            for (let file of dataFiles) {
+                for (let locale of locales) {
+                    let localeRegExp = new RegExp(locale);
 
-            // dictionaries.forEach(dictionary => {
-            //     fs.writeFileSync(dictionary, '');
-                
-            //     if (pathMod.extname(dictionary) === '.pug') {
-            //         fs.appendFileSync(dictionary, `include ../sections/${section}/data/${dataFile}\n`);
-            //     }
-            // })
+                    if (file.match(localeRegExp)) {
+                        let filePath = `include ../sections/${section}/data/${file}\n`;
+
+                        fs.appendFileSync(
+                            `#src/dictionaries/dictionary.${locale}.pug`, 
+                            filePath
+                        )
+                    }
+                }
+            }
         })
     } 
     catch(err) {
@@ -155,7 +150,7 @@ function test(cb) {
 }
 
 function copyFavicons() {
-    return src(path.src.favicons)
+    return src(pathTo.src.favicons)
         .pipe(
             imagemin({
                 progressive: true,
@@ -164,7 +159,7 @@ function copyFavicons() {
                 optimizationLevel: 2 // от 0 до 7
             })
         )
-        .pipe(dest(path.build.favicons))
+        .pipe(dest(pathTo.build.favicons))
 }
 
 /*
@@ -177,11 +172,11 @@ function copyFavicons() {
 */
 
 function pug2html() {
-    return src([path.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
+    return src([pathTo.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
         .pipe(pug())
         .pipe(prettyHtml(prettyOption))
         .pipe(rename({ dirname: "" }))
-        .pipe(dest(path.build.html))
+        .pipe(dest(pathTo.build.html))
         .pipe(browsersync.stream())
 }
 
@@ -195,7 +190,7 @@ function pug2html() {
 */
 
 function css() {
-    return src(path.src.css)
+    return src(pathTo.src.css)
         .pipe(
             scss({
                 outputStyle: 'expanded'
@@ -205,7 +200,7 @@ function css() {
             group_media()
         )
         // .pipe(webp_css())
-        .pipe(dest(path.build.css))//выхлоп несжатого css без чистки и оптимизации медиазапросов
+        .pipe(dest(pathTo.build.css))//выхлоп несжатого css без чистки и оптимизации медиазапросов
         .pipe(postcss([
             autoprefixer({
                 cascade: 'true'
@@ -221,7 +216,7 @@ function css() {
                 extname: ".min.css",
             })
         )
-        .pipe(dest(path.build.css))//выхлоп сжатого на проду
+        .pipe(dest(pathTo.build.css))//выхлоп сжатого на проду
         .pipe(browsersync.stream())
 }
 
@@ -235,13 +230,13 @@ function css() {
 */
 
 function js() {
-    return src(path.src.js)
+    return src(pathTo.src.js)
         .pipe(rollup({ plugins: [commonjs(), resolve(), babel({ presets: ['@babel/env'] })] },
             {
                 format: "iife"
             }))
         .pipe(rename({ dirname: "" }))
-        .pipe(dest(path.build.js))
+        .pipe(dest(pathTo.build.js))
         .pipe(
             uglify()
         )
@@ -251,7 +246,7 @@ function js() {
             })
         )
         .pipe(rename({ dirname: "" }))
-        .pipe(dest(path.build.js))
+        .pipe(dest(pathTo.build.js))
         .pipe(browsersync.stream())
 }
 
@@ -265,14 +260,14 @@ function js() {
 */
 
 function images() {
-    return src(path.src.img)
+    return src(pathTo.src.img)
         .pipe(
             webp({
                 quality: 70
             })
         )
-        .pipe(dest(path.build.img))
-        .pipe(src(path.src.img))
+        .pipe(dest(pathTo.build.img))
+        .pipe(src(pathTo.src.img))
         .pipe(
             imagemin({
                 progressive: true,
@@ -281,7 +276,7 @@ function images() {
                 optimizationLevel: 3 // от 0 до 7
             })
         )
-        .pipe(dest(path.build.img))
+        .pipe(dest(pathTo.build.img))
         .pipe(browsersync.stream())
 }
 
@@ -295,12 +290,12 @@ function images() {
 */
 
 function fonts(params) {
-    src(path.src.fonts)
+    src(pathTo.src.fonts)
         .pipe(ttf2woff())
-        .pipe(dest(path.build.fonts));
-    return src(path.src.fonts)
+        .pipe(dest(pathTo.build.fonts));
+    return src(pathTo.src.fonts)
         .pipe(ttf2woff2())
-        .pipe(dest(path.build.fonts));
+        .pipe(dest(pathTo.build.fonts));
 }
 
 /*
@@ -313,7 +308,7 @@ function fonts(params) {
 */
 
 function makeSprite() {
-    return gulp.src(path.src.icons)
+    return gulp.src(pathTo.src.icons)
         .pipe(svg_sprite({
             mode: {
                 stack: {
@@ -322,7 +317,7 @@ function makeSprite() {
                 }
             }
         }))
-        .pipe(dest(path.build.img))
+        .pipe(dest(pathTo.build.img))
 }
 
 /*
@@ -336,7 +331,7 @@ function makeSprite() {
 
 //функция для удаления папки dist целиком перед серией выполняемых фукций
 function clean(params) {
-    return del(path.clean);
+    return del(pathTo.clean);
 }
 
 /*
@@ -359,11 +354,11 @@ const DAEMON = (cb) => {
         startPath: '/index.html'
     });
 
-    gulp.watch([path.watch.img], series(images)).on('change', browsersync.reload);
-    gulp.watch([path.watch.icons], series(makeSprite)).on('change', browsersync.reload);
-    gulp.watch([path.watch.css], series(css)).on('change', browsersync.reload);
-    gulp.watch([path.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch([path.watch.pug], series(pug2html)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.img], series(images)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);  
+    gulp.watch([pathTo.watch.pug], series(pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
@@ -374,7 +369,7 @@ let dev = gulp.series(
     gulp.parallel(
         js,
         css,
-        test,
+        collectData,
         pug2html,
         images,
         copyFavicons,
