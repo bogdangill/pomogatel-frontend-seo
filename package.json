@@ -52,6 +52,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "swiper": "^8.1.4",
+    "through2": "^4.0.2",
     "trim-newlines": "^4.0.1",
     "webp-converter": "^2.2.3"
   },
