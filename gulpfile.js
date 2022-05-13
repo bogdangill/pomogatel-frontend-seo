@@ -116,47 +116,10 @@ function cleanDictionaries() {
         })).on('end', () => console.log('dictionaries has been cleaned'))
 }
 
-function collectData() {
-    // const sectionsDir = '#src/sections/';
-
-    const locales = ['ru', 'en', 'vn', 'tr'];
-
-    return src('#src/sections/**/data/')
-        .pipe(through2.obj(function(dataFile, _, cb) {
-            for (let locale of locales) {
-                let localeRegExp = new RegExp(locale);
-                let fileName = path.basename(`#src/sections/**/data/${dataFile}.pug`);
-
-                console.log(fileName);
-
-                if (fileName.match(localeRegExp)) {
-                    let filePath = `include ../sections/${section}/data/${fileName}.pug\n`;
-
-                    fs.appendFileSync(
-                        `#src/dictionaries/dictionary.${locale}.pug`, 
-                        filePath
-                    )
-                }
-            }
-            cb();
-        })).on('end', () => console.log('data has been included'))
-}
-
-function collectDatas(cb) {
+function collectData(cb) {
     const sectionsDir = '#src/sections/';
-    const dictionariesDir = '#src/dictionaries/';
 
     const locales = ['ru', 'en', 'vn', 'tr'];
-
-    const dictionaries = fs.readdirSync(dictionariesDir);
-
-    //чистка содержимого всех словарей чтобы избежать копипасты при каждом новом создании дата-файла в секции.
-    //содержимое словаря будет воссоздаваться заново при каждом новом создании data-(locale).pug включая и этот дата-файл. надо доработать или вообще переделать
-    dictionaries.forEach(dictionary => {
-        if (path.extname(dictionary) === '.pug') {
-            fs.writeFileSync(`${dictionariesDir}/${path.basename(dictionary)}`, '');
-        }
-    })
 
     const sections = fs.readdirSync(sectionsDir);
 
@@ -394,8 +357,9 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.img], series(images)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
-    gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);  
-    gulp.watch([pathTo.watch.pug], series(collectData, pug2html)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
+    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData));  
+    gulp.watch([pathTo.watch.pug, "!#src/sections/**/data/*.pug"], series(pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
