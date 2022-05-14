@@ -3,11 +3,12 @@ mixin accordion(data)
     //-   mods    {string} - список модификаторов через запятую(если нужны)
     //-   title   {string} - заголовок аккордеона
     //-   text    {string} - текст аккордеона
+    //-   titleLevel {number} - уровень заголовка для аккордеона(от 2 до 6)
 
     //- Вызов:
         +accordion({
             'mods': '...someMods',
-            'titleLevel': 'уровень заголовка для аккордеона(от 2 до 5)'
+            'titleLevel': 2,
             'title': 'заголовок аккордеона',
             'text': 'текст'
             ...
@@ -23,29 +24,20 @@ mixin accordion(data)
                 allMods = allMods + 'accordion--' + modsList[i].trim();
             }
         }
-        
-    mixin headerContent()
-        button.accordion__trigger(aria-expanded="false" aria-controls=data.id)!=data.title
-        svg.accordion__icon
-            use(xlink:href="./img/icons/sprite.svg#chevron-bottom")
+
+        if (data.titleLevel === 2) hx = 'h2';
+        if (data.titleLevel === 3) hx = 'h3';
+        if (data.titleLevel === 4) hx = 'h4';
+        if (data.titleLevel === 5) hx = 'h5';
+        if (data.titleLevel === 6) hx = 'h6';
 
     article.accordion(class=allMods)
-        if (data.titleLevel === 2)
-            h2.accordion__header
-                +headerContent()
-        if (data.titleLevel === 3)
-            h3.accordion__header
-                +headerContent()
-        if (data.titleLevel === 4)
-            h4.accordion__header
-                +headerContent()
-        if (data.titleLevel === 5)
-            h5.accordion__header
-                +headerContent()
+        #{hx}.accordion__header
+            button.accordion__trigger(aria-expanded="false" aria-controls=data.id)!=data.title
+            svg.accordion__icon
+                use(xlink:href="./img/icons/sprite.svg#chevron-bottom")
         .accordion__body(id=data.id)
             if (typeof(data.text) !== 'undefined' && data.text)
                 p.accordion__text!=data.text
             else
                 block
-
-
