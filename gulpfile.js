@@ -149,6 +149,28 @@ function collectData(cb) {
     return cb();
 }
 
+function connectComponents(cb) {
+    const sectionsDir = '#src/sections/';
+    const sections = fs.readdirSync(sectionsDir);
+
+    sections.forEach(section => {
+        const sectionPath = path.join(sectionsDir, section);
+
+        if (!fs.lstatSync(sectionPath).isDirectory()) return
+
+        const sectionView = fs.readdirSync(sectionPath).filter(file => path.extname(file) === '.pug');
+        const viewContent = fs.readFileSync(path.join(sectionPath, sectionView.toString())).toString();
+
+        const mixinRegEx = /\+\w+\({/;
+
+        const sectionModules = viewContent.split(' ').filter(item => item.match(mixinRegEx));
+
+        console.log(section.toString(), sectionModules);
+    })
+
+    return cb()
+}
+
 function copyFavicons() {
     return src(pathTo.src.favicons)
         .pipe(
@@ -383,3 +405,4 @@ let dev = gulp.series(
 
 exports.dev = dev;
 exports.default = dev;
+exports.connectComponents = connectComponents;

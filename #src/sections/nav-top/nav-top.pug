@@ -1,4 +1,5 @@
-include nav-top.modules.pug
+include ../../modules/breadcrumbs/breadcrumbs.pug
+include ../../modules/btn/btn.pug
 
 mixin nav-top()
     -
@@ -32,3 +33,7 @@ mixin nav-top()
                         each link in row.links
                             li.nav-top__item.swiper-slide(data-ripple="navLink")
                                 a.nav-top__link(href=link.href)= link.text
+        +breadcrumbs({
+            'parent': 'nav-top',
+            'breadcrumbsList': navTop.breadcrumbs
+        })
