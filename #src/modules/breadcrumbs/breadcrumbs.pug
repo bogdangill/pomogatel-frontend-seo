@@ -1,0 +1,10 @@
+mixin breadcrumbs(data)
+    ul.breadcrumbs(class=data.parent itemscope itemtype="https://schema.org/BreadcrumbList")
+        each item in data.breadcrumbs
+            li.breadcrumbs__item(itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" id=item.id)
+                if (typeof(item.href) !== 'undefined' && item.href)
+                    a.breadcrumbs__link(itemprop="item" href=item.href)
+                        span(itemprop="name")= item.text
+                        meta(itemprop="position" content=item.position)
+                else
+                    span.breadcrumbs__text(itemprop="name")= item.text
