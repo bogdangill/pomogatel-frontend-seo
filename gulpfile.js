@@ -158,14 +158,30 @@ function connectComponents(cb) {
 
         if (!fs.lstatSync(sectionPath).isDirectory()) return
 
-        const sectionView = fs.readdirSync(sectionPath).filter(file => path.extname(file) === '.pug');
+        const sectionView = fs.readdirSync(sectionPath).filter(file => path.basename(file) === `${section.toString()}.pug`);
         const viewContent = fs.readFileSync(path.join(sectionPath, sectionView.toString())).toString();
 
         const mixinRegEx = /\+\w+\({/;
 
-        const sectionModules = viewContent.split(' ').filter(item => item.match(mixinRegEx));
+        const sectionModules = 
+            viewContent.split(' ')
+                .filter(item => item.match(mixinRegEx))
+                .sort()
+                .filter((_, i, arr) => arr[i] !== arr[i + 1]);
 
-        console.log(section.toString(), sectionModules);
+        const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
+
+        let moduleIncludes = '';
+
+        moduleNames.forEach(module => {
+            if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
+                moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
+            }            
+        });
+
+        let viewContentNew = moduleIncludes + '\n' + viewContent;
+        
+        fs.writeFileSync(path.join(sectionPath, sectionView.toString()), viewContentNew);
     })
 
     return cb()
@@ -380,7 +396,7 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData));  
+    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData, connectComponents));  
     gulp.watch([pathTo.watch.pug, "!#src/sections/**/data/*.pug"], series(pug2html)).on('change', browsersync.reload);
 
     return cb();
@@ -391,6 +407,7 @@ let dev = gulp.series(
     clean,
     cleanDictionaries,
     collectData,
+    connectComponents,
     gulp.parallel(
         js,
         css,
