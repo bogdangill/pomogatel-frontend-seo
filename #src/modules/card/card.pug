@@ -1,3 +1,5 @@
+include ../userData/userData.pug
+
 mixin card(data)
     //- Принимает:
     //-     mods    {string} - список модификаторов
@@ -57,7 +59,7 @@ mixin card(data)
                         - i--
                 .card__data
                     each key in data.workerData
-                        +user-data({
+                        +userData({
                             'key': key[0],
                             'value': key[1]
                         })
