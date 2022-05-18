@@ -169,19 +169,38 @@ function connectComponents(cb) {
                 .sort()
                 .filter((_, i, arr) => arr[i] !== arr[i + 1]);
 
-        const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
+        if (sectionModules.length) {
+            const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
+            let moduleIncludes = '';
 
-        let moduleIncludes = '';
+            moduleNames.forEach(module => {
+                if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
+                    moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
+                }            
+            });
 
-        moduleNames.forEach(module => {
-            if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
-                moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
-            }            
-        });
+            fs.mkdir(path.join(sectionPath, 'connectors'), () => {
+                fs.writeFileSync(path.resolve(sectionPath, 'connectors', `_${section}.connector.pug`), moduleIncludes);
+            })
 
-        let viewContentNew = moduleIncludes + '\n' + viewContent;
+            // moduleNames.forEach(module => {
+            //     if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
+            //         moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
+            //     }
+            // });
+        }
+
+        // let moduleIncludes = '';
+
+        // moduleNames.forEach(module => {
+        //     if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
+        //         moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
+        //     }            
+        // });
+
+        // let viewContentNew = moduleIncludes + '\n' + viewContent;
         
-        fs.writeFileSync(path.join(sectionPath, sectionView.toString()), viewContentNew);
+        // fs.writeFileSync(path.join(sectionPath, sectionView.toString()), viewContentNew);
     })
 
     return cb()
@@ -396,7 +415,7 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData, connectComponents));  
+    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData));
     gulp.watch([pathTo.watch.pug, "!#src/sections/**/data/*.pug"], series(pug2html)).on('change', browsersync.reload);
 
     return cb();
