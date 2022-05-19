@@ -198,6 +198,7 @@ function connectComponents(cb) {
                     // console.log(section, 'fak')
                 } else {
                     fs.appendFileSync(path.join(sectionPath, sectionView.toString()), viewContent);
+                    break;
                     // console.log(section, 'gg')
                 }
             }
