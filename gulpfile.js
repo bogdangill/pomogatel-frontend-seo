@@ -169,38 +169,51 @@ function connectComponents(cb) {
                 .sort()
                 .filter((_, i, arr) => arr[i] !== arr[i + 1]);
 
+        console.log(sectionModules.length)
+
         if (sectionModules.length) {
+            console.log('gg')
+            fs.writeFileSync(path.join(sectionPath, sectionView.toString()), ''); //чистка
+
             const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
-            let moduleIncludes = '';
-
-            moduleNames.forEach(module => {
-                if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
-                    moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
-                }            
-            });
-
-            fs.mkdir(path.join(sectionPath, 'connectors'), () => {
-                fs.writeFileSync(path.resolve(sectionPath, 'connectors', `_${section}.connector.pug`), moduleIncludes);
-            })
+            // let moduleIncludes = '';
 
             // moduleNames.forEach(module => {
-            //     if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
-            //         moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
-            //     }
+            //     if (!viewContent.includes(`include ../../modules/${module}/${module}.pug`)) {
+            //         // moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
+            //         fs.appendFileSync(path.join(sectionPath, sectionView.toString()), `include ../../modules/${module}/${module}.pug\n`);
+            //     } else {
+            //         fs.appendFileSync(path.join(sectionPath, sectionView.toString()), `\n${viewContent}`);
+            //     }            
             // });
-        }
 
-        // let moduleIncludes = '';
+            for (let i = 0; i < moduleNames.length; i++) {
+                if (!viewContent.includes(`include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug`)) {
+                    // moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
 
-        // moduleNames.forEach(module => {
-        //     if (!viewContent.includes(`include ../../modules/${module}/${module}.pug\n`)) {
-        //         moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
-        //     }            
-        // });
+                    // if (i !== moduleNames.length - 1) {
+                    //     fs.appendFileSync(path.join(sectionPath, sectionView.toString()), 
+                    //     `include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug\n`);
+                    // } else {
+                    //     fs.appendFileSync(path.join(sectionPath, sectionView.toString()), 
+                    //     `include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug\n\n${viewContent}`);
+                    // }
 
-        // let viewContentNew = moduleIncludes + '\n' + viewContent;
+                    console.log('fak')
+
+                } else {
+                    // fs.appendFileSync(path.join(sectionPath, sectionView.toString()), viewContent);
+                }
+            }
+
+            // let viewContentNew = moduleIncludes + '\n' + viewContent;
         
-        // fs.writeFileSync(path.join(sectionPath, sectionView.toString()), viewContentNew);
+            // fs.writeFileSync(path.join(sectionPath, sectionView.toString()), viewContentNew);
+
+            // fs.mkdir(path.join(sectionPath, 'connectors'), () => {
+            //     fs.writeFileSync(path.resolve(sectionPath, 'connectors', `_${section}.connector.pug`), moduleIncludes);
+            // })
+        }
     })
 
     return cb()
@@ -415,8 +428,8 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData));
-    gulp.watch([pathTo.watch.pug, "!#src/sections/**/data/*.pug"], series(pug2html)).on('change', browsersync.reload);
+    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData, connectComponents));
+    gulp.watch([pathTo.watch.pug], series(pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
