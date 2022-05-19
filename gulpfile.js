@@ -169,7 +169,19 @@ function connectComponents(cb) {
                 .sort()
                 .filter((_, i, arr) => arr[i] !== arr[i + 1]);
 
-        if (sectionModules.length) {
+        let flag = 0;
+
+        sectionModules.forEach(module => {
+            if (viewContent.includes(module)) flag++
+        });
+
+        if (flag === sectionModules.length) {
+            console.log('fak gg')
+        } else {
+            console.log('noo')
+        }
+
+        if (sectionModules.length || 0) {
             fs.writeFileSync(path.join(sectionPath, sectionView.toString()), ''); //чистка
 
             const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
@@ -425,7 +437,8 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData, connectComponents));
+    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData));
+    gulp.watch(['#src/sections/'], series(connectComponents));
     gulp.watch([pathTo.watch.pug], series(pug2html)).on('change', browsersync.reload);
 
     return cb();
