@@ -169,10 +169,7 @@ function connectComponents(cb) {
                 .sort()
                 .filter((_, i, arr) => arr[i] !== arr[i + 1]);
 
-        console.log(sectionModules.length)
-
         if (sectionModules.length) {
-            console.log('gg')
             fs.writeFileSync(path.join(sectionPath, sectionView.toString()), ''); //чистка
 
             const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
@@ -189,20 +186,19 @@ function connectComponents(cb) {
 
             for (let i = 0; i < moduleNames.length; i++) {
                 if (!viewContent.includes(`include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug`)) {
-                    // moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
+                    
+                    moduleInclude = `include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug\n`;
 
-                    // if (i !== moduleNames.length - 1) {
-                    //     fs.appendFileSync(path.join(sectionPath, sectionView.toString()), 
-                    //     `include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug\n`);
-                    // } else {
-                    //     fs.appendFileSync(path.join(sectionPath, sectionView.toString()), 
-                    //     `include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug\n\n${viewContent}`);
-                    // }
-
-                    console.log('fak')
-
+                    if (i !== moduleNames.length - 1) {
+                        fs.appendFileSync(path.join(sectionPath, sectionView.toString()), moduleInclude);
+                    } else {
+                        fs.appendFileSync(path.join(sectionPath, sectionView.toString()), 
+                        `${moduleInclude}\n${viewContent}`);
+                    }
+                    // console.log(section, 'fak')
                 } else {
-                    // fs.appendFileSync(path.join(sectionPath, sectionView.toString()), viewContent);
+                    fs.appendFileSync(path.join(sectionPath, sectionView.toString()), viewContent);
+                    // console.log(section, 'gg')
                 }
             }
 
