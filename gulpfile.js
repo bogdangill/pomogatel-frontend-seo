@@ -76,9 +76,6 @@ const { src, dest, series, parallel } = require('gulp'),
     uglify = require('gulp-uglify-es').default,
     imagemin = require('gulp-imagemin'),//сжатие картинок без потерь
     webp = require('gulp-webp'),
-    /*лучше вручную интегрировать webp в разметку и стили*/
-    //webp_html = require('gulp-webp-html'),//интеграция сконвертированной пикчи.webp в разметку с фоллбеком для старья
-    //webp_css = require('gulp-webpcss'),//интеграция сконвертированной пикчи.webp в стили для background'ов
     svg_sprite = require('gulp-svg-sprite'),
     /*конвертеры шрифтов*/
     ttf2woff = require('gulp-ttf2woff'),
@@ -102,6 +99,10 @@ const { src, dest, series, parallel } = require('gulp'),
  
 */
 
+/*==========================================================================
+-------- Clean dictionaries for including up-to-date data files ------------
+==========================================================================*/
+
 function cleanDictionaries() {
     return src('#src/dictionaries/')
         .pipe(through2.obj(function(_, _, cb) {
@@ -115,6 +116,10 @@ function cleanDictionaries() {
             cb();
         })).on('end', () => console.log('dictionaries has been cleaned'))
 }
+
+/*==========================================================================
+------- Collect data files in sections & include into dictionaries ---------
+==========================================================================*/
 
 function collectData(cb) {
     const sectionsDir = '#src/sections/';
@@ -149,84 +154,49 @@ function collectData(cb) {
     return cb();
 }
 
-function connectComponents(cb) {
-    const sectionsDir = '#src/sections/';
-    const sections = fs.readdirSync(sectionsDir);
+function connectComponents() {
+    return src(['#src/sections/**/*.pug', '!#src/sections/**/data/*.pug'])
+        .pipe(through2.obj((chunk, enc, cb) => {
 
-    sections.forEach(section => {
-        const sectionPath = path.join(sectionsDir, section);
+            const chunkContent = fs.readFileSync(chunk.path, {
+                encoding: 'utf-8'
+            });
 
-        if (!fs.lstatSync(sectionPath).isDirectory()) return
+            const mixinRegEx = /\+\w+\(/;
 
-        const sectionView = fs.readdirSync(sectionPath).filter(file => path.basename(file) === `${section.toString()}.pug`);
-        const viewContent = fs.readFileSync(path.join(sectionPath, sectionView.toString())).toString();
-
-        const mixinRegEx = /\+\w+\({/;
-
-        const sectionModules = 
-            viewContent.split(' ')
+            const chunkModules = chunkContent.split(' ')
                 .filter(item => item.match(mixinRegEx))
                 .sort()
                 .filter((_, i, arr) => arr[i] !== arr[i + 1]);
+            
+            if (chunkModules.length) {
+                const moduleNames = chunkModules.map((item) => item.slice(1, item.indexOf('(')));
+                let includes = '';
 
-        let flag = 0;
-
-        sectionModules.forEach(module => {
-            if (viewContent.includes(module)) flag++
-        });
-
-        if (flag === sectionModules.length) {
-            console.log('fak gg')
-        } else {
-            console.log('noo')
-        }
-
-        if (sectionModules.length || 0) {
-            fs.writeFileSync(path.join(sectionPath, sectionView.toString()), ''); //чистка
-
-            const moduleNames = sectionModules.map((item) => item.slice(1, item.indexOf('(')));
-            // let moduleIncludes = '';
-
-            // moduleNames.forEach(module => {
-            //     if (!viewContent.includes(`include ../../modules/${module}/${module}.pug`)) {
-            //         // moduleIncludes += `include ../../modules/${module}/${module}.pug\n`;
-            //         fs.appendFileSync(path.join(sectionPath, sectionView.toString()), `include ../../modules/${module}/${module}.pug\n`);
-            //     } else {
-            //         fs.appendFileSync(path.join(sectionPath, sectionView.toString()), `\n${viewContent}`);
-            //     }            
-            // });
-
-            for (let i = 0; i < moduleNames.length; i++) {
-                if (!viewContent.includes(`include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug`)) {
+                moduleNames.forEach(module => {
+                    let includeCheck = `include ../../modules/${module}/${module}.pug`;
                     
-                    moduleInclude = `include ../../modules/${moduleNames[i]}/${moduleNames[i]}.pug\n`;
-
-                    if (i !== moduleNames.length - 1) {
-                        fs.appendFileSync(path.join(sectionPath, sectionView.toString()), moduleInclude);
-                    } else {
-                        fs.appendFileSync(path.join(sectionPath, sectionView.toString()), 
-                        `${moduleInclude}\n${viewContent}`);
+                    if (chunkContent.includes(includeCheck)) {
+                        includes += `include ../../modules/${module}/${module}.pug\n`;
                     }
-                    // console.log(section, 'fak')
-                } else {
-                    fs.appendFileSync(path.join(sectionPath, sectionView.toString()), viewContent);
-                    break;
-                    // console.log(section, 'gg')
-                }
+                });
+
+                moduleNames.forEach(module => {
+                    let includeCheck = `include ../../modules/${module}/${module}.pug`;
+
+                    if (!chunkContent.includes(includeCheck)) {
+                        fs.writeFileSync(chunk.path, includes+chunkContent);
+                    }
+                })
             }
-
-            // let viewContentNew = moduleIncludes + '\n' + viewContent;
-        
-            // fs.writeFileSync(path.join(sectionPath, sectionView.toString()), viewContentNew);
-
-            // fs.mkdir(path.join(sectionPath, 'connectors'), () => {
-            //     fs.writeFileSync(path.resolve(sectionPath, 'connectors', `_${section}.connector.pug`), moduleIncludes);
-            // })
-        }
-    })
-
-    return cb()
+            
+            cb(null, chunk)
+        }))
 }
+
+/*=======================================================
+------ Copy & optimize favicons into dist folder --------
+========================================================*/
 
 function copyFavicons() {
     return src(pathTo.src.favicons)
@@ -241,14 +211,9 @@ function copyFavicons() {
         .pipe(dest(pathTo.build.favicons))
 }
 
-/*
- 
- ___  _  _ ____ 
- |__] |  | | __ 
- |    |__| |__] 
-                
- 
-*/
+/*============================================================
+------- Transpile pug templates into prettified HTML ---------
+============================================================*/
 
 function pug2html() {
     return src([pathTo.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
@@ -259,14 +224,9 @@ function pug2html() {
         .pipe(browsersync.stream())
 }
 
-/*
- 
- ____ ____ ____ 
- |    [__  [__  
- |___ ___] ___] 
-                
- 
-*/
+/*=====================================================================================
+------- Group @media, add prefixes, optimize, transpile SCSS and bundle to CSS --------
+=====================================================================================*/
 
 function css() {
     return src(pathTo.src.css)
@@ -299,14 +259,9 @@ function css() {
         .pipe(browsersync.stream())
 }
 
-/*
- 
-  _ ____ _  _ ____ ____ ____ ____ _ ___  ___ 
-  | |__| |  | |__| [__  |    |__/ | |__]  |  
- _| |  |  \/  |  | ___] |___ |  \ | |     |  
-                                             
- 
-*/
+/*============================================================
+------- Minify, transpile to ES5 & bundle JavaScript ---------
+============================================================*/
 
 function js() {
     return src(pathTo.src.js)
@@ -329,14 +284,9 @@ function js() {
         .pipe(browsersync.stream())
 }
 
-/*
- 
- _ _  _ ____ ____ ____ ____ 
- | |\/| |__| | __ |___ [__  
- | |  | |  | |__] |___ ___] 
-                            
- 
-*/
+/*===================================
+--------- Optimize images -----------
+====================================*/
 
 function images() {
     return src(pathTo.src.img)
@@ -359,14 +309,9 @@ function images() {
         .pipe(browsersync.stream())
 }
 
-/*
- 
- ____ ____ _  _ ___    ____ ____ _  _ _  _ ____ ____ ___ ____ ____ 
- |___ |  | |\ |  |     |    |  | |\ | |  | |___ |__/  |  |___ |__/ 
- |    |__| | \|  |     |___ |__| | \|  \/  |___ |  \  |  |___ |  \ 
-                                                                   
- 
-*/
+/*===================================
+---------- Convert fonts ------------
+====================================*/
 
 function fonts(params) {
     src(pathTo.src.fonts)
@@ -377,14 +322,9 @@ function fonts(params) {
         .pipe(dest(pathTo.build.fonts));
 }
 
-/*
- 
- ____ ___  ____ _ ___ ____    _  _ ____ _  _ ____ ____ 
- [__  |__] |__/ |  |  |___    |\/| |__| |_/  |___ |__/ 
- ___] |    |  \ |  |  |___    |  | |  | | \_ |___ |  \ 
-                                                       
- 
-*/
+/*===================================
+--------- Make svg sprite -----------
+====================================*/
 
 function makeSprite() {
     return gulp.src(pathTo.src.icons)
@@ -399,28 +339,18 @@ function makeSprite() {
         .pipe(dest(pathTo.build.img))
 }
 
-/*
- 
- ____ _    ____ ____ _  _ 
- |    |    |___ |__| |\ | 
- |___ |___ |___ |  | | \| 
-                          
- 
-*/
+/*===================================
+-------- Clean dist folder ----------
+====================================*/
 
 //функция для удаления папки dist целиком перед серией выполняемых фукций
 function clean(params) {
     return del(pathTo.clean);
 }
 
-/*
- 
- ___  ____ ____ _  _ ____ _  _    _    _ ____ ___ ____ _  _ ____ ____ 
- |  \ |__| |___ |\/| |  | |\ |    |    | [__   |  |___ |\ | |___ |__/ 
- |__/ |  | |___ |  | |__| | \|    |___ | ___]  |  |___ | \| |___ |  \ 
-                                                                      
- 
-*/
+/*===================================
+--------- Local Web Server ----------
+====================================*/
 
 const DAEMON = (cb) => {
     browsersync.init({
@@ -437,9 +367,8 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/'], series(cleanDictionaries, collectData));
-    gulp.watch(['#src/sections/'], series(connectComponents));
-    gulp.watch([pathTo.watch.pug], series(pug2html)).on('change', browsersync.reload);
+    gulp.watch(['#src/sections/**/data/*.pug'], series(cleanDictionaries, collectData));
+    gulp.watch([pathTo.watch.pug], series(connectComponents, pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
