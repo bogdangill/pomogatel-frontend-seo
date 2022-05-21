@@ -176,7 +176,7 @@ function connectComponents() {
                 moduleNames.forEach(module => {
                     let includeCheck = `include ../../modules/${module}/${module}.pug`;
                     
-                    if (chunkContent.includes(includeCheck)) {
+                    if (!chunkContent.includes(includeCheck)) {
                         includes += `include ../../modules/${module}/${module}.pug\n`;
                     }
                 });
