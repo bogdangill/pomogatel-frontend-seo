@@ -88,8 +88,15 @@ const { src, dest, series, parallel } = require('gulp'),
     babel = require('rollup-plugin-babel'),
     resolve = require('rollup-plugin-node-resolve'),
     commonjs = require('rollup-plugin-commonjs'),
-    through2 = require('through2'); //для создания встроенных плагинов
+    through2 = require('through2'), //для создания встроенных плагинов
+    clc = require('cli-color'); //окрашивание служебных логов Бехолдера
 
+var cliPalette = {
+    success: clc.green,
+    successBright: clc.greenBright,
+    warning: clc.yellow,
+    warningBright: clc.yellowBright
+}
 /*
  
  ____ _  _ _  _ ____ ___ _ ____ _  _ ____ 
@@ -158,11 +165,31 @@ function connectComponents() {
     return src(['#src/sections/**/*.pug', '!#src/sections/**/data/*.pug'])
         .pipe(through2.obj((chunk, enc, cb) => {
 
-            const chunkContent = fs.readFileSync(chunk.path, {
+            let chunkContent = fs.readFileSync(chunk.path, {
                 encoding: 'utf-8'
             });
 
             const mixinRegEx = /\+\w+\(/;
+
+            const chunkContentArr = chunkContent.split('\n');
+
+            chunkContentArr.forEach(string => {
+                if (string.includes('include')) {
+                    let includeModuleName = string.split('/').slice(-1).toString().split('.')[0];
+
+                    if (!chunkContent.includes(`+${includeModuleName}`+'(')) {
+                        chunkContentArr.splice(chunkContentArr.indexOf(string), 1);
+
+                        fs.writeFile(chunk.path, chunkContentArr.join('\n'), (err) => {
+                            if (err) {
+                                throw err;
+                            } else {
+                                console.log(cliPalette.warning('unused include has been removed in ')+cliPalette.warningBright(chunk.path));
+                            }
+                        });
+                    }
+                }
+            })
 
             const chunkModules = chunkContent.split(' ')
                 .filter(item => item.match(mixinRegEx))
@@ -185,7 +212,13 @@ function connectComponents() {
                     let includeCheck = `include ../../modules/${module}/${module}.pug`;
 
                     if (!chunkContent.includes(includeCheck)) {
-                        fs.writeFileSync(chunk.path, includes+chunkContent);
+                        fs.writeFile(chunk.path, includes+chunkContent, (err) => {
+                            if (err) {
+                                throw err;
+                            } else {
+                                console.log(cliPalette.successBright(module) + cliPalette.success(' module has been successfully included into ') + cliPalette.successBright(chunk.path));
+                            }
+                        });
                     }
                 })
             }

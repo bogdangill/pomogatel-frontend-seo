@@ -57,5 +57,7 @@
     "trim-newlines": "^4.0.1",
     "webp-converter": "^2.2.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cli-color": "^2.0.2"
+  }
 }
