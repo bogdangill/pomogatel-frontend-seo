@@ -90,13 +90,6 @@ const { src, dest, series, parallel } = require('gulp'),
     commonjs = require('rollup-plugin-commonjs'),
     through2 = require('through2'), //для создания встроенных плагинов
     clc = require('cli-color'); //окрашивание служебных логов Бехолдера
-
-var cliPalette = {
-    success: clc.green,
-    successBright: clc.greenBright,
-    warning: clc.yellow,
-    warningBright: clc.yellowBright
-}
 /*
  
  ____ _  _ _  _ ____ ___ _ ____ _  _ ____ 
@@ -106,29 +99,38 @@ var cliPalette = {
  
 */
 
+//слуга
+const sv = require('./servant');
+const servant = new sv.Servant();
+
+const locales = ['ru', 'en', 'vn', 'tr'];
+
 /*==========================================================================
 -------- Clean dictionaries for including up-to-date data files ------------
 ==========================================================================*/
 
 function cleanDictionaries() {
-    return src('#src/dictionaries/')
-        .pipe(through2.obj(function(_, _, cb) {
-            const dictionariesDir = '#src/dictionaries/';
-            const dictionaries = fs.readdirSync(dictionariesDir).filter(dic => path.extname(dic) === '.pug');
-
-            if (dictionaries.length > 0) {
-                dictionaries.forEach(dic => fs.writeFileSync(`${dictionariesDir}/${path.basename(dic)}`, ''))
-            }
-
+    return src('#src/dictionaries/*.pug')
+        .pipe(through2.obj(function(file, enc, cb) {
+            servant.cleanFile(file);
             cb();
-        })).on('end', () => console.log('dictionaries has been cleaned'))
+        }))
 }
 
 /*==========================================================================
 ------- Collect data files in sections & include into dictionaries ---------
 ==========================================================================*/
 
-function collectData(cb) {
+function testTask() {
+    return src('#src/sections/**/data/*.pug')
+        .pipe(through2.obj(function(file, enc, cb) {
+            servant.updateDictionary(file.path, '#src/test/', locales);
+
+            cb();
+        }))
+}
+
+function collectDatas(cb) {
     const sectionsDir = '#src/sections/';
 
     const locales = ['ru', 'en', 'vn', 'tr'];
@@ -410,7 +412,7 @@ const DAEMON = (cb) => {
 let dev = gulp.series(
     clean,
     cleanDictionaries,
-    collectData,
+    // collectData,
     connectComponents,
     gulp.parallel(
         js,
@@ -427,3 +429,4 @@ let dev = gulp.series(
 exports.dev = dev;
 exports.default = dev;
 exports.connectComponents = connectComponents;
+exports.testTask = testTask;
