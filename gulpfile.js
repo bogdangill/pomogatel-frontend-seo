@@ -124,7 +124,8 @@ function cleanDictionaries() {
 function testTask() {
     return src('#src/sections/**/data/*.pug')
         .pipe(through2.obj(function(file, enc, cb) {
-            servant.updateDictionary(file.path, '#src/test/', locales);
+            // servant.updateDictionary(file.path, '#src/test/', locales);
+            servant.checkImportRelevance('#src/test/dictionary.en.pug');
 
             cb();
         }))

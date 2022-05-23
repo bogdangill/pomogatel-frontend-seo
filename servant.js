@@ -5,8 +5,8 @@ const fs = require('fs'),
 
 const cliPalette = {
     narrator: clc.magentaBright.bgBlack,
-    success: clc.green,
-    successBright: clc.greenBright,
+    info: clc.black,
+    infoBright: clc.blackBright,
     warning: clc.yellow,
     warningBright: clc.yellowBright,
     error: clc.red
@@ -20,13 +20,13 @@ class Servant {
     }
 
     /**
-     *  Тест
-     * @param {'success' | 'warning' | 'error'} messageType - тип сообщений
-     * @param {string} message - сообщение
+     *  Показывает сообщение в терминале. 
+     * @param { string } message - сообщение
+     * @param { 'info' | 'warning' | 'error' } messageType - тип сообщений (необязательный параметр, по умолчанию info)
      */
-    _inform(messageType, message) {
-        if (messageType === 'success') {
-            this._log(cliPalette.success(message))
+    _inform(message, messageType = 'info') {
+        if (messageType === 'info') {
+            this._log(cliPalette.info(message))
         }
         if (messageType === 'warning') {
             this._log(cliPalette.warning(message))
@@ -36,13 +36,21 @@ class Servant {
         }
     }
 
-    readFilePath(file) {
-        return this._inform('warning', file.path);
-    }
+    checkImportRelevance(filePath, importStr) {
+        let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
+        let fileContentArr = fileContent.split('\n');
 
-    cleanFile(file) {
-        fs.writeFileSync(file.path, '');
-        this._inform('success', `${path.basename(file.path)} has been cleaned`);
+        fileContentArr.filter(str => str.match(/\w/)).forEach(str => {
+            const tempStr = str.trim();
+            const relativePathFromString = tempStr.split('..').pop().trim();
+            const absolutePathFromString = path.join('#src', path.normalize(relativePathFromString));
+
+            if (!fs.existsSync(absolutePathFromString)) {
+                this._inform(`${relativePathFromString} does not exist`, 'warning');
+                fs.writeFileSync(filePath, fileContentArr.filter(str => str !== tempStr).join('\n'));
+                this._inform(`unused ${tempStr} has been successfully removed from ${filePath}`);
+            }
+        })
     }
 
     updateDictionary(dataFilePath, dictionariesDir, locales) {
@@ -58,19 +66,7 @@ class Servant {
                 const relevantDictionary = path.join(dictionariesDir, `dictionary.${locale}.pug`);
                 const dictionaryContent = fs.readFileSync(relevantDictionary, { encoding: 'utf-8' });
 
-                let dictionaryContentArr = dictionaryContent.split('\n').filter(i => i.match(/\w/));
-
-                dictionaryContentArr.forEach(str => {
-                    const tempStr = str.trim();
-                    let relativePathFromString = tempStr.split('..').pop().trim();
-                    let absolutePathFromString = path.join('#src', path.normalize(relativePathFromString));
-
-                    if (fs.existsSync(absolutePathFromString)) {
-                        this._inform('success', `${relativePathFromString} exists`);
-                    } else {
-                        this._inform('error', `${relativePathFromString} does not exist anymore`);
-                    }
-                })
+                this.checkImportRelevance(relevantDictionary, dataFileInclude);
 
                 // if (!dictionaryContent.includes(dataFileInclude)) {
                 //     fs.appendFileSync(relevantDictionary, dataFileInclude+'\n');
