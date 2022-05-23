@@ -13,21 +13,26 @@ const cliPalette = {
 }
 
 class Servant {
-    constructor() {}
+    constructor() { }
 
     _log(message) {
-        return console.log(cliPalette.narrator('[Servant]')+': '+message)
+        console.log(cliPalette.narrator('[Servant]') + ': ' + message)
     }
 
+    /**
+     *  Тест
+     * @param {'success' | 'warning' | 'error'} messageType - тип сообщений
+     * @param {string} message - сообщение
+     */
     _inform(messageType, message) {
         if (messageType === 'success') {
-            return this._log(cliPalette.success(message))
+            this._log(cliPalette.success(message))
         }
         if (messageType === 'warning') {
-            return this._log(cliPalette.warning(message))
+            this._log(cliPalette.warning(message))
         }
         if (messageType === 'error') {
-            return this._log(cliPalette.error(message))
+            this._log(cliPalette.error(message))
         }
     }
 
@@ -41,7 +46,7 @@ class Servant {
     }
 
     updateDictionary(dataFilePath, dictionariesDir, locales) {
-        const dataFilePathArr = dataFilePath.split('/');
+        const dataFilePathArr = process.platform === 'win32' ? dataFilePath.split('\\') : dataFilePath.split('/');
         const currentSection = dataFilePathArr.splice(dataFilePathArr.indexOf('sections') + 1, 1);
         const dataFileName = path.basename(dataFilePath);
 
@@ -49,15 +54,29 @@ class Servant {
             const localeRegExp = new RegExp(locale);
 
             if (dataFileName.match(localeRegExp)) {
-                const dataFileInclude = `include ../sections/${currentSection}/data/${dataFileName}\n`;
+                const dataFileInclude = `include ../sections/${currentSection}/data/${dataFileName}`;
                 const relevantDictionary = path.join(dictionariesDir, `dictionary.${locale}.pug`);
-                const dictionaryContent = fs.readFileSync(relevantDictionary, {encoding: 'utf-8'});
+                const dictionaryContent = fs.readFileSync(relevantDictionary, { encoding: 'utf-8' });
 
-                if (!dictionaryContent.includes(dataFileInclude)) {
-                    fs.appendFileSync(relevantDictionary, dataFileInclude);
+                let dictionaryContentArr = dictionaryContent.split('\n').filter(i => i.match(/\w/));
 
-                    this._inform('success','missing '+cliPalette.successBright(path.join(currentSection.toString(), 'data', dataFileName))+' has been successfuly added into '+cliPalette.successBright(relevantDictionary));
-                }
+                dictionaryContentArr.forEach(str => {
+                    const tempStr = str.trim();
+                    let relativePathFromString = tempStr.split('..').pop().trim();
+                    let absolutePathFromString = path.join('#src', path.normalize(relativePathFromString));
+
+                    if (fs.existsSync(absolutePathFromString)) {
+                        this._inform('success', `${relativePathFromString} exists`);
+                    } else {
+                        this._inform('error', `${relativePathFromString} does not exist anymore`);
+                    }
+                })
+
+                // if (!dictionaryContent.includes(dataFileInclude)) {
+                //     fs.appendFileSync(relevantDictionary, dataFileInclude+'\n');
+
+                //     this._inform('success','missing '+cliPalette.successBright(path.join(currentSection.toString(), 'data', dataFileName))+' has been successfuly added into '+cliPalette.successBright(relevantDictionary));
+                // }
 
                 // fs.appendFileSync(relevantDictionary, dataFileInclude);
             }
