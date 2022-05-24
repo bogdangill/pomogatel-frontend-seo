@@ -109,9 +109,10 @@ const locales = ['ru', 'en', 'vn', 'tr'];
 ==========================================================================*/
 
 function updateDictionaries() {
-    return src('#src/sections/**/data/*.pug')
+    return src('#src/test/*.pug')
         .pipe(through2.obj(function(file, enc, cb) {
-            servant.updateDictionary(file.path, '#src/test/', locales);
+            servant.cleanIrrelevantImports(file.path);
+            servant.updateDictionary(file.path);
             cb();
         }))
 }
@@ -382,3 +383,4 @@ exports.dev = dev;
 exports.default = dev;
 exports.connectComponents = connectComponents;
 // exports.testTask = testTask;
+exports.updateDictionaries = updateDictionaries;

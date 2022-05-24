@@ -40,7 +40,7 @@ class Servant {
      *  Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
      * @param { path } filePath - путь до проверяемого файла
      */
-    _cleanIrrelevantImports(filePath) {
+    cleanIrrelevantImports(filePath) {
         let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
         let fileContentArr = fileContent.split('\n');
 
@@ -50,7 +50,6 @@ class Servant {
             const absolutePathFromString = path.join('#src', path.normalize(relativePathFromString));
 
             if (!fs.existsSync(absolutePathFromString)) {
-                
                 this._inform(`"${relativePathFromString}" does not exist`, 'warning');
                 fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
                 this._inform(`unused "${tempStr}" has been successfully removed from "${filePath}"`);
@@ -59,34 +58,26 @@ class Servant {
     }
 
     /**
-     *  Проверяет актуальность подключенных data-файлов в словаре, удаляет лишние инклюды(если data-файл был удален) и добавляет нужные(если data-файл создан, но еще не подключен к соответствующему для него словарю). 
-     * @param { path } dataFilePath - путь до data-файла
-     * @param { path } dictionariesDir - директория со словарями (e.g. #src/dictionaries/)
-     * @param { object } locales - массив с локалями для сортировки data-файлов по словарям
+     *  Добавляет data-файл к соответствующему для него словарю (если data-файл создан, но еще не подключен). 
+     * @param { path } dictionaryPath - путь до словаря
      */
-    updateDictionary(dataFilePath, dictionariesDir, locales) {
-        const dataFilePathArr = process.platform === 'win32' ? dataFilePath.split('\\') : dataFilePath.split('/');
-        const currentSection = dataFilePathArr.splice(dataFilePathArr.indexOf('sections') + 1, 1);
-        const dataFileName = path.basename(dataFilePath);
+    updateDictionary(dictionaryPath) {
+        const sectionsDir = '#src/sections/';
+        const sections = fs.readdirSync(sectionsDir);
+        const dictionaryLocale = dictionaryPath.toString().split('.').splice(1, 1);
+        const dictionaryContent = fs.readFileSync(dictionaryPath, { encoding: 'utf-8'});
 
-        for (let locale of locales) {
-            const localeRegExp = new RegExp(locale);
+        sections.forEach(section => {
+            const relevantDataFile = path.join(sectionsDir, section, '/data/', `data-${dictionaryLocale}.pug`);
+            const includeStr = `include ../sections/${section}/data/data-${dictionaryLocale}.pug`;
 
-            if (dataFileName.match(localeRegExp)) {
-                const dataFileInclude = `include ../sections/${currentSection}/data/${dataFileName}`;
-                const relevantDictionary = path.join(dictionariesDir, `dictionary.${locale}.pug`);
-                const dictionaryContent = fs.readFileSync(relevantDictionary, { encoding: 'utf-8' });
-
-                this._cleanIrrelevantImports(relevantDictionary);
-
-                if (!dictionaryContent.includes(dataFileInclude)) {
-                    fs.appendFile(relevantDictionary, dataFileInclude+'\n', (err) => {
-                        if (err) throw err;
-                        this._inform(`missing "${path.join(currentSection.toString(), 'data', dataFileName)}" has been successfuly added into "${relevantDictionary}"`);
-                    });
-                }
+            if (fs.existsSync(relevantDataFile) && !dictionaryContent.includes(includeStr)) {
+                fs.appendFile(dictionaryPath, includeStr+'\n', (err) => {
+                    if (err) throw err;
+                    this._inform(`missing ${includeStr} has been successfuly added into ${dictionaryPath}`);
+                });
             }
-        }
+        })
     }
 }
 
