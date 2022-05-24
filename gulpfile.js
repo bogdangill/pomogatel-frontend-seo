@@ -88,8 +88,7 @@ const { src, dest, series, parallel } = require('gulp'),
     babel = require('rollup-plugin-babel'),
     resolve = require('rollup-plugin-node-resolve'),
     commonjs = require('rollup-plugin-commonjs'),
-    through2 = require('through2'), //для создания встроенных плагинов
-    clc = require('cli-color'); //окрашивание служебных логов Бехолдера
+    through2 = require('through2'); //для создания встроенных плагинов
 /*
  
  ____ _  _ _  _ ____ ___ _ ____ _  _ ____ 
@@ -106,62 +105,15 @@ const servant = new sv.Servant();
 const locales = ['ru', 'en', 'vn', 'tr'];
 
 /*==========================================================================
--------- Clean dictionaries for including up-to-date data files ------------
-==========================================================================*/
-
-function cleanDictionaries() {
-    return src('#src/dictionaries/*.pug')
-        .pipe(through2.obj(function(file, enc, cb) {
-            servant.cleanFile(file);
-            cb();
-        }))
-}
-
-/*==========================================================================
 ------- Collect data files in sections & include into dictionaries ---------
 ==========================================================================*/
 
-function testTask() {
+function updateDictionaries() {
     return src('#src/sections/**/data/*.pug')
         .pipe(through2.obj(function(file, enc, cb) {
-            // servant.updateDictionary(file.path, '#src/test/', locales);
-            servant.checkImportRelevance('#src/test/dictionary.en.pug');
-
+            servant.updateDictionary(file.path, '#src/test/', locales);
             cb();
         }))
-}
-
-function collectDatas(cb) {
-    const sectionsDir = '#src/sections/';
-
-    const locales = ['ru', 'en', 'vn', 'tr'];
-
-    const sections = fs.readdirSync(sectionsDir);
-
-    sections.forEach(section => {
-        const sectionData = path.join(sectionsDir, section, '/data/');
-
-        if (!fs.lstatSync(sectionData).isDirectory()) return
-
-        const dataFiles = fs.readdirSync(sectionData).filter(file => path.extname(file) === '.pug');
-
-        for (let file of dataFiles) {
-            for (let locale of locales) {
-                let localeRegExp = new RegExp(locale);
-
-                if (file.match(localeRegExp)) {
-                    let filePath = `include ../sections/${section}/data/${file}\n`;
-
-                    fs.appendFileSync(
-                        `#src/dictionaries/dictionary.${locale}.pug`, 
-                        filePath
-                    )
-                }
-            }
-        }
-    })
-
-    return cb();
 }
 
 function connectComponents() {
@@ -187,7 +139,7 @@ function connectComponents() {
                             if (err) {
                                 throw err;
                             } else {
-                                console.log(cliPalette.warning('unused include has been removed in ')+cliPalette.warningBright(chunk.path));
+                                console.log('unused include has been removed in '+chunk.path);
                             }
                         });
                     }
@@ -219,7 +171,7 @@ function connectComponents() {
                             if (err) {
                                 throw err;
                             } else {
-                                console.log(cliPalette.successBright(module) + cliPalette.success(' module has been successfully included into ') + cliPalette.successBright(chunk.path));
+                                console.log(module+' module has been successfully included into '+chunk.path);
                             }
                         });
                     }
@@ -403,7 +355,7 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/**/data/*.pug'], series(cleanDictionaries, collectData));
+    gulp.watch(['#src/sections/**/data/*.pug'], series(updateDictionaries));
     gulp.watch([pathTo.watch.pug], series(connectComponents, pug2html)).on('change', browsersync.reload);
 
     return cb();
@@ -412,8 +364,7 @@ const DAEMON = (cb) => {
 /*закрываю в параллель для одновременного выполнения функции обработки ключевых файлов*/
 let dev = gulp.series(
     clean,
-    cleanDictionaries,
-    // collectData,
+    updateDictionaries,
     connectComponents,
     gulp.parallel(
         js,
@@ -430,4 +381,4 @@ let dev = gulp.series(
 exports.dev = dev;
 exports.default = dev;
 exports.connectComponents = connectComponents;
-exports.testTask = testTask;
+// exports.testTask = testTask;

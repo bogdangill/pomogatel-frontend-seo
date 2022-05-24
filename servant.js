@@ -26,7 +26,7 @@ class Servant {
      */
     _inform(message, messageType = 'info') {
         if (messageType === 'info') {
-            this._log(cliPalette.info(message))
+            this._log(cliPalette.infoBright(message))
         }
         if (messageType === 'warning') {
             this._log(cliPalette.warning(message))
@@ -36,7 +36,11 @@ class Servant {
         }
     }
 
-    checkImportRelevance(filePath, importStr) {
+     /**
+     *  Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
+     * @param { path } filePath - путь до проверяемого файла
+     */
+    _cleanIrrelevantImports(filePath) {
         let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
         let fileContentArr = fileContent.split('\n');
 
@@ -46,13 +50,20 @@ class Servant {
             const absolutePathFromString = path.join('#src', path.normalize(relativePathFromString));
 
             if (!fs.existsSync(absolutePathFromString)) {
-                this._inform(`${relativePathFromString} does not exist`, 'warning');
-                fs.writeFileSync(filePath, fileContentArr.filter(str => str !== tempStr).join('\n'));
-                this._inform(`unused ${tempStr} has been successfully removed from ${filePath}`);
+                
+                this._inform(`"${relativePathFromString}" does not exist`, 'warning');
+                fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
+                this._inform(`unused "${tempStr}" has been successfully removed from "${filePath}"`);
             }
         })
     }
 
+    /**
+     *  Проверяет актуальность подключенных data-файлов в словаре, удаляет лишние инклюды(если data-файл был удален) и добавляет нужные(если data-файл создан, но еще не подключен к соответствующему для него словарю). 
+     * @param { path } dataFilePath - путь до data-файла
+     * @param { path } dictionariesDir - директория со словарями (e.g. #src/dictionaries/)
+     * @param { object } locales - массив с локалями для сортировки data-файлов по словарям
+     */
     updateDictionary(dataFilePath, dictionariesDir, locales) {
         const dataFilePathArr = process.platform === 'win32' ? dataFilePath.split('\\') : dataFilePath.split('/');
         const currentSection = dataFilePathArr.splice(dataFilePathArr.indexOf('sections') + 1, 1);
@@ -66,15 +77,14 @@ class Servant {
                 const relevantDictionary = path.join(dictionariesDir, `dictionary.${locale}.pug`);
                 const dictionaryContent = fs.readFileSync(relevantDictionary, { encoding: 'utf-8' });
 
-                this.checkImportRelevance(relevantDictionary, dataFileInclude);
+                this._cleanIrrelevantImports(relevantDictionary);
 
-                // if (!dictionaryContent.includes(dataFileInclude)) {
-                //     fs.appendFileSync(relevantDictionary, dataFileInclude+'\n');
-
-                //     this._inform('success','missing '+cliPalette.successBright(path.join(currentSection.toString(), 'data', dataFileName))+' has been successfuly added into '+cliPalette.successBright(relevantDictionary));
-                // }
-
-                // fs.appendFileSync(relevantDictionary, dataFileInclude);
+                if (!dictionaryContent.includes(dataFileInclude)) {
+                    fs.appendFile(relevantDictionary, dataFileInclude+'\n', (err) => {
+                        if (err) throw err;
+                        this._inform(`missing "${path.join(currentSection.toString(), 'data', dataFileName)}" has been successfuly added into "${relevantDictionary}"`);
+                    });
+                }
             }
         }
     }
