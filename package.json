@@ -12,7 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp",
-    "check": "gulp updateDictionaries"
+    "check": "gulp testTask"
   },
   "author": "bogdangill",
   "license": "ISC",

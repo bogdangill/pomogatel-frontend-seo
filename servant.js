@@ -39,20 +39,51 @@ class Servant {
      /**
      *  Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
      * @param { path } filePath - путь до проверяемого файла
+     * @param { 'dictionary' | 'componentStyle' | 'componentTemplate' } fileType - тип файла
      */
-    cleanIrrelevantImports(filePath) {
+    cleanUnusedImports(filePath, fileType) {
         let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
         let fileContentArr = fileContent.split('\n');
+        let importCommand = '@import';
+
+        if (fileType === 'dictionary' || fileType === 'componentTemplate') importCommand = 'include';
 
         fileContentArr.filter(str => str.match(/\w/)).forEach(str => {
             const tempStr = str.trim();
-            const relativePathFromString = tempStr.split('..').pop().trim();
-            const absolutePathFromString = path.join('#src', path.normalize(relativePathFromString));
 
-            if (!fs.existsSync(absolutePathFromString)) {
-                this._inform(`"${relativePathFromString}" does not exist`, 'warning');
-                fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
-                this._inform(`unused "${tempStr}" has been successfully removed from "${filePath}"`);
+            if (tempStr.includes(importCommand)) {
+                if (fileType === 'dictionary' || fileType === 'componentStyle') {
+                    const relativePathFromStr = tempStr.split('..').pop().trim();
+                    let absolutePathFromStr;
+                    
+                    if (fileType === 'dictionary') {
+                        absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr));
+                    } else {
+                        absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr.split('').filter(i => !i.match(/'|;|"/)).join('')));
+                    }
+        
+                    if (!fs.existsSync(absolutePathFromStr)) {
+                        this._inform(`"${relativePathFromStr}" does not exist`, 'warning');
+                        fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
+                        this._inform(`unused "${tempStr}" has been successfully removed from "${filePath}"`);
+                    }
+                }
+    
+                if (fileType === 'componentTemplate') {
+                    let includeModuleName = str.split('/').slice(-1).toString().split('.')[0];
+    
+                    if (!fileContent.includes(`+${includeModuleName}`+'(')) {
+                        fileContentArr.splice(fileContentArr.indexOf(str), 1);
+    
+                        fs.writeFile(filePath, fileContentArr.join('\n'), (err) => {
+                            if (err) {
+                                throw err;
+                            } else {
+                                this._inform(`unused include has been removed in "${filePath}"`)
+                            }
+                        });
+                    }
+                }
             }
         })
     }
@@ -86,26 +117,6 @@ class Servant {
         });
 
         const mixinRegEx = /\+\w+\(/;
-
-        const fileContentArr = fileContent.split('\n');
-
-        fileContentArr.forEach(string => {
-            if (string.includes('include')) {
-                let includeModuleName = string.split('/').slice(-1).toString().split('.')[0];
-
-                if (!fileContent.includes(`+${includeModuleName}`+'(')) {
-                    fileContentArr.splice(fileContentArr.indexOf(string), 1);
-
-                    fs.writeFile(filePath, fileContentArr.join('\n'), (err) => {
-                        if (err) {
-                            throw err;
-                        } else {
-                            this._inform(`unused include has been removed in "${filePath}"`)
-                        }
-                    });
-                }
-            }
-        })
 
         const fileModules = fileContent.split(' ')
             .filter(item => item.match(mixinRegEx))

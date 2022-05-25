@@ -108,10 +108,18 @@ const locales = ['ru', 'en', 'vn', 'tr'];
 ------- Collect data files in sections & include into dictionaries ---------
 ==========================================================================*/
 
+function testTask() {
+    return src('#src/sections/**/*.scss')
+        .pipe(through2.obj((file, enc, cb) => {
+            servant.cleanUnusedImports(file.path, 'componentStyle');
+            cb();
+        }))
+}
+
 function updateDictionaries() {
     return src('#src/test/*.pug')
         .pipe(through2.obj(function(file, enc, cb) {
-            servant.cleanIrrelevantImports(file.path);
+            servant.cleanUnusedImports(file.path, 'dictionary');
             servant.updateDictionary(file.path);
             cb();
         }))
@@ -324,5 +332,5 @@ let dev = gulp.series(
 exports.dev = dev;
 exports.default = dev;
 exports.connectComponents = connectComponents;
-// exports.testTask = testTask;
+exports.testTask = testTask;
 exports.updateDictionaries = updateDictionaries;
