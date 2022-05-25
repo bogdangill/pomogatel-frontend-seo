@@ -79,6 +79,66 @@ class Servant {
             }
         })
     }
+
+    connectComponents(filePath) {
+        let fileContent = fs.readFileSync(filePath, {
+            encoding: 'utf-8'
+        });
+
+        const mixinRegEx = /\+\w+\(/;
+
+        const fileContentArr = fileContent.split('\n');
+
+        fileContentArr.forEach(string => {
+            if (string.includes('include')) {
+                let includeModuleName = string.split('/').slice(-1).toString().split('.')[0];
+
+                if (!fileContent.includes(`+${includeModuleName}`+'(')) {
+                    fileContentArr.splice(fileContentArr.indexOf(string), 1);
+
+                    fs.writeFile(filePath, fileContentArr.join('\n'), (err) => {
+                        if (err) {
+                            throw err;
+                        } else {
+                            this._inform(`unused include has been removed in "${filePath}"`)
+                        }
+                    });
+                }
+            }
+        })
+
+        const fileModules = fileContent.split(' ')
+            .filter(item => item.match(mixinRegEx))
+            .sort()
+            .filter((_, i, arr) => arr[i] !== arr[i + 1]);
+        
+        if (fileModules.length) {
+            const moduleNames = fileModules.map((item) => item.slice(1, item.indexOf('(')));
+            let includes = '';
+
+            moduleNames.forEach(module => {
+                let includeCheck = `include ../../modules/${module}/${module}.pug`;
+                
+                if (!fileContent.includes(includeCheck)) {
+                    includes += `include ../../modules/${module}/${module}.pug\n`;
+                }
+            });
+
+            moduleNames.forEach(module => {
+                let includeCheck = `include ../../modules/${module}/${module}.pug`;
+
+                if (!fileContent.includes(includeCheck)) {
+                    fs.writeFile(filePath, includes+fileContent, (err) => {
+                        if (err) {
+                            throw err;
+                        } else {
+                            this._inform(`"${module}" has been successfully included into "${filePath}"`);
+                        }
+                    });
+                }
+            })
+        }
+    }
 }
 
 

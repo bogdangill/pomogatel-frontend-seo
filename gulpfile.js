@@ -119,67 +119,9 @@ function updateDictionaries() {
 
 function connectComponents() {
     return src(['#src/sections/**/*.pug', '!#src/sections/**/data/*.pug'])
-        .pipe(through2.obj((chunk, enc, cb) => {
-
-            let chunkContent = fs.readFileSync(chunk.path, {
-                encoding: 'utf-8'
-            });
-
-            const mixinRegEx = /\+\w+\(/;
-
-            const chunkContentArr = chunkContent.split('\n');
-
-            chunkContentArr.forEach(string => {
-                if (string.includes('include')) {
-                    let includeModuleName = string.split('/').slice(-1).toString().split('.')[0];
-
-                    if (!chunkContent.includes(`+${includeModuleName}`+'(')) {
-                        chunkContentArr.splice(chunkContentArr.indexOf(string), 1);
-
-                        fs.writeFile(chunk.path, chunkContentArr.join('\n'), (err) => {
-                            if (err) {
-                                throw err;
-                            } else {
-                                console.log('unused include has been removed in '+chunk.path);
-                            }
-                        });
-                    }
-                }
-            })
-
-            const chunkModules = chunkContent.split(' ')
-                .filter(item => item.match(mixinRegEx))
-                .sort()
-                .filter((_, i, arr) => arr[i] !== arr[i + 1]);
-            
-            if (chunkModules.length) {
-                const moduleNames = chunkModules.map((item) => item.slice(1, item.indexOf('(')));
-                let includes = '';
-
-                moduleNames.forEach(module => {
-                    let includeCheck = `include ../../modules/${module}/${module}.pug`;
-                    
-                    if (!chunkContent.includes(includeCheck)) {
-                        includes += `include ../../modules/${module}/${module}.pug\n`;
-                    }
-                });
-
-                moduleNames.forEach(module => {
-                    let includeCheck = `include ../../modules/${module}/${module}.pug`;
-
-                    if (!chunkContent.includes(includeCheck)) {
-                        fs.writeFile(chunk.path, includes+chunkContent, (err) => {
-                            if (err) {
-                                throw err;
-                            } else {
-                                console.log(module+' module has been successfully included into '+chunk.path);
-                            }
-                        });
-                    }
-                })
-            }
-            
-            cb(null, chunk)
+        .pipe(through2.obj((file, enc, cb) => {
+            servant.connectComponents(file.path);
+            cb()
         }))
 }
 
