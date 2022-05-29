@@ -1,50 +1,56 @@
 const { stream } = require('browser-sync');
 
 /*переменные для массива объектов с путями*/
-let project_folder = "dist";
-let source_folder = "#src";
+const DIST = "dist";
+const SOURCE = "#src";
 
 /*file system*/
 let fs = require('fs');
 // для работы с путями
 const path = require('path');
 
-/*
- 
- ___  ____ ___ _  _ ____ 
- |__] |__|  |  |__| [__  
- |    |  |  |  |  | ___] 
-                         
- 
-*/
+/*==============================
+------- Project paths  ---------
+==============================*/
 
-let pathTo = {
-    build: {
-        html: project_folder + "/",
-        css: project_folder + "/css/",
-        js: project_folder + "/js/",
-        img: project_folder + "/img/",
-        fonts: project_folder + "/fonts/",
-        favicons: project_folder + "/favicons/"
+const pathsEnum = Object.freeze({
+    BUILD: {
+        HTML: DIST + '/',
+        CSS: DIST + '/css/',
+        JAVASCRIPT: DIST + '/js/',
+        IMG: DIST + '/img/',
+        FONTS: DIST + '/fonts',
+        FAVICONS: DIST + '/favicons/'
     },
-    src: {
-        pug: source_folder + "/pages/**/*.pug",
-        css: source_folder + "/scss/styles.scss",
-        js: source_folder + "/pages/**/*.js",
-        img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
-        fonts: source_folder + "/fonts/*.{ttf, TTF}",
-        favicons: source_folder + "/favicons/**/*.+(png|svg|ico)",
-        icons: source_folder + "/icons/**/**/*.svg"
+    SRC: {
+        PUG: SOURCE + '/pages/**/*.pug',
+        STYLES: SOURCE + '/scss/styles.scss',
+        JAVASCRIPT: SOURCE + '/pages/**/*.js',
+        IMG: SOURCE + '/img/**/*.+(png|jpg|gif|ico|svg|webp)',
+        FONTS: SOURCE + '/fonts/*.{ttf, TTF}',
+        FAVICONS: SOURCE + '/favicons/**/*.+(png|svg|ico)',
+        ICONS: SOURCE + '/icons/**/**/*.svg',
+        DICTIONARIES: SOURCE + '/dictionaries/*.pug',
+        DATA_FILES: SOURCE + '/sections/**/data/*.pug',
+        SECTIONS: {
+            PUG: SOURCE + '/sections/**/*.pug',
+            SCSS: SOURCE + '/sections/**/*.scss'
+        },
+        PAGES: {
+            PUG: SOURCE + '/pages/**/*.pug',
+            SCSS: SOURCE + '/pages/**/*.scss'
+        }
     },
-    watch: { //какие файлы слушаем для сихронизации с browsersync
-        pug: source_folder + "/**/**/*.pug",
-        css: source_folder + "/**/*.+(scss|sass)",
-        js: source_folder + "/**/*.js",
-        img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
-        icons: source_folder + "/icons/**/**/*.svg"
+    WATCH: {
+        PUG: SOURCE + '/**/**/*.pug',
+        STYLES: SOURCE + '/**/*.+(scss|sass)',
+        JAVASCRIPT: SOURCE + '/**/*.js',
+        IMG: SOURCE + '/img/**/*.+(png|jpg|gif|ico|svg|webp)',
+        ICONS: SOURCE + '/icons/**/**/*.svg',
+        DICTIONARIES: SOURCE + '/dictionaries/*.pug'
     },
-    clean: "./" + project_folder + "/" //путь для удаления папки dist, чтобы каждый раз перед прогоном бандла функций галпа удалять ненужные файлы
-}
+    CLEAN: './' + DIST + '/' //путь для удаления папки dist, чтобы каждый раз перед прогоном бандла функций галпа удалять ненужные файлы
+});
 
 //для преттифаера html
 var prettyOption = {
@@ -54,15 +60,12 @@ var prettyOption = {
     content_unformatted: [],
 };
 
-/*объявляем зависимости через переменные для дальнейших манипуляций с ними*/
-/*
- 
- ___  ____ ___  ____ _  _ ___  ____ _  _ ____ _ ____ ____ 
- |  \ |___ |__] |___ |\ | |  \ |___ |\ | |    | |___ [__  
- |__/ |___ |    |___ | \| |__/ |___ | \| |___ | |___ ___] 
-                                                          
- 
-*/
+//тип шаблона для всех страниц, используется в функции подключения/удаления секций к страницам
+const LAYOUT_TYPE = 'default';
+
+/*==========================================================================
+--- Define Node modules as Gulp dependencies for further manipulations -----
+==========================================================================*/
 
 const { src, dest, series, parallel } = require('gulp'),
     gulp = require('gulp'),
@@ -89,27 +92,17 @@ const { src, dest, series, parallel } = require('gulp'),
     resolve = require('rollup-plugin-node-resolve'),
     commonjs = require('rollup-plugin-commonjs'),
     through2 = require('through2'); //для создания встроенных плагинов
-/*
- 
- ____ _  _ _  _ ____ ___ _ ____ _  _ ____ 
- |___ |  | |\ | |     |  | |  | |\ | [__  
- |    |__| | \| |___  |  | |__| | \| ___] 
-                                          
- 
-*/
 
 //слуга
 const sv = require('./servant');
 const servant = new sv.Servant();
-
-const locales = ['ru', 'en', 'vn', 'tr'];
 
 /*==========================================================================
 ------- Collect data files in sections & include into dictionaries ---------
 ==========================================================================*/
 
 function updateDictionaries() {
-    return src('#src/dictionaries/*.pug')
+    return src(pathsEnum.SRC.DICTIONARIES)
         .pipe(through2.obj(function(file, enc, cb) {
             servant.cleanUnusedImports(file.path, 'dictionary');
             servant.updateDictionary(file.path);
@@ -122,7 +115,7 @@ function updateDictionaries() {
 =====================================================*/
 
 function connectModules() {
-    return src(['#src/sections/**/*.pug', '!#src/sections/**/data/*.pug'])
+    return src([pathsEnum.SRC.SECTIONS.PUG, `!${pathsEnum.SRC.DATA_FILES}`])
         .pipe(through2.obj((file, enc, cb) => {
             servant.cleanUnusedImports(file.path, 'componentTemplate');
             servant.cleanUnusedImports(file.path, 'componentStyle');
@@ -136,11 +129,12 @@ function connectModules() {
 =====================================================*/
 
 function connectSections() {
-    return src('#src/pages/**/*.pug')
+    return src(pathsEnum.SRC.PAGES.PUG)
         .pipe(through2.obj((file, enc, cb) => {
             servant.cleanUnusedImports(file.path, 'componentTemplate');
             servant.cleanUnusedImports(file.path, 'componentStyle');
             servant.connectComponents(file.path, 'sections');
+            servant.setLayoutForPages(file.path, LAYOUT_TYPE);
             cb()
         }))
 }
@@ -150,7 +144,7 @@ function connectSections() {
 ========================================================*/
 
 function copyFavicons() {
-    return src(pathTo.src.favicons)
+    return src(pathsEnum.SRC.FAVICONS)
         .pipe(
             imagemin({
                 progressive: true,
@@ -159,7 +153,7 @@ function copyFavicons() {
                 optimizationLevel: 2 // от 0 до 7
             })
         )
-        .pipe(dest(pathTo.build.favicons))
+        .pipe(dest(pathsEnum.BUILD.FAVICONS))
 }
 
 /*============================================================
@@ -167,11 +161,11 @@ function copyFavicons() {
 ============================================================*/
 
 function pug2html() {
-    return src([pathTo.src.pug, "!#src/pages/**/connectors/*.connector.pug"])
+    return src(pathsEnum.SRC.PAGES.PUG)
         .pipe(pug())
         .pipe(prettyHtml(prettyOption))
         .pipe(rename({ dirname: "" }))
-        .pipe(dest(pathTo.build.html))
+        .pipe(dest(pathsEnum.BUILD.HTML))
         .pipe(browsersync.stream())
 }
 
@@ -180,7 +174,7 @@ function pug2html() {
 =====================================================================================*/
 
 function css() {
-    return src(pathTo.src.css)
+    return src(pathsEnum.SRC.STYLES)
         .pipe(
             scss({
                 outputStyle: 'expanded'
@@ -190,7 +184,7 @@ function css() {
             group_media()
         )
         // .pipe(webp_css())
-        .pipe(dest(pathTo.build.css))//выхлоп несжатого css без чистки и оптимизации медиазапросов
+        .pipe(dest(pathsEnum.BUILD.CSS))//выхлоп несжатого css без чистки и оптимизации медиазапросов
         .pipe(postcss([
             autoprefixer({
                 cascade: 'true'
@@ -206,7 +200,7 @@ function css() {
                 extname: ".min.css",
             })
         )
-        .pipe(dest(pathTo.build.css))//выхлоп сжатого на проду
+        .pipe(dest(pathsEnum.BUILD.CSS))//выхлоп сжатого на проду
         .pipe(browsersync.stream())
 }
 
@@ -215,13 +209,13 @@ function css() {
 ============================================================*/
 
 function js() {
-    return src(pathTo.src.js)
+    return src(pathsEnum.SRC.JAVASCRIPT)
         .pipe(rollup({ plugins: [commonjs(), resolve(), babel({ presets: ['@babel/env'] })] },
             {
                 format: "iife"
             }))
         .pipe(rename({ dirname: "" }))
-        .pipe(dest(pathTo.build.js))
+        .pipe(dest(pathsEnum.BUILD.JAVASCRIPT))
         .pipe(
             uglify()
         )
@@ -231,7 +225,7 @@ function js() {
             })
         )
         .pipe(rename({ dirname: "" }))
-        .pipe(dest(pathTo.build.js))
+        .pipe(dest(pathsEnum.BUILD.JAVASCRIPT))
         .pipe(browsersync.stream())
 }
 
@@ -240,14 +234,14 @@ function js() {
 ====================================*/
 
 function images() {
-    return src(pathTo.src.img)
+    return src(pathsEnum.SRC.IMG)
         .pipe(
             webp({
                 quality: 70
             })
         )
-        .pipe(dest(pathTo.build.img))
-        .pipe(src(pathTo.src.img))
+        .pipe(dest(pathsEnum.BUILD.IMG))
+        .pipe(src(pathsEnum.SRC.IMG))
         .pipe(
             imagemin({
                 progressive: true,
@@ -256,7 +250,7 @@ function images() {
                 optimizationLevel: 3 // от 0 до 7
             })
         )
-        .pipe(dest(pathTo.build.img))
+        .pipe(dest(pathsEnum.BUILD.IMG))
         .pipe(browsersync.stream())
 }
 
@@ -265,12 +259,9 @@ function images() {
 ====================================*/
 
 function fonts(params) {
-    src(pathTo.src.fonts)
-        .pipe(ttf2woff())
-        .pipe(dest(pathTo.build.fonts));
-    return src(pathTo.src.fonts)
+    return src(pathsEnum.SRC.FONTS)
         .pipe(ttf2woff2())
-        .pipe(dest(pathTo.build.fonts));
+        .pipe(dest(pathsEnum.BUILD.FONTS));
 }
 
 /*===================================
@@ -278,7 +269,7 @@ function fonts(params) {
 ====================================*/
 
 function makeSprite() {
-    return gulp.src(pathTo.src.icons)
+    return gulp.src(pathsEnum.SRC.ICONS)
         .pipe(svg_sprite({
             mode: {
                 stack: {
@@ -287,7 +278,7 @@ function makeSprite() {
                 }
             }
         }))
-        .pipe(dest(pathTo.build.img))
+        .pipe(dest(pathsEnum.BUILD.IMG))
 }
 
 /*===================================
@@ -296,17 +287,17 @@ function makeSprite() {
 
 //функция для удаления папки dist целиком перед серией выполняемых фукций
 function clean(params) {
-    return del(pathTo.clean);
+    return del(pathsEnum.CLEAN);
 }
 
 /*===================================
 --------- Local Web Server ----------
 ====================================*/
 
-const DAEMON = (cb) => {
+const serve = (cb) => {
     browsersync.init({
         server: {
-            baseDir: "./" + project_folder + "/"
+            baseDir: "./" + DIST + "/"
         },
         notify: false,
         open: true,
@@ -314,12 +305,12 @@ const DAEMON = (cb) => {
         startPath: '/index.html'
     });
 
-    gulp.watch([pathTo.watch.img], series(images)).on('change', browsersync.reload);
-    gulp.watch([pathTo.watch.icons], series(makeSprite)).on('change', browsersync.reload);
-    gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
-    gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
-    gulp.watch(['#src/sections/**/data/*.pug'], series(updateDictionaries));
-    gulp.watch([pathTo.watch.pug], series(connectModules, connectSections, pug2html)).on('change', browsersync.reload);
+    gulp.watch([pathsEnum.WATCH.IMG], series(images)).on('change', browsersync.reload);
+    gulp.watch([pathsEnum.WATCH.ICONS], series(makeSprite)).on('change', browsersync.reload);
+    gulp.watch([pathsEnum.WATCH.STYLES], series(css)).on('change', browsersync.reload);
+    gulp.watch([pathsEnum.WATCH.JAVASCRIPT], series(js)).on('change', browsersync.reload);
+    gulp.watch([pathsEnum.WATCH.DICTIONARIES], series(updateDictionaries));
+    gulp.watch([pathsEnum.WATCH.PUG], series(connectModules, connectSections, pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
@@ -339,7 +330,7 @@ let dev = gulp.series(
         fonts,
         makeSprite
     ),
-    DAEMON
+    serve
 );
 
 exports.dev = dev;
