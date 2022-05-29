@@ -1,5 +1,4 @@
 extends ../../layouts/layout-default.pug
-include connectors/_search.connector.pug
 
 block meta
     title Домашний персонал в Москве на Помогатель.ру: няни, домработницы, сиделки, репетиторы
@@ -13,7 +12,7 @@ block body
                 +header('white')
             block content
                 main
-                    +navTop()
+                    +nav-top()
             block footer
                 +footer()
 block page-bottom
