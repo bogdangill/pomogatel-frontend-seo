@@ -108,16 +108,8 @@ const locales = ['ru', 'en', 'vn', 'tr'];
 ------- Collect data files in sections & include into dictionaries ---------
 ==========================================================================*/
 
-function testTask() {
-    return src('#src/sections/**/*.scss')
-        .pipe(through2.obj((file, enc, cb) => {
-            servant.cleanUnusedImports(file.path, 'componentStyle');
-            cb();
-        }))
-}
-
 function updateDictionaries() {
-    return src('#src/test/*.pug')
+    return src('#src/dictionaries/*.pug')
         .pipe(through2.obj(function(file, enc, cb) {
             servant.cleanUnusedImports(file.path, 'dictionary');
             servant.updateDictionary(file.path);
@@ -125,10 +117,30 @@ function updateDictionaries() {
         }))
 }
 
-function connectComponents() {
+/*=====================================================
+----------- Connect modules with sections -------------
+=====================================================*/
+
+function connectModules() {
     return src(['#src/sections/**/*.pug', '!#src/sections/**/data/*.pug'])
         .pipe(through2.obj((file, enc, cb) => {
-            servant.connectComponents(file.path);
+            servant.cleanUnusedImports(file.path, 'componentTemplate');
+            servant.cleanUnusedImports(file.path, 'componentStyle');
+            servant.connectComponents(file.path, 'modules');
+            cb()
+        }))
+}
+
+/*=====================================================
+----------- Connect sections with pages ---------------
+=====================================================*/
+
+function connectSections() {
+    return src('#src/pages/**/*.pug')
+        .pipe(through2.obj((file, enc, cb) => {
+            servant.cleanUnusedImports(file.path, 'componentTemplate');
+            servant.cleanUnusedImports(file.path, 'componentStyle');
+            servant.connectComponents(file.path, 'sections');
             cb()
         }))
 }
@@ -307,7 +319,7 @@ const DAEMON = (cb) => {
     gulp.watch([pathTo.watch.css], series(css)).on('change', browsersync.reload);
     gulp.watch([pathTo.watch.js], series(js)).on('change', browsersync.reload);
     gulp.watch(['#src/sections/**/data/*.pug'], series(updateDictionaries));
-    gulp.watch([pathTo.watch.pug], series(connectComponents, pug2html)).on('change', browsersync.reload);
+    gulp.watch([pathTo.watch.pug], series(connectModules, connectSections, pug2html)).on('change', browsersync.reload);
 
     return cb();
 }
@@ -316,7 +328,8 @@ const DAEMON = (cb) => {
 let dev = gulp.series(
     clean,
     updateDictionaries,
-    connectComponents,
+    connectModules,
+    connectSections,
     gulp.parallel(
         js,
         css,
@@ -331,6 +344,5 @@ let dev = gulp.series(
 
 exports.dev = dev;
 exports.default = dev;
-exports.connectComponents = connectComponents;
-exports.testTask = testTask;
+exports.connectModules = connectModules;
 exports.updateDictionaries = updateDictionaries;

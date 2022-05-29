@@ -1,6 +1,5 @@
 const fs = require('fs'),
     path = require('path'),
-    // through2 = require('through2'),
     clc = require('cli-color');
 
 const cliPalette = {
@@ -20,7 +19,7 @@ class Servant {
     }
 
     /**
-     *  Показывает сообщение в терминале. 
+     * Показывает сообщение в терминале. 
      * @param { string } message - сообщение
      * @param { 'info' | 'warning' | 'error' } messageType - тип сообщений (необязательный параметр, по умолчанию info)
      */
@@ -37,7 +36,7 @@ class Servant {
     }
 
      /**
-     *  Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
+     * Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
      * @param { path } filePath - путь до проверяемого файла
      * @param { 'dictionary' | 'componentStyle' | 'componentTemplate' } fileType - тип файла
      */
@@ -89,7 +88,7 @@ class Servant {
     }
 
     /**
-     *  Добавляет data-файл к соответствующему для него словарю (если data-файл создан, но еще не подключен). 
+     * Добавляет data-файл к соответствующему для него словарю (если data-файл создан, но еще не подключен). 
      * @param { path } dictionaryPath - путь до словаря
      */
     updateDictionary(dictionaryPath) {
@@ -111,41 +110,51 @@ class Servant {
         })
     }
 
-    connectComponents(filePath) {
-        let fileContent = fs.readFileSync(filePath, {
+    /**
+     * Подключает pug и scss файлы компонентов "гостей" к компоненту "хозяину". 
+     * @param { path } filePath - путь до pug компонента "хозяина"
+     * @param { 'modules' | 'sections' } componentType - тип подключаемых компонентов
+     */
+    connectComponents(filePath, componentType) {
+        const componentPath = filePath.split('.').shift();
+        
+        let templateContent = fs.readFileSync(componentPath+'.pug', {
+            encoding: 'utf-8'
+        });
+        let styleContent = fs.readFileSync(componentPath+'.scss', {
             encoding: 'utf-8'
         });
 
-        const mixinRegEx = /\+\w+\(/;
+        const mixinRegEx = /\+[A-Za-z-]+\(/;
 
-        const fileModules = fileContent.split(' ')
+        const fileComponents = templateContent.split(' ')
             .filter(item => item.match(mixinRegEx))
             .sort()
             .filter((_, i, arr) => arr[i] !== arr[i + 1]);
         
-        if (fileModules.length) {
-            const moduleNames = fileModules.map((item) => item.slice(1, item.indexOf('(')));
+        if (fileComponents.length) {
+            const componentsNames = fileComponents.map((item) => item.slice(1, item.indexOf('(')));
             let includes = '';
+            let imports = '';
 
-            moduleNames.forEach(module => {
-                let includeCheck = `include ../../modules/${module}/${module}.pug`;
+            componentsNames.forEach(component => {
+                const includeCheck = `include ../../${componentType}/${component}/${component}.pug`;
+                const importCheck = `@import '../../${componentType}/${component}/${component}.scss';`;
                 
-                if (!fileContent.includes(includeCheck)) {
-                    includes += `include ../../modules/${module}/${module}.pug\n`;
+                if (!templateContent.includes(includeCheck)) {
+                    includes += `${includeCheck}\n`;
+                    imports += `${importCheck}\n`;
                 }
             });
 
-            moduleNames.forEach(module => {
-                let includeCheck = `include ../../modules/${module}/${module}.pug`;
+            componentsNames.forEach(component => {
+                const includeCheck = `include ../../${componentType}/${component}/${component}.pug`;
+                const importCheck = `@import '../../${componentType}/${component}/${component}.scss';`;
 
-                if (!fileContent.includes(includeCheck)) {
-                    fs.writeFile(filePath, includes+fileContent, (err) => {
-                        if (err) {
-                            throw err;
-                        } else {
-                            this._inform(`"${module}" has been successfully included into "${filePath}"`);
-                        }
-                    });
+                if (!templateContent.includes(includeCheck) && !styleContent.includes(importCheck)) {
+                    fs.writeFileSync(componentPath+'.pug', includes+templateContent);
+                    fs.writeFileSync(componentPath+'.scss', imports+styleContent);
+                    this._inform(`"${component}" ${componentType.split('').slice(0, -1).join('')} has been successfully included into "${filePath}"`);
                 }
             })
         }
