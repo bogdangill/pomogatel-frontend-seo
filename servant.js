@@ -35,6 +35,52 @@ class Servant {
         }
     }
 
+    /**
+     * Удаляет ВСЕ импорты/инклюды в файле (для дебага/теста). 
+     * @param { path } filePath - путь до проверяемого файла
+     * @param { 'dictionary' | 'componentStyle' | 'componentTemplate' } fileType - тип файла
+     */
+    cleanAllImports(filePath, fileType) {
+        let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
+        let fileContentArr = fileContent.split('\n');
+        let importCommand = '@import';
+
+        if (fileType === 'dictionary' || fileType === 'componentTemplate') importCommand = 'include';
+
+        fileContentArr.filter(str => str.match(/\w/)).forEach(str => {
+            const tempStr = str.trim();
+
+            if (tempStr.includes(importCommand)) {
+                if (fileType === 'dictionary' || fileType === 'componentStyle') {
+                    const relativePathFromStr = tempStr.split('..').pop().trim();
+                    let absolutePathFromStr;
+                    
+                    if (fileType === 'dictionary') {
+                        absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr));
+                    } else {
+                        absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr.split('').filter(i => !i.match(/'|;|"/)).join('')));
+                    }
+                    
+                    if (fs.existsSync(absolutePathFromStr)) {
+                        fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
+                        this._inform(`"${tempStr}" has been successfully removed from "${filePath}"`);
+                    }
+                }
+    
+                if (fileType === 'componentTemplate') {
+                    let includeModuleName = str.split('/').slice(-1).toString().split('.')[0];
+    
+                    if (fileContent.includes(`+${includeModuleName}`+'(')) {
+                        fileContentArr.splice(fileContentArr.indexOf(str), 1);
+
+                        fs.writeFileSync(filePath, fileContentArr.join('\n'));
+                        this._inform(`"${includeModuleName}" include has been removed from "${filePath}"`)
+                    }
+                }
+            }
+        })
+    }
+
      /**
      * Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
      * @param { path } filePath - путь до проверяемого файла
@@ -78,7 +124,7 @@ class Servant {
                             if (err) {
                                 throw err;
                             } else {
-                                this._inform(`unused include has been removed in "${filePath}"`)
+                                this._inform(`unused include has been removed from "${filePath}"`)
                             }
                         });
                     }

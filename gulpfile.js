@@ -97,6 +97,19 @@ const { src, dest, series, parallel } = require('gulp'),
 const sv = require('./servant');
 const servant = new sv.Servant();
 
+/*==================================================================
+----------- Clean all imports & includes from sections -------------
+==================================================================*/
+
+function cleanAllImports() {
+    return src([pathsEnum.SRC.SECTIONS.PUG, `!${pathsEnum.SRC.DATA_FILES}`])
+        .pipe(through2.obj(function(file, enc, cb) {
+            servant.cleanAllImports(file.path, 'componentTemplate');
+            servant.cleanAllImports(file.path, 'componentStyle');
+            cb();
+        }))
+}
+
 /*==========================================================================
 ------- Collect data files in sections & include into dictionaries ---------
 ==========================================================================*/
@@ -337,3 +350,5 @@ exports.dev = dev;
 exports.default = dev;
 exports.connectModules = connectModules;
 exports.updateDictionaries = updateDictionaries;
+
+exports.cleanAllImports = cleanAllImports;
