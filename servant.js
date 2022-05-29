@@ -159,6 +159,33 @@ class Servant {
             })
         }
     }
+
+    /**
+     * Задает общий шаблон для всех страниц. 
+     * @param { path } filePath - путь до страницы
+     * @param { string } layoutType - тип подключаемых шаблонов
+     */
+    setLayoutForPages(filePath, layoutType) {
+        let pageContent = fs.readFileSync(filePath, {
+            encoding: 'utf-8'
+        });
+
+        let pageContentArr = pageContent.split('\n');
+        let layoutExtendStr = `extends ../../layouts/layout-${layoutType}.pug`;
+
+        let layoutRelativePath = layoutExtendStr.split('..').pop().trim();
+        let layoutAbsolutePath = path.join('#src', path.normalize(layoutRelativePath));
+
+        if (!fs.existsSync(layoutAbsolutePath)) {
+            this._inform(layoutAbsolutePath+' does not exist', 'error');
+        } else {
+            pageContentArr.forEach(str => {
+                if (str.match('extends|layouts/')) {
+                    fs.writeFileSync(filePath ,layoutExtendStr+'\n'+pageContentArr.filter(str => !str.match('extends|layouts/')).join('\n'));
+                }
+            })
+        }
+    }
 }
 
 
