@@ -1,3 +1,5 @@
+@import '../../modules/card/card.scss';
+@import '../../modules/title/title.scss';
 .best-workers {
     @include container(
         $xl-grid-gutter:  0,

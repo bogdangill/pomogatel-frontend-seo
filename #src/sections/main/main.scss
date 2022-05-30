@@ -1,3 +1,5 @@
+@import '../../modules/btn/btn.scss';
+@import '../../modules/title/title.scss';
 .main {
     @include container(
         $xl-grid-gutter:  0,
