@@ -1,0 +1,30 @@
+include ../../modules/card/card.pug
+
+mixin best-workers()
+    section.best-workers(class=bodyClass+"__best-workers")
+
+        p.best-workers__text!= bestWorkers.text
+        ul.best-workers__list
+            each worker in bestWorkers.list
+                li
+                    +card({
+                        'mods': 'worker-preview',
+                        'photo': worker.img,
+                        'iconId': worker.iconId,
+                        'city': worker.city,
+                        'name': worker.name,
+                        'workerData': {
+                            '1': [
+                                worker.workerData[0][0],
+                                worker.workerData[0][1],
+                            ],
+                            '2': [
+                                worker.workerData[1][0],
+                                worker.workerData[1][1],
+                            ],
+                            '3': [
+                                worker.workerData[2][0],
+                                worker.workerData[2][1],
+                            ]
+                        }
+                    })

@@ -97,6 +97,14 @@ const { src, dest, series, parallel } = require('gulp'),
 const sv = require('./servant');
 const servant = new sv.Servant();
 
+function testTask() {
+    return src('#src/test/best-workers/best-workers.pug')
+        .pipe(through2.obj(function(file, enc, cb) {
+            servant.cleanUnusedImports(file.path, 'modules');
+            cb();
+        }))
+}
+
 /*==================================================================
 ----------- Clean all imports & includes from sections -------------
 ==================================================================*/
@@ -121,7 +129,7 @@ function cleanAllImports() {
 function updateDictionaries() {
     return src(pathsEnum.SRC.DICTIONARIES)
         .pipe(through2.obj(function(file, enc, cb) {
-            servant.cleanDictionary(file.path);
+            servant.cleanDeadImports(file.path, 'dictionary');
             servant.updateDictionary(file.path);
             cb();
         }))
@@ -134,13 +142,14 @@ function updateDictionaries() {
 function connectModules() {
     return src([pathsEnum.SRC.SECTIONS.PUG, `!${pathsEnum.SRC.DATA_FILES}`])
         .pipe(through2.obj((file, enc, cb) => {
-            servant.cleanUnusedImports(file.path, 'componentTemplate');
+            servant.cleanDeadImports(file.path, 'componentTemplate')
+            servant.cleanUnusedImports(file.path);
             servant.connectComponents(file.path, 'modules');
             cb()
         }))
         .pipe(src(pathsEnum.SRC.SECTIONS.SCSS))
         .pipe(through2.obj((file, enc, cb) => {
-            servant.cleanUnusedImports(file.path, 'componentStyle');
+            servant.cleanDeadImports(file.path, 'componentStyle');
             cb()
         }))
 }
@@ -152,14 +161,15 @@ function connectModules() {
 function connectSections() {
     return src(pathsEnum.SRC.PAGES.PUG)
         .pipe(through2.obj((file, enc, cb) => {
-            servant.cleanUnusedImports(file.path, 'componentTemplate');
+            servant.cleanDeadImports(file.path, 'componentTemplate');
+            servant.cleanUnusedImports(file.path);
             servant.connectComponents(file.path, 'sections');
             servant.setLayoutForPages(file.path, LAYOUT_TYPE);
             cb()
         }))
         .pipe(src(pathsEnum.SRC.PAGES.SCSS))
         .pipe(through2.obj((file, enc, cb) => {
-            servant.cleanUnusedImports(file.path, 'componentStyle');
+            servant.cleanDeadImports(file.path, 'componentStyle');
             cb()
         }))
 }
@@ -361,6 +371,6 @@ let dev = gulp.series(
 exports.dev = dev;
 exports.default = dev;
 exports.connectModules = connectModules;
-exports.updateDictionaries = updateDictionaries;
+exports.testTask = testTask;
 
 exports.cleanAllImports = cleanAllImports;

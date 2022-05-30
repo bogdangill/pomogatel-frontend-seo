@@ -71,14 +71,13 @@ class Servant {
         })
     }
 
-    // DEPRECATED || NEED REFACTORING
-     /**
-     * Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
-     * @param { path } filePath - путь до проверяемого файла
-     * @param { 'dictionary' | 'component' | 'componentTemplate' } fileType - тип файла
+    /**
+     * Удаляет импорты/инклюды несуществующих/удаленных компонентов-"гостей" в компоненте-"хозяине". 
+     * @param { path } filePath - путь до проверяемого компонента-"хозяина"
+     * @param { 'dictionary' | 'componentTemplate' | 'componentStyle' } fileType - тип компонента-"хозяина"
      */
-    cleanUnusedImports(filePath, fileType) {
-        let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
+    cleanDeadImports(filePath, fileType) {
+        let fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' });
         let fileContentArr = fileContent.split('\n');
         let importCommand = '@import';
 
@@ -91,34 +90,34 @@ class Servant {
                 if (fileType === 'dictionary' || fileType === 'componentStyle') {
                     const relativePathFromStr = tempStr.split('..').pop().trim();
                     let absolutePathFromStr;
-                    
+
                     if (fileType === 'dictionary') {
                         absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr));
                     } else {
                         absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr.split('').filter(i => !i.match(/'|;|"/)).join('')));
                     }
-        
+
                     if (!fs.existsSync(absolutePathFromStr)) {
                         this._inform(`"${relativePathFromStr}" does not exist`, 'warning');
 
                         fileContentArr.splice(fileContentArr.indexOf(str), 1);
                         fs.writeFileSync(filePath, fileContentArr.join('\n'));
-                        
-                        this._inform(`unused "${tempStr}" has been successfully removed from "${filePath}"`);
+
+                        this._inform(`dead "${tempStr}" has been successfully removed from "${filePath}"`);
                     }
                 }
-    
+
                 if (fileType === 'componentTemplate') {
                     let includeModuleName = str.split('/').slice(-1).toString().split('.')[0];
-    
-                    if (!fileContent.includes(`+${includeModuleName}`+'(')) {
+
+                    if (!fileContent.includes(`+${includeModuleName}` + '(')) {
                         fileContentArr.splice(fileContentArr.indexOf(str), 1);
-    
+
                         fs.writeFile(filePath, fileContentArr.join('\n'), (err) => {
                             if (err) {
                                 throw err;
                             } else {
-                                this._inform(`unused include has been removed from "${filePath}"`)
+                                this._inform(`dead include has been removed from "${filePath}"`)
                             }
                         });
                     }
@@ -128,26 +127,39 @@ class Servant {
     }
 
     /**
-     * Удаляет несуществующий data-файл из соответствующего для него словаря (если data-файл подключен, но был удален или изменил название). 
-     * @param { path } dictionaryPath - путь до словаря
+     * Удаляет неактуальные импорты/инклюды в компоненте-"хозяине" (если компонент-"гость" существует, но не используется в компоненте-"хозяине"). 
+     * @param { path } filePath - путь до проверяемого компонента-"хозяина"
+     * @param { 'modules' | 'sections' } componentTypes - тип компонентов-"гостей"
      */
-    cleanDictionary(dictionaryPath) {
-        let fileContent = fs.readFileSync(dictionaryPath, {encoding: 'utf-8'});
-        let fileContentArr = fileContent.split('\n');
+    cleanUnusedImports(filePath, componentTypes) {
+        const hostComponentPath = filePath.split('.').shift();
+        
+        let hostTemplateContent = fs.readFileSync(hostComponentPath+'.pug', {
+            encoding: 'utf-8'
+        });
+        let hostStyleContent = fs.readFileSync(hostComponentPath+'.scss', {
+            encoding: 'utf-8'
+        });
 
-        fileContentArr.filter(str => str.match(/\w/)).forEach(str => {
-            const tempStr = str.trim();
+        let hostTemplateContentArr = hostTemplateContent.split('\n');
+        let hostStyleContentArr = hostStyleContent.split('\n');
 
-            const relativePathFromStr = tempStr.split('..').pop().trim();
-            let absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr));
+        hostTemplateContentArr.forEach(str => {
+            if (str.match('include ../')) {
+                let importedGuestName = str.split('..').pop().split('.').shift().split('/').pop();
+                let isImportedGuestApplied = false;
 
-            if (!fs.existsSync(absolutePathFromStr)) {
-                this._inform(`"${relativePathFromStr}" does not exist`, 'warning');
+                hostTemplateContentArr.forEach(str => {
+                    if (str.includes(`+${importedGuestName}(`)) isImportedGuestApplied = true;
+                })
 
-                fileContentArr.splice(fileContentArr.indexOf(str), 1);
-                fs.writeFileSync(dictionaryPath, fileContentArr.join('\n'));
-                
-                this._inform(`unused "${tempStr}" has been successfully removed from "${dictionaryPath}"`);
+                if (!isImportedGuestApplied) {
+                    fs.writeFileSync(hostComponentPath+'.pug', hostTemplateContentArr.filter(i => i !== str).join('\n'));
+                    this._inform(`unused "${str.trim()}" has been successfully removed from "${filePath}"`);
+                    
+                    fs.writeFileSync(hostComponentPath+'.scss', hostStyleContentArr.filter(i => i.trim() !== `@import '../../${componentTypes}/${importedGuestName}/${importedGuestName}.scss';`).join('\n'));
+                    this._inform(`@import '../../${componentTypes}/${importedGuestName}/${importedGuestName}.scss';`);
+                }
             }
         })
     }
