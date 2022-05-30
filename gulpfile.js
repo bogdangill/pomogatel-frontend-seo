@@ -105,6 +105,10 @@ function cleanAllImports() {
     return src([pathsEnum.SRC.SECTIONS.PUG, `!${pathsEnum.SRC.DATA_FILES}`])
         .pipe(through2.obj(function(file, enc, cb) {
             servant.cleanAllImports(file.path, 'componentTemplate');
+            cb();
+        }))
+        .pipe(src([pathsEnum.SRC.SECTIONS.SCSS]))
+        .pipe(through2.obj(function(file, enc, cb) {
             servant.cleanAllImports(file.path, 'componentStyle');
             cb();
         }))
