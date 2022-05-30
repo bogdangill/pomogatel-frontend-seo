@@ -52,19 +52,9 @@ class Servant {
 
             if (tempStr.includes(importCommand)) {
                 if (fileType === 'dictionary' || fileType === 'componentStyle') {
-                    const relativePathFromStr = tempStr.split('..').pop().trim();
-                    let absolutePathFromStr;
-                    
-                    if (fileType === 'dictionary') {
-                        absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr));
-                    } else {
-                        absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr.split('').filter(i => !i.match(/'|;|"/)).join('')));
-                    }
-                    
-                    if (fs.existsSync(absolutePathFromStr)) {
-                        fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
-                        this._inform(`"${tempStr}" has been successfully removed from "${filePath}"`);
-                    }
+                    fileContentArr.splice(fileContentArr.indexOf(str), 1);
+                    fs.writeFileSync(filePath, fileContentArr.join('\n'));
+                    this._inform(`"${tempStr}" has been successfully removed from "${filePath}"`);
                 }
     
                 if (fileType === 'componentTemplate') {
@@ -81,10 +71,11 @@ class Servant {
         })
     }
 
+    // DEPRECATED || NEED REFACTORING
      /**
      * Удаляет неактуальные импорты/инклюды в файле (если импортируемые файлы не существуют или удалены). 
      * @param { path } filePath - путь до проверяемого файла
-     * @param { 'dictionary' | 'componentStyle' | 'componentTemplate' } fileType - тип файла
+     * @param { 'dictionary' | 'component' | 'componentTemplate' } fileType - тип файла
      */
     cleanUnusedImports(filePath, fileType) {
         let fileContent = fs.readFileSync(filePath, {encoding: 'utf-8'});
@@ -109,7 +100,10 @@ class Servant {
         
                     if (!fs.existsSync(absolutePathFromStr)) {
                         this._inform(`"${relativePathFromStr}" does not exist`, 'warning');
-                        fs.writeFileSync(filePath, fileContentArr.filter(str => str.trim() !== tempStr).join('\n'));
+
+                        fileContentArr.splice(fileContentArr.indexOf(str), 1);
+                        fs.writeFileSync(filePath, fileContentArr.join('\n'));
+                        
                         this._inform(`unused "${tempStr}" has been successfully removed from "${filePath}"`);
                     }
                 }
@@ -129,6 +123,31 @@ class Servant {
                         });
                     }
                 }
+            }
+        })
+    }
+
+    /**
+     * Удаляет несуществующий data-файл из соответствующего для него словаря (если data-файл подключен, но был удален или изменил название). 
+     * @param { path } dictionaryPath - путь до словаря
+     */
+    cleanDictionary(dictionaryPath) {
+        let fileContent = fs.readFileSync(dictionaryPath, {encoding: 'utf-8'});
+        let fileContentArr = fileContent.split('\n');
+
+        fileContentArr.filter(str => str.match(/\w/)).forEach(str => {
+            const tempStr = str.trim();
+
+            const relativePathFromStr = tempStr.split('..').pop().trim();
+            let absolutePathFromStr = path.join('#src', path.normalize(relativePathFromStr));
+
+            if (!fs.existsSync(absolutePathFromStr)) {
+                this._inform(`"${relativePathFromStr}" does not exist`, 'warning');
+
+                fileContentArr.splice(fileContentArr.indexOf(str), 1);
+                fs.writeFileSync(dictionaryPath, fileContentArr.join('\n'));
+                
+                this._inform(`unused "${tempStr}" has been successfully removed from "${dictionaryPath}"`);
             }
         })
     }

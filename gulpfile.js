@@ -121,7 +121,7 @@ function cleanAllImports() {
 function updateDictionaries() {
     return src(pathsEnum.SRC.DICTIONARIES)
         .pipe(through2.obj(function(file, enc, cb) {
-            servant.cleanUnusedImports(file.path, 'dictionary');
+            servant.cleanDictionary(file.path);
             servant.updateDictionary(file.path);
             cb();
         }))
@@ -135,8 +135,12 @@ function connectModules() {
     return src([pathsEnum.SRC.SECTIONS.PUG, `!${pathsEnum.SRC.DATA_FILES}`])
         .pipe(through2.obj((file, enc, cb) => {
             servant.cleanUnusedImports(file.path, 'componentTemplate');
-            servant.cleanUnusedImports(file.path, 'componentStyle');
             servant.connectComponents(file.path, 'modules');
+            cb()
+        }))
+        .pipe(src(pathsEnum.SRC.SECTIONS.SCSS))
+        .pipe(through2.obj((file, enc, cb) => {
+            servant.cleanUnusedImports(file.path, 'componentStyle');
             cb()
         }))
 }
@@ -149,9 +153,13 @@ function connectSections() {
     return src(pathsEnum.SRC.PAGES.PUG)
         .pipe(through2.obj((file, enc, cb) => {
             servant.cleanUnusedImports(file.path, 'componentTemplate');
-            servant.cleanUnusedImports(file.path, 'componentStyle');
             servant.connectComponents(file.path, 'sections');
             servant.setLayoutForPages(file.path, LAYOUT_TYPE);
+            cb()
+        }))
+        .pipe(src(pathsEnum.SRC.PAGES.SCSS))
+        .pipe(through2.obj((file, enc, cb) => {
+            servant.cleanUnusedImports(file.path, 'componentStyle');
             cb()
         }))
 }
