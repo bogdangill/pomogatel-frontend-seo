@@ -190,8 +190,9 @@ class Servant {
      * Подключает pug и scss файлы компонентов "гостей" к компоненту "хозяину". 
      * @param { path } filePath - путь до pug компонента "хозяина"
      * @param { 'modules' | 'sections' } componentType - тип подключаемых компонентов
+     * @param { string } layoutType - тип подключаемого шаблона(если подключаем компоненты к странице)
      */
-    connectComponents(filePath, componentType) {
+    connectComponents(filePath, componentType, layoutType) {
         const componentPath = filePath.split('.').shift();
         
         let templateContent = fs.readFileSync(componentPath+'.pug', {
@@ -224,18 +225,25 @@ class Servant {
             });
 
             if (includes.length !== 0 || imports.length !== 0) {
-                fs.writeFileSync(componentPath+'.pug', includes+templateContent);
+                let pageTemplateContent;
+
+                if (componentType === 'sections') {
+                    pageTemplateContent = `extends ../../layouts/layout-${layoutType}.pug\n` + includes + templateContent.split('\n').slice(1).join('\n');
+                } else {
+                    pageTemplateContent = includes + templateContent;
+                }
+
+                fs.writeFileSync(componentPath+'.pug', pageTemplateContent);
                 fs.writeFileSync(componentPath+'.scss', imports+styleContent);
                 this._inform(`${componentType.split('').slice(0, -1).join('')} has been successfully included into "${filePath}"`);
             }
         }
     }
 
-    //buggy
     /**
      * Задает общий шаблон для всех страниц. 
      * @param { path } filePath - путь до страницы
-     * @param { string } layoutType - тип подключаемых шаблонов
+     * @param { string } layoutType - тип подключаемого шаблона для всех страниц
      */
     setLayoutForPages(filePath, layoutType) {
         let pageContent = fs.readFileSync(filePath, {
@@ -251,11 +259,13 @@ class Servant {
         if (!fs.existsSync(layoutAbsolutePath)) {
             this._inform(layoutAbsolutePath+' does not exist', 'error');
         } else {
-            pageContentArr.forEach(str => {
-                if (str.match('extends|layouts/')) {
-                    fs.writeFileSync(filePath ,layoutExtendStr+'\n'+pageContentArr.filter(str => !str.match('extends|layouts/')).join('\n'));
-                }
-            })
+            if (!pageContent.includes(layoutExtendStr)) {
+                pageContentArr.forEach(str => {
+                    if (str.match('extends ../')) {
+                        fs.writeFileSync(filePath ,layoutExtendStr+'\n'+pageContentArr.filter(str => !str.match('extends ../')).join('\n'));
+                    }
+                })
+            }
         }
     }
 }

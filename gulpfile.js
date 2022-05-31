@@ -159,12 +159,11 @@ function connectModules() {
 =====================================================*/
 
 function connectSections() {
-    return src('#src/pages/search/search.pug')
+    return src(pathsEnum.SRC.PAGES.PUG)
         .pipe(through2.obj((file, enc, cb) => {
             servant.cleanDeadImports(file.path, 'componentTemplate');
             servant.cleanUnusedImports(file.path);
-            servant.connectComponents(file.path, 'sections');
-            // servant.setLayoutForPages(file.path, LAYOUT_TYPE);
+            servant.connectComponents(file.path, 'sections', LAYOUT_TYPE);
             cb()
         }))
         .pipe(src(pathsEnum.SRC.PAGES.SCSS))
