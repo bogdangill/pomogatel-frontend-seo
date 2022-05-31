@@ -129,9 +129,8 @@ class Servant {
     /**
      * Удаляет неактуальные импорты/инклюды в компоненте-"хозяине" (если компонент-"гость" существует, но не используется в компоненте-"хозяине"). 
      * @param { path } filePath - путь до проверяемого компонента-"хозяина"
-     * @param { 'modules' | 'sections' } componentTypes - тип компонентов-"гостей"
      */
-    cleanUnusedImports(filePath, componentTypes) {
+    cleanUnusedImports(filePath) {
         const hostComponentPath = filePath.split('.').shift();
         
         let hostTemplateContent = fs.readFileSync(hostComponentPath+'.pug', {
@@ -146,7 +145,8 @@ class Servant {
 
         hostTemplateContentArr.forEach(str => {
             if (str.match('include ../')) {
-                let importedGuestName = str.split('..').pop().split('.').shift().split('/').pop();
+                const importedGuestPath = path.dirname(str.split(' ').pop());
+                const importedGuestName = str.split('..').pop().split('.').shift().split('/').pop();
                 let isImportedGuestApplied = false;
 
                 hostTemplateContentArr.forEach(str => {
@@ -154,11 +154,10 @@ class Servant {
                 })
 
                 if (!isImportedGuestApplied) {
-                    fs.writeFileSync(hostComponentPath+'.pug', hostTemplateContentArr.filter(i => i !== str).join('\n'));
-                    this._inform(`unused "${str.trim()}" has been successfully removed from "${filePath}"`);
-                    
-                    fs.writeFileSync(hostComponentPath+'.scss', hostStyleContentArr.filter(i => i.trim() !== `@import '../../${componentTypes}/${importedGuestName}/${importedGuestName}.scss';`).join('\n'));
-                    this._inform(`@import '../../${componentTypes}/${importedGuestName}/${importedGuestName}.scss';`);
+                    fs.writeFileSync(hostComponentPath+'.pug', hostTemplateContentArr.filter(i => i !== str).join('\n'));                    
+                    fs.writeFileSync(hostComponentPath+'.scss', hostStyleContentArr.filter(i => i.trim() !== `@import '${importedGuestPath}/${importedGuestName}.scss';`).join('\n'));
+
+                    this._inform(`unused "${importedGuestName}" imports has been successfully removed from "${filePath}"`);
                 }
             }
         })
@@ -224,19 +223,15 @@ class Servant {
                 }
             });
 
-            componentsNames.forEach(component => {
-                const includeCheck = `include ../../${componentType}/${component}/${component}.pug`;
-                const importCheck = `@import '../../${componentType}/${component}/${component}.scss';`;
-
-                if (!templateContent.includes(includeCheck) && !styleContent.includes(importCheck)) {
-                    fs.writeFileSync(componentPath+'.pug', includes+templateContent);
-                    fs.writeFileSync(componentPath+'.scss', imports+styleContent);
-                    this._inform(`"${component}" ${componentType.split('').slice(0, -1).join('')} has been successfully included into "${filePath}"`);
-                }
-            })
+            if (includes.length !== 0 || imports.length !== 0) {
+                fs.writeFileSync(componentPath+'.pug', includes+templateContent);
+                fs.writeFileSync(componentPath+'.scss', imports+styleContent);
+                this._inform(`${componentType.split('').slice(0, -1).join('')} has been successfully included into "${filePath}"`);
+            }
         }
     }
 
+    //buggy
     /**
      * Задает общий шаблон для всех страниц. 
      * @param { path } filePath - путь до страницы

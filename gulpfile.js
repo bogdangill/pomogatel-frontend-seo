@@ -100,7 +100,7 @@ const servant = new sv.Servant();
 function testTask() {
     return src('#src/test/best-workers/best-workers.pug')
         .pipe(through2.obj(function(file, enc, cb) {
-            servant.cleanUnusedImports(file.path, 'modules');
+            servant.cleanUnusedImports(file.path);
             cb();
         }))
 }
@@ -159,12 +159,12 @@ function connectModules() {
 =====================================================*/
 
 function connectSections() {
-    return src(pathsEnum.SRC.PAGES.PUG)
+    return src('#src/pages/search/search.pug')
         .pipe(through2.obj((file, enc, cb) => {
             servant.cleanDeadImports(file.path, 'componentTemplate');
             servant.cleanUnusedImports(file.path);
             servant.connectComponents(file.path, 'sections');
-            servant.setLayoutForPages(file.path, LAYOUT_TYPE);
+            // servant.setLayoutForPages(file.path, LAYOUT_TYPE);
             cb()
         }))
         .pipe(src(pathsEnum.SRC.PAGES.SCSS))
