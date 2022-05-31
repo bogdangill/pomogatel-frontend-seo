@@ -240,34 +240,34 @@ class Servant {
         }
     }
 
-    /**
-     * Задает общий шаблон для всех страниц. 
-     * @param { path } filePath - путь до страницы
-     * @param { string } layoutType - тип подключаемого шаблона для всех страниц
-     */
-    setLayoutForPages(filePath, layoutType) {
-        let pageContent = fs.readFileSync(filePath, {
-            encoding: 'utf-8'
-        });
+    // /**
+    //  * Задает общий шаблон для всех страниц. 
+    //  * @param { path } filePath - путь до страницы
+    //  * @param { string } layoutType - тип подключаемого шаблона для всех страниц
+    //  */
+    // setLayoutForPages(filePath, layoutType) {
+    //     let pageContent = fs.readFileSync(filePath, {
+    //         encoding: 'utf-8'
+    //     });
 
-        let pageContentArr = pageContent.split('\n');
-        let layoutExtendStr = `extends ../../layouts/layout-${layoutType}.pug`;
+    //     let pageContentArr = pageContent.split('\n');
+    //     let layoutExtendStr = `extends ../../layouts/layout-${layoutType}.pug`;
 
-        let layoutRelativePath = layoutExtendStr.split('..').pop().trim();
-        let layoutAbsolutePath = path.join('#src', path.normalize(layoutRelativePath));
+    //     let layoutRelativePath = layoutExtendStr.split('..').pop().trim();
+    //     let layoutAbsolutePath = path.join('#src', path.normalize(layoutRelativePath));
 
-        if (!fs.existsSync(layoutAbsolutePath)) {
-            this._inform(layoutAbsolutePath+' does not exist', 'error');
-        } else {
-            if (!pageContent.includes(layoutExtendStr)) {
-                pageContentArr.forEach(str => {
-                    if (str.match('extends ../')) {
-                        fs.writeFileSync(filePath ,layoutExtendStr+'\n'+pageContentArr.filter(str => !str.match('extends ../')).join('\n'));
-                    }
-                })
-            }
-        }
-    }
+    //     if (!fs.existsSync(layoutAbsolutePath)) {
+    //         this._inform(layoutAbsolutePath+' does not exist', 'error');
+    //     } else {
+    //         if (!pageContent.includes(layoutExtendStr)) {
+    //             pageContentArr.forEach(str => {
+    //                 if (str.match('extends ../')) {
+    //                     fs.writeFileSync(filePath ,layoutExtendStr+'\n'+pageContentArr.filter(str => !str.match('extends ../')).join('\n'));
+    //                 }
+    //             })
+    //         }
+    //     }
+    // }
 }
 
 
