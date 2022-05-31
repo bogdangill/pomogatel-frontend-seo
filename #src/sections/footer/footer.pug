@@ -1,3 +1,7 @@
+include ../../modules/btn/btn.pug
+include ../../modules/downloadApp/downloadApp.pug
+include ../../modules/logo/logo.pug
+include ../../modules/social/social.pug
 mixin footer()
     -
         let btnMods = 'primary';
@@ -42,7 +46,7 @@ mixin footer()
                     'text': footer.social.text,
                     'links': footer.social.buttons
                 })
-                +download-app({
+                +downloadApp({
                     'parent': 'footer',
                     'buttons': footer.appLinks
                 })

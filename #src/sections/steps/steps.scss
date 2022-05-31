@@ -1,3 +1,6 @@
+@import '../../modules/btn/btn.scss';
+@import '../../modules/iconText/iconText.scss';
+@import '../../modules/title/title.scss';
 .steps {
     @include container(
         $xl-grid-gutter:  0,

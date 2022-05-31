@@ -1,3 +1,5 @@
+@import '../../modules/downloadApp/downloadApp.scss';
+@import '../../modules/title/title.scss';
 .promo-app {
     @include container(
         $xl-grid-gutter:  0,

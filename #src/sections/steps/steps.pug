@@ -1,3 +1,6 @@
+include ../../modules/btn/btn.pug
+include ../../modules/iconText/iconText.pug
+include ../../modules/title/title.pug
 mixin steps()
     -
         let modifier = '';
@@ -30,7 +33,7 @@ mixin steps()
                     ul.steps__list
                         each item in role.list
                             li
-                                +icon-text({
+                                +iconText({
                                     'mods': 'hint'+iconTextMods,
                                     'iconId': item.icon,
                                     'iconSize': 'md',

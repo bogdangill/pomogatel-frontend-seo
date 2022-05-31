@@ -1,5 +1,6 @@
-@import 'connectors/search.connector';
-
+@import '../../sections/footer/footer.scss';
+@import '../../sections/header/header.scss';
+@import '../../sections/nav-top/nav-top.scss';
 .layout--bright .search {
     background-color: $color-primary-lightest;
 }

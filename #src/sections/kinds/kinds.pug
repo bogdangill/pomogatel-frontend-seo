@@ -1,3 +1,4 @@
+include ../../modules/iconText/iconText.pug
 mixin kinds()
     -
         let listMod = '';
@@ -13,10 +14,10 @@ mixin kinds()
                 ul.kinds__list(class=listMod)
                     each item in kind.list
                         li
-                            +icon-text({
+                            +iconText({
                                 'mods': 'kind, no-halo',
                                 'iconId': item.icon,
                                 'iconSize': iconSize,
                                 'text': item.text,
-                                'href': '#'
+                                'href': 'search.html'
                             })(data-ripple="kind")

@@ -1,14 +1,8 @@
 include ../../modules/card/card.pug
-include ../../modules/title/title.pug
 
 mixin best-workers()
     section.best-workers(class=bodyClass+"__best-workers")
-        +title({
-            'level': 2,
-            'text': bestWorkers.title,
-            'mods': 'md',
-            'parent': 'best-workers'
-        })
+
         p.best-workers__text!= bestWorkers.text
         ul.best-workers__list
             each worker in bestWorkers.list

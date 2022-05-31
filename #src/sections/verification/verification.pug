@@ -1,3 +1,5 @@
+include ../../modules/iconText/iconText.pug
+include ../../modules/title/title.pug
 mixin verification()
     .verification(class=bodyClass+'__verification')
         section.verification__inner
@@ -11,7 +13,7 @@ mixin verification()
             ul.verification__list
                 each item in verification.list
                     li
-                        +icon-text({
+                        +iconText({
                             'mods': 'check',
                             'iconId': item.iconId,
                             'iconSize': 'xl',

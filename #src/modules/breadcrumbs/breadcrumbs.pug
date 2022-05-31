@@ -1,6 +1,6 @@
 mixin breadcrumbs(data)
-    ul.breadcrumbs(class=data.parent itemscope itemtype="https://schema.org/BreadcrumbList")
-        each item in data.breadcrumbs
+    ul.breadcrumbs(class=`${data.parent}__breadcrumbs` itemscope itemtype="https://schema.org/BreadcrumbList")
+        each item in data.breadcrumbsList
             li.breadcrumbs__item(itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" id=item.id)
                 if (typeof(item.href) !== 'undefined' && item.href)
                     a.breadcrumbs__link(itemprop="item" href=item.href)

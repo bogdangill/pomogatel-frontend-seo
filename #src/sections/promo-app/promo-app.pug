@@ -1,3 +1,5 @@
+include ../../modules/downloadApp/downloadApp.pug
+include ../../modules/title/title.pug
 mixin promo-app()
     .promo-app(class=bodyClass+'__promo-app')
         section.promo-app__col
@@ -8,7 +10,7 @@ mixin promo-app()
                 'parent': 'promo-app'
             })
             p.promo-app__text!= promoApp.text
-            +download-app({
+            +downloadApp({
                 'parent': 'promo-app',
                 'buttons': promoApp.appLinks
             })
